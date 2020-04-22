@@ -1,0 +1,50 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/patient/citas/add.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/patient/citas/add.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div>
+    <!--Clinica-->
+    <div class="form-group">
+      <label for="clinica">Clínica</label>
+      <select class="browser-default custom-select" id="clinicaSelector" searchable="">
+        <option value="-1" disabled selected>Selecciona una clínica</option>
+      </select>
+    </div>
+    <!--Especialidad-->
+    <div id="especialidadGroup" class="form-group invisible">
+      <label for="especialidad">Especialidad</label>
+      <select class="browser-default custom-select" id="especialidadSelector" searchable="">
+        <option value="-1" disabled selected>Selecciona una especialidad</option>
+      </select>
+    </div>
+    <!--Facultativo-->
+    <div id="facultativoGroup" class="form-group invisible">
+      <label for="facultativo">Facultativo</label>
+      <select class="browser-default custom-select" id="facultativoSelector" searchable="">
+        <option value="-1" disabled selected>Selecciona un facultativo</option>
+      </select>
+    </div>
+    <!--Día-->
+    <div id="diaGroup" class="form-group invisible">
+      <label for="dia">Día</label>
+      <select class="browser-default custom-select" id="diaSelector">
+        <option value="-1" disabled selected>Selecciona un día</option>
+      </select>
+    </div>
+    <!--Hora-->
+    <div id="horaGroup" class="form-group invisible">
+      <label for="hora">Hora</label>
+      <select class="browser-default custom-select" id="horaSelector">
+        <option value="-1" disabled selected>Selecciona una hora</option>
+      </select>
+    </div>
+  </div>
+</main>
+<script>
+  var clinicas = {{.Clinicas}};
+</script>
+{{end}} 

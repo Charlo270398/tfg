@@ -1,0 +1,29 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/patient/citas/list.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/patient/citas/list.css">
+{{end}}
+{{define "body"}}
+<main>
+  <!-- Tabla citas -->
+  <div>
+      <table id="citasTabla" class="table">
+            <thead class="thead-dark">
+                  <tr>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Especialista</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Cancelación</th>
+                  </tr>
+            </thead>
+            <tbody>
+            
+            </tbody>
+      </table>
+      <div id="alert" class="alert alert-warning" role="alert">
+        No hay ninguna cita pendiente.
+      </div>
+  </div>
+</main>
+{{end}} 

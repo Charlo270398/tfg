@@ -1,0 +1,65 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/index.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/index.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div>
+    <h3>Acceder como</h3>
+    <div class="row">
+      <div id="rol_1" class="col-sm-4 invisible">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Paciente</h5>
+            <p class="card-text">Permite interactuar como paciente en el sistema.</p>
+            <a href="/user/patient" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+      <div id="rol_2" class="col-sm-4 invisible">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Medicina</h5>
+            <p class="card-text">Permite interactuar como usuario del área de medicina.</p>
+            <a href="/user/doctor" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+      <div id="rol_3" class="col-sm-4 invisible">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Enfermería</h5>
+            <p class="card-text">Permite interactuar como usuario del área de enfermería</p>
+            <a href="/user/nurse" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div id="rol_4" class="col-sm-4 invisible">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Administrador</h5>
+              <p class="card-text">Permite gestionar la clínica que se te ha asignado.</p>
+              <a href="/user/admin" class="btn btn-primary">Acceder</a>
+            </div>
+          </div>
+        </div>
+        <div id="rol_5" class="col-sm-4 invisible">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Administrador global</h5>
+              <p class="card-text">Permite gestionar las entidades almacenadas en la base de datos.</p>
+              <a href="/user/adminG" class="btn btn-primary">Acceder</a>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</main>
+<script>
+  var userRoles = {{.UserRoles}};
+</script>
+{{end}} 

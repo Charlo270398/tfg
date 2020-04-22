@@ -1,0 +1,14 @@
+PRIMERO CREAMOS UN USUARIO PARA EL SERVIDOR WEB DESDE LA CUENTA ROOT:
+    CREATE USER 'golang'@'localhost' IDENTIFIED BY 'golang';
+SI HAY RESTRICCION EN LA PASS USAMOS:
+    uninstall plugin validate_password;
+CREAMOS UNA BD PARA EL PROYECTO:
+    create database golang;
+LE DAMOS PERMISOS SOBRE LA BD AL USUARIO DESDE ROOT:
+    GRANT ALL PRIVILEGES ON golang.* TO 'golang'@'localhost';
+PARA HACER LA CONEXION:
+    https://gowebexamples.com/mysql-database/
+EXPORTAR BD:
+	 mysqldump --databases golang > golang.sql
+IMPORTAR BD:
+	mysql < golang.sql

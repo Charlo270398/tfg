@@ -1,0 +1,83 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/adminG/index.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/adminG/index.css">
+{{end}}
+{{define "body"}}
+<main>
+  <!-- USUARIOS -->
+  <div>
+    <h3>Usuarios</h3>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Listado de usuarios</h5>
+            <p class="card-text">Consulta, modifica o borra el conjunto de usuarios de la base de datos.</p>
+            <a href="/user/adminG/userList" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Dar de alta usuario</h5>
+            <p class="card-text">Añade un nuevo usuario a la base de datos.</p>
+            <a href="/user/adminG/userList/add" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- CLINICAS -->
+  <div>
+    <h3>Clínicas</h3>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Listado de clínicas</h5>
+            <p class="card-text">Consulta, modifica o borra el conjunto de clínicas de la base de datos.</p>
+            <a href="/clinica/list" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Dar de alta clínica</h5>
+            <p class="card-text">Añade una nueva clínica a la base de datos.</p>
+            <a href="/clinica/add" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ESPECIALIDADES -->
+  <div>
+    <h3>Especialidades</h3>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Listado de especialidades</h5>
+            <p class="card-text">Consulta, modifica o borra el conjunto de especialidades de la base de datos.</p>
+            <a href="/especialidad/list" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Dar de alta especialidadad</h5>
+            <p class="card-text">Añade una nueva especialidad a la base de datos.</p>
+            <a href="/especialidad/add" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    
+</main>
+{{end}} 

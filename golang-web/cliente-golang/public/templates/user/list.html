@@ -1,0 +1,54 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/list.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/list.css">
+{{end}}
+{{define "body"}}
+<main>
+  <!-- Modal -->
+  <div class="modal fade" id="borradoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Borrar usuario</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que quieres borrar este usuario? Una vez lo borres no podrás recuperar sus datos. 
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button id="borrarUserIdModal" type="button" class="btn btn-primary">Borrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="alert" class="alert alert-success invisible" role="alert">
+      This is a success alert—check it out!
+  </div>
+  <table id="tablaUsuarios" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Email</th>
+                <th>Fecha de alta</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</main>
+
+<script>
+  var pageNumber = {{.Page}};
+  var beforePageNumber = {{.BeforePage}};
+  var nextPageNumber = {{.NextPage}};
+  var userList = {{.UserList}};
+</script>
+{{end}} 

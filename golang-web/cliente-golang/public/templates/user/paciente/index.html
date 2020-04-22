@@ -1,0 +1,52 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/patient/index.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/patient/index.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div id="alert" class="alert alert-primary" role="alert">
+    Tienes solicitudes de compartición de datos pendientes. <a href="/user/patient/historial/share"> Pincha aquí </a>para autorizar la compartición. 
+  </div>
+  <!-- Citas -->
+  <div>
+    <h3>Citas</h3>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Consultar citas pendientes</h5>
+            <p class="card-text">Consulta o cancela las citas que tienes pendientes.</p>
+            <a href="/user/patient/citas" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Solicitar cita</h5>
+            <p class="card-text">Solicita una cita con el profesional que desees</p>
+            <a href="/user/patient/citas/add" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Historial -->
+  <div>
+    <h3>Historial médico</h3>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Consultar mi historial médico</h5>
+            <p class="card-text">Consulta las entradas existentes en tu historial médico.</p>
+            <a href="/user/patient/historial" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+{{end}} 

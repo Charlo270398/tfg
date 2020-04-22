@@ -1,0 +1,4 @@
+https://astaxie.gitbooks.io/build-web-application-with-golang/en/06.1.html
+
+PARA POSTMAN CERTIFICADOS: 
+https://developers.symphony.com/symphony-developer/docs/bot-authentication-workflow

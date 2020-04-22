@@ -1,0 +1,50 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/medico/index.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/medico/index.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div id="alert" class="alert alert-primary" role="alert">
+    Tienes citas pendientes. <a href="/user/doctor/cita/actual"> Pincha aquí </a> para pasar cita. 
+  </div>
+  <!-- Citas -->
+  <div>
+    <h3>Citas</h3>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Consultar citas pendientes</h5>
+            <p class="card-text">Consulta o cancela las citas que tienes pendientes.</p>
+            <a href="/user/doctor/citas" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+  </div>
+  <!-- Consultas -->
+  <div>
+    <h3>Consultar historiales</h3>
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Solicitar historial</h5>
+            <p class="card-text">Solicita el acceso al historial de un paciente</p>
+            <a href="/user/historial/solicitar" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Ver historiales</h5>
+            <p class="card-text">Consulta el historial de un paciente que haya compartido su historial contigo</p>
+            <a href="/user/historial/consultar" class="btn btn-primary">Acceder</a>
+          </div>
+        </div>
+      </div>
+  </div>
+</main>
+{{end}} 

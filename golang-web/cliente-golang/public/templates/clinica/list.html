@@ -1,0 +1,34 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/clinica/list.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/clinica/list.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div id="alert" class="alert alert-success invisible" role="alert">
+      This is a success alert—check it out!
+  </div>
+  <table id="tablaClinicas" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Nº enfermer@s</th>
+                <th>Nº médic@s</th>
+                <th>Nº administradores</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</main>
+
+<script>
+  var pageNumber = {{.Page}};
+  var beforePageNumber = {{.BeforePage}};
+  var nextPageNumber = {{.NextPage}};
+  var clinicaList = {{.ClinicaList}};
+</script>
+{{end}} 

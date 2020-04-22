@@ -1,0 +1,30 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/patient/historial/index.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/patient/historial/index.css">
+{{end}}
+{{define "body"}}
+<main>
+  <!-- Tabla historial -->
+  <div>
+      <table id="historialTabla" class="table">
+            <thead class="thead-dark">
+                  <tr>
+                        <th scope="col">Entrada</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Especialista</th>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Ver informe</th>
+                  </tr>
+            </thead>
+            <tbody>
+            
+            </tbody>
+      </table>
+      <div id="alert" class="alert alert-warning" role="alert">
+        No hay ninguna entrada.
+      </div>
+  </div>
+</main>
+{{end}} 

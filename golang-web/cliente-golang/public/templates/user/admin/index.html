@@ -1,0 +1,112 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/admin/index.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/admin/index.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div>
+    <h1>{{.Clinica.Nombre}}</h1>
+    <div class="resumen">
+      <p>Dirección de la clínica: {{.Clinica.Direccion}}</p>
+      <p>Nº de teléfono de la clínica: {{.Clinica.Telefono}}</p>
+      <table class="table table-striped table-bordered" style="width:100%">
+          <thead>
+            <tr>
+                <th>Enfermeros</th>
+                <th>Médicos</th>
+                <th>Administradores</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+                <th>{{.Clinica.NumeroEnfermeros}}</th>
+                <th>{{.Clinica.NumeroMedicos}}</th>
+                <th>{{.Clinica.NumeroAdministradores}}</th>
+            </tr>
+          </tbody>
+      </table>
+    </div>
+  <div>
+  
+  <div class="panel">
+    <h2 class="titulo-panel">Panel de acciones</h2>
+    <!-- ENFERMERIA -->
+    <div>
+      <h3>Enfermería</h3>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Listado de usuarios</h5>
+              <p class="card-text">Consulta, modifica o borra el conjunto de usuarios del área de enfermería.</p>
+              <a href="/user/adminG/userList" class="btn btn-primary">Acceder</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Dar de alta usuario</h5>
+              <p class="card-text">Añade un nuevo usuario al área de enfermería.</p>
+              <a href="/user/adminG/userList/add" class="btn btn-primary">Acceder</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- MEDICINA -->
+    <div>
+      <h3>Medicina</h3>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Listado de médicos</h5>
+              <p class="card-text">Consulta, modifica o borra el conjunto de clínicas de la clínica.</p>
+              <a href="/clinica/list" class="btn btn-primary">Acceder</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Dar de alta usuario</h5>
+              <p class="card-text">Añade un nuevo usuario al área de medicina.</p>
+              <a href="/clinica/add" class="btn btn-primary">Acceder</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- ESPECIALIDADES -->
+    <div>
+      <h3>Especialidades</h3>
+      <div class="row">
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Listado de especialidades</h5>
+              <p class="card-text">Consulta, el conjunto de especialidades de la clínica.</p>
+              <a href="/especialidad/list" class="btn btn-primary">Acceder</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Registrar especialidadad</h5>
+              <p class="card-text">Registra una especialidad existente en la clínica.</p>
+              <a href="/clinica/especialidad/add" class="btn btn-primary">Acceder</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+  var clinica = {{.Clinica}};
+</script>
+{{end}} 
