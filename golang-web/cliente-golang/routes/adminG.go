@@ -160,9 +160,18 @@ func addUserGadminHandler(w http.ResponseWriter, req *http.Request) {
 		privateKeyHash[index] = hash512[index+len(hash512)/2]
 	}
 
+	//Generamos par de claves RSA
+	privK := util.GenerateKeys()
+	//Pasamos las claves a []byte
+	var pairKeys util.PairKeys
+	pairKeys.PrivateKey = util.PrivateKeyToBytes(privK)
+	pairKeys.PublicKey = util.PublicKeyToBytes(&privK.PublicKey)
+	pairKeys.PrivateKey = util.PrivateKeyToBytes(privK)
+	//Ciframos clave privada con AES
+
 	locJson, err := json.Marshal(util.User_JSON{Identificacion: creds.Identificacion, Nombre: creds.Nombre, Apellidos: creds.Apellidos,
 		Email: creds.Email, Password: loginHash, Roles: creds.Roles, EnfermeroClinica: creds.EnfermeroClinica, MedicoClinica: creds.MedicoClinica,
-		AdminClinica: creds.AdminClinica, MedicoEspecialidad: creds.MedicoEspecialidad, UserToken: prepareUserToken(req)})
+		AdminClinica: creds.AdminClinica, MedicoEspecialidad: creds.MedicoEspecialidad, UserToken: prepareUserToken(req), PairKeys: pairKeys})
 
 	//Certificado
 	client := GetTLSClient()

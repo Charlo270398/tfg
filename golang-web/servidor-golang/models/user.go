@@ -56,6 +56,19 @@ func InsertUser(user util.User_JSON) (userId int, err error) {
 	return -1, nil
 }
 
+func InsertUserPairKeys(user_id int, pairKeys util.PairKeys) (result bool, err error) {
+	//INSERT
+	_, err = db.Exec(`INSERT INTO usuarios_pairkeys (usuario_id, public_key, private_key) VALUES (?, ?, ?)`, user_id,
+		pairKeys.PublicKey, pairKeys.PrivateKey)
+	if err == nil {
+		return true, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+	}
+	return false, nil
+}
+
 func EditUserData(user util.User_JSON) (edited bool, err error) {
 	//Editar los DATOS del usuario
 	//UPDATE
@@ -199,3 +212,24 @@ func InsertUserToken(user_id int) (token string, err error) {
 	}
 	return "", nil
 }
+
+/*
+func GetUsuariosPorNombreODni(nombreApellidos string, dni string) (user util.User, err error) {
+	if nombreApellidos != "" {
+		row, err := db.Query(`SELECT id, dni, nombre, apellidos, email, created_at FROM usuarios where id = ` + strconv.Itoa(id))
+	} else {
+
+	}
+	row, err := db.Query(`SELECT id, dni, nombre, apellidos, email, created_at FROM usuarios where id = ` + strconv.Itoa(id)) // check err
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&user.Id, &user.Identificacion, &user.Nombre, &user.Apellidos, &user.Email, &user.CreatedAt)
+		return user, err
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return user, err
+	}
+}
+*/

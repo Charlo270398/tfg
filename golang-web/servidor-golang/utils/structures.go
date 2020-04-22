@@ -28,6 +28,7 @@ type User_JSON struct {
 	AdminClinica       string    `json:"adminClinica"`
 	MedicoEspecialidad string    `json:"medicoEspecialidad"`
 	UserToken          UserToken `json:"userToken"`
+	PairKeys           PairKeys  `json:"pairKeys"`
 }
 
 type JSON_Credentials_CLIENTE struct {
@@ -165,6 +166,7 @@ type EspecialidadList_Page struct {
 	EspecialidadList []Especialidad
 }
 
+//SEGURIDAD
 //Token
 
 type UserToken struct {
@@ -175,6 +177,12 @@ type UserToken struct {
 type UserToken_JSON struct {
 	UserId string `json:"UserId"`
 	Token  string `json:"Token"`
+}
+
+//PairKeys
+type PairKeys struct {
+	PublicKey  []byte
+	PrivateKey []byte
 }
 
 //Response
