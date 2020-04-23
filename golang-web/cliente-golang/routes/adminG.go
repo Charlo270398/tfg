@@ -168,6 +168,8 @@ func addUserGadminHandler(w http.ResponseWriter, req *http.Request) {
 	pairKeys.PublicKey = util.PublicKeyToBytes(&privK.PublicKey)
 	pairKeys.PrivateKey = util.PrivateKeyToBytes(privK)
 	//Ciframos clave privada con AES
+	privKcifrada, _ := util.AESencrypt(privateKeyHash, string(pairKeys.PrivateKey))
+	pairKeys.PrivateKey = []byte(privKcifrada)
 
 	locJson, err := json.Marshal(util.User_JSON{Identificacion: creds.Identificacion, Nombre: creds.Nombre, Apellidos: creds.Apellidos,
 		Email: creds.Email, Password: loginHash, Roles: creds.Roles, EnfermeroClinica: creds.EnfermeroClinica, MedicoClinica: creds.MedicoClinica,

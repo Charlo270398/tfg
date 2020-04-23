@@ -131,8 +131,19 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 		privateKeyHash[index] = hash512[index+len(hash512)/2]
 	}
 
-	locJson, err := json.Marshal(util.JSON_user_SERVIDOR{Identificacion: creds.Identificacion, Nombre: creds.Nombre, Apellidos: creds.Apellidos,
-		Email: creds.Email, Password: loginHash})
+	//Generamos par de claves RSA
+	privK := util.GenerateKeys()
+	//Pasamos las claves a []byte
+	var pairKeys util.PairKeys
+	pairKeys.PrivateKey = util.PrivateKeyToBytes(privK)
+	pairKeys.PublicKey = util.PublicKeyToBytes(&privK.PublicKey)
+	pairKeys.PrivateKey = util.PrivateKeyToBytes(privK)
+	//Ciframos clave privada con AES
+	privKcifrada, _ := util.AESencrypt(privateKeyHash, string(pairKeys.PrivateKey))
+	pairKeys.PrivateKey = []byte(privKcifrada)
+
+	locJson, err := json.Marshal(util.User_JSON{Identificacion: creds.Identificacion, Nombre: creds.Nombre, Apellidos: creds.Apellidos,
+		Email: creds.Email, Password: loginHash, PairKeys: pairKeys})
 
 	//Certificado
 	client := GetTLSClient()

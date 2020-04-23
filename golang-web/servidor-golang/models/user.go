@@ -36,7 +36,6 @@ func LoginUser(email string, password []byte) bool {
 func InsertUser(user util.User_JSON) (userId int, err error) {
 	//ARGON2
 	encodedHash, err := util.Argon2generateFromPassword(user.Password, p)
-	util.PrintLog(encodedHash)
 	if err != nil {
 		fmt.Println(err)
 		util.PrintErrorLog(err)

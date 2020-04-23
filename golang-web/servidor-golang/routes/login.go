@@ -85,8 +85,17 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 		} else {
 			rolesList = []int{models.Rol_paciente.Id}
 		}
+		//INSERTAMOS CLAVES RSA
+		_, err = models.InsertUserPairKeys(userId, user.PairKeys)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		//INSERTAMOS ROLES DEL USUARIO
 		inserted, err := models.InsertUserAndRole(userId, rolesList)
 		if err == nil && inserted == true {
+			//INSERTAMOS EL TOKEN DE LA SESION DEL USUARIO
 			token, err := models.InsertUserToken(userId)
 			if err != nil {
 				util.PrintErrorLog(err)
