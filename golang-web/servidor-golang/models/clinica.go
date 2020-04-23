@@ -85,7 +85,6 @@ func GetClinicaPagination(page int) []util.Clinica {
 			rowsUsarioClinica.Scan(&c.NumeroAdministradores)
 			clinicas = append(clinicas, c)
 		}
-		fmt.Println(clinicas)
 		return clinicas
 	} else {
 		fmt.Println(err)
@@ -132,5 +131,23 @@ func GetClinicaByAdmin(user_id string) (c util.Clinica, err error) {
 		fmt.Println(err)
 		util.PrintErrorLog(err)
 		return c, err
+	}
+}
+
+func GetEspecialidadesClinica(clinica_id string) (especialidadList []util.Especialidad, err error) {
+	rows, err := db.Query("select e.id, e.nombre from usuarios_especialidades ue, especialidades e, usuarios_clinicas uc where ue.especialidad_id = " +
+		"e.id and uc.usuario_id = ue.usuario_id and uc.clinica_id = " + clinica_id)
+	if err == nil {
+		defer rows.Close()
+		for rows.Next() {
+			var e util.Especialidad
+			rows.Scan(&e.Id, &e.Nombre)
+			especialidadList = append(especialidadList, e)
+		}
+		return especialidadList, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return especialidadList, err
 	}
 }

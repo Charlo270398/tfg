@@ -29,6 +29,7 @@ func LoadRouter(port string) {
 	http.HandleFunc("/clinica/add", addClinicaHandler)
 	http.HandleFunc("/clinica/list", getClinicaPaginationHandler)
 	http.HandleFunc("/clinica/list/query", getClinicaListHandler)
+	http.HandleFunc("/clinica/especialidad/list", getEspecialidadesListClinicaHandler)
 
 	//ESPECIALIDAD
 	http.HandleFunc("/especialidad/add", addEspecialidadHandler)

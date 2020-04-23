@@ -31,6 +31,12 @@ function cambiarClinica(event){
     document.querySelector("#especialidadGroup").classList.remove("invisible");
     document.querySelector("#especialidadSelector").value = "-1";
     limpiarSelect(document.querySelector("#especialidadSelector"));
+    GETespecialidades(document.querySelector("#clinicaSelector").value, document.querySelector("#especialidadSelector"));
+
+    //Recargar los facultativos
+    document.querySelector("#facultativoGroup").classList.add("invisible");
+    document.querySelector("#facultativoSelector").value = "-1";
+    limpiarSelect(document.querySelector("#facultativoSelector"));
 
     //Recargar los dias
     document.querySelector("#diaGroup").classList.add("invisible");
@@ -46,11 +52,28 @@ function cambiarClinica(event){
 }
 
 function cambiarEspecialidad(event){
+    //Recargar los facultativos
+    document.querySelector("#facultativoGroup").classList.remove("invisible");
+    document.querySelector("#facultativoSelector").value = "-1";
+    limpiarSelect(document.querySelector("#facultativoSelector"));
+
+    //Recargar los dias
+    document.querySelector("#diaGroup").classList.add("invisible");
+    document.querySelector("#diaSelector").value = "-1";
+    limpiarSelect(document.querySelector("#diaSelector"));
+    
+    //Recargar las horas
+    document.querySelector("#horaGroup").classList.add("invisible");
+    document.querySelector("#horaSelector").value = "-1";
+    limpiarSelect(document.querySelector("#horaSelector"));
+}
+
+function cambiarFacultativo(event){
     //Recargar los dias
     document.querySelector("#diaGroup").classList.remove("invisible");
     document.querySelector("#diaSelector").value = "-1";
     limpiarSelect(document.querySelector("#diaSelector"));
-    
+
     //Recargar las horas
     document.querySelector("#horaGroup").classList.add("invisible");
     document.querySelector("#horaSelector").value = "-1";
@@ -66,6 +89,30 @@ function cambiarDia(event){
 
 function cambiarHora(event){
 
+}
+
+function GETespecialidades(clinica_id, selector){
+    const url= `/clinica/especialidad/list?clinicaId=` + clinica_id;
+    const request = {
+        method: 'GET', 
+        headers: cabeceras,
+    };
+    fetch(url,request)
+    .then( response => response.json() )
+        .then( result => {
+            if(!result.Error){
+                result.forEach(e => {
+                    var option = document.createElement("option");
+                    option.value = e.id;
+                    option.textContent = e.nombre;
+                    selector.append(option);
+                });
+            }
+            else{
+
+            }
+        })
+        .catch(err => alert(err));
 }
 
 document.addEventListener('DOMContentLoaded',init,false);

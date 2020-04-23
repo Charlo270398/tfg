@@ -107,6 +107,7 @@ func LoadRouter() {
 	router.HandleFunc("/clinica/especialidad/add", addClinicaEspecialidadFormGadminHandler).Methods("GET")
 	router.HandleFunc("/clinica/especialidad/add", addClinicaEspecialidadFormGadminHandler).Methods("POST")
 	router.HandleFunc("/clinica/list", getClinicaListGadminHandler).Methods("GET")
+	router.HandleFunc("/clinica/especialidad/list", getClinicaEspecialidadListHandler).Methods("GET")
 
 	//ESPECIALIDAD
 	router.HandleFunc("/especialidad/add", addEspecialidadFormGadminHandler).Methods("GET")

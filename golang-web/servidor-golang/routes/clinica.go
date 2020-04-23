@@ -23,6 +23,24 @@ func getClinicaListHandler(w http.ResponseWriter, req *http.Request) {
 	w.Write(js)
 }
 
+func getEspecialidadesListClinicaHandler(w http.ResponseWriter, req *http.Request) {
+	clinicaId, ok := req.URL.Query()["clinicaId"]
+	if !ok || len(clinicaId[0]) < 1 {
+		http.Error(w, "No existe el parámetro clinicaId", http.StatusInternalServerError)
+		return
+	} else {
+		var especialidadList []util.Especialidad
+		especialidadList, err := models.GetEspecialidadesClinica(clinicaId[0])
+		js, err := json.Marshal(especialidadList)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+	}
+}
+
 func getClinicaPaginationHandler(w http.ResponseWriter, req *http.Request) {
 	page, ok := req.URL.Query()["page"]
 	var clinicaListReturn util.Clinica_JSON_Pagination
