@@ -1,65 +1,36 @@
-,t=1,p=1$jEgoBuayGiVwRMojCZEnFQ$Zh7CYToXSBgB29XSTC1HcH1ud2mUUFeyotnEN+y9Yd4
-2020/04/23 01:38:10 Servicio iniciado
-2020/04/23 01:38:10 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '
-	privateKey VARBINARY,
-	PRIMARY KEY (id),
-	FOREIGN KEY(usuario_id) REFERENCES u' at line 4)}
-2020/04/23 01:39:59 Servicio iniciado
-2020/04/23 01:39:59 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '
-	privateKey VARBINARY,
-	PRIMARY KEY (id),
-)' at line 3)}
-2020/04/23 01:40:21 Servicio iniciado
-2020/04/23 01:40:21 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '
-	privateKey VARCHAR,
-	PRIMARY KEY (id),
-	FOREIGN KEY(usuario_id) REFERENCES usu' at line 4)}
-2020/04/23 01:40:48 Servicio iniciado
-2020/04/23 01:41:21 Servicio iniciado
-2020/04/23 01:41:21 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '
-	fecha_expiracion DATETIME,
-	PRIMARY KEY (id),
-	FOREIGN KEY(usuario_id) REFEREN' at line 4)}
-2020/04/23 01:42:54 Servicio iniciado
-2020/04/23 01:50:16 Servicio iniciado
-2020/04/23 01:50:52 Servicio iniciado
-2020/04/23 01:52:00 Insertando usuario eddato_27@hotmail.com
-2020/04/23 01:52:00 $argon2id$v=19$m=65536,t=1,p=1$aZOuJ+rqRRtbULxE4GWiVg$YmSweyS+MIdwvzHKBI30pn/djqst5KbBlDFmxoWGLtY
-2020/04/23 01:52:00 ERROR: &{%!g(uint16=1054) %!g(string=Unknown column 'user_id' in 'field list')}
-2020/04/23 01:52:36 Servicio iniciado
-2020/04/23 01:52:41 Insertando usuario 1eddato_27@hotmail.com
-2020/04/23 01:52:41 $argon2id$v=19$m=65536,t=1,p=1$SLN8C/I5eiOoT/cizSLGaw$nqCSuxif03LdULt89o2xFUqSF9augwrQMK8hiF6xGsA
-2020/04/23 12:29:43 Servicio iniciado
-2020/04/23 12:31:44 Intentando iniciar sesión...
-2020/04/23 12:33:39 Intentando iniciar sesión...
-2020/04/23 13:38:32 Servicio iniciado
-2020/04/23 13:38:39 Intentando iniciar sesión...
-2020/04/23 13:38:42 Borrando Usuario con ID 8
-2020/04/23 13:38:43 El usuario con ID 8 ha sido borrado correctamente
-2020/04/23 13:38:44 Borrando Usuario con ID 7
-2020/04/23 13:38:44 El usuario con ID 7 ha sido borrado correctamente
-2020/04/23 13:38:45 Borrando Usuario con ID 6
-2020/04/23 13:38:45 El usuario con ID 6 ha sido borrado correctamente
-2020/04/23 13:38:46 Borrando Usuario con ID 5
-2020/04/23 13:38:46 El usuario con ID 5 ha sido borrado correctamente
-2020/04/23 13:38:48 Borrando Usuario con ID 4
-2020/04/23 13:38:48 El usuario con ID 4 ha sido borrado correctamente
-2020/04/23 13:38:49 Borrando Usuario con ID 3
-2020/04/23 13:38:49 El usuario con ID 3 ha sido borrado correctamente
-2020/04/23 13:38:50 Borrando Usuario con ID 2
-2020/04/23 13:38:50 El usuario con ID 2 ha sido borrado correctamente
-2020/04/23 13:39:05 Insertando usuario carloszamora270398@gmail.com
-2020/04/23 13:42:47 Borrando Usuario con ID 9
-2020/04/23 13:42:47 El usuario con ID 9 ha sido borrado correctamente
-2020/04/23 13:44:25 Servicio iniciado
-2020/04/23 13:44:41 Insertando usuario carloszamora270398@gmail.com
-2020/04/23 20:49:20 Servicio iniciado
-2020/04/23 20:52:57 Intentando iniciar sesión...
-2020/04/23 20:57:27 Insertando usuario medico1@hotmail.com
-2020/04/23 20:57:41 Insertando usuario medico2@hotmail.com
-2020/04/23 20:57:52 Insertando usuario medico3@hotmail.com
-2020/04/23 21:11:02 Servicio iniciado
-2020/04/23 21:12:19 Servicio iniciado
-2020/04/23 21:21:45 Servicio iniciado
-2020/04/23 21:26:41 Servicio iniciado
-2020/04/23 21:29:11 Intentando iniciar sesión...
+2020/04/24 12:41:06 Servicio iniciado
+2020/04/24 12:41:10 Intentando iniciar sesión...
+2020/04/24 12:41:26 Intentando iniciar sesión...
+2020/04/24 12:49:08 Insertando usuario darloszamora270398@gmail.com
+2020/04/24 12:54:20 Insertando usuario barloszamora270398@gmail.com
+2020/04/24 12:54:40 Insertando usuario sarloszamora270398@gmail.com
+2020/04/24 12:55:47 Insertando usuario elgato_27@hotmail.com
+2020/04/24 12:55:47 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios' doesn't exist)}
+2020/04/24 12:55:47 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios' doesn't exist)}
+2020/04/24 12:55:47 ERROR: &{%!g(string=Atoi) %!g(string=) %!g(*errors.errorString=&{invalid syntax})}
+2020/04/24 12:55:55 ERROR: &{%!g(string=Atoi) %!g(string=) %!g(*errors.errorString=&{invalid syntax})}
+2020/04/24 12:56:03 ERROR: &{%!g(string=Atoi) %!g(string=) %!g(*errors.errorString=&{invalid syntax})}
+2020/04/24 12:56:35 ERROR: &{%!g(string=Atoi) %!g(string=) %!g(*errors.errorString=&{invalid syntax})}
+2020/04/24 12:56:48 Intentando iniciar sesión...
+2020/04/24 12:56:48 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios' doesn't exist)}
+2020/04/24 12:56:48 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios' doesn't exist)}
+2020/04/24 12:56:48 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios' doesn't exist)}
+2020/04/24 12:56:48 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios' doesn't exist)}
+2020/04/24 12:56:48 ERROR: &{%!g(string=Atoi) %!g(string=) %!g(*errors.errorString=&{invalid syntax})}
+2020/04/24 12:57:19 Servicio iniciado
+2020/04/24 12:57:28 ERROR: &{%!g(string=Atoi) %!g(string=) %!g(*errors.errorString=&{invalid syntax})}
+2020/04/24 12:57:41 Insertando usuario elgato_27@hotmail.com
+2020/04/24 13:01:54 Intentando iniciar sesión...
+2020/04/24 13:03:47 Insertando especialidad Clinica1
+2020/04/24 13:03:47 Clinica Clinica1 INSERTADA
+2020/04/24 13:03:48 Insertando especialidad Clinica2
+2020/04/24 13:03:48 Clinica Clinica2 INSERTADA
+2020/04/24 13:04:33 Insertando especialidad Especialidad1
+2020/04/24 13:04:33 Especialidad Especialidad1 INSERTADA
+2020/04/24 13:05:00 Insertando usuario carloszamora270398@gmail.com
+2020/04/24 13:26:28 Borrando Usuario con ID 2
+2020/04/24 13:26:28 El usuario con ID 2 ha sido borrado correctamente
+2020/04/24 13:26:46 Insertando usuario carloszamora270398@gmail.com
+2020/04/24 13:27:15 Intentando iniciar sesión...
+2020/04/24 13:28:08 Insertando usuario darloszamora270398@gmail.com
+2020/04/24 13:53:12 Intentando iniciar sesión...

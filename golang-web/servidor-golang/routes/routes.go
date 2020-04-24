@@ -47,6 +47,8 @@ func LoadRouter(port string) {
 
 	//USER(ADMIN)
 	http.HandleFunc("/user/admin", getAdminMenuDataHandler)
+	http.HandleFunc("/user/admin/nurse/add", addEnfermeroAdminHandler)
+	http.HandleFunc("/user/admin/doctor/add", addMedicoAdminHandler)
 
 	//USER(ADMING)
 	http.HandleFunc("/user/adminG/userList/add", addUserHandler)
