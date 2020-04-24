@@ -6,24 +6,33 @@
 {{end}}
 {{define "body"}}
 <main>
-  <!-- Tabla historial -->
   <div>
-      <table id="historialTabla" class="table">
+      <div id="alert" class="alert alert-success invisible" role="alert">
+        This is a success alert—check it out!
+      </div>
+      <div class="form-group">
+        <label id="inputDNILabel" for="inputDNI">Documento de identificación</label>
+        <input id="inputDNI" maxlength="9" class="form-control" type="text">
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" id="searchButton">Buscar</button>
+      </div>
+      <br>
+      <table id="historialTabla" class="table invisible">
             <thead class="thead-dark">
                   <tr>
-                        <th scope="col">Entrada</th>
                         <th scope="col">Fecha</th>
                         <th scope="col">Especialista</th>
                         <th scope="col">Tipo</th>
-                        <th scope="col">Ver informe</th>
+                        <th scope="col">Solicitar acceso</th>
                   </tr>
             </thead>
             <tbody>
             
             </tbody>
       </table>
-      <div id="alert" class="alert alert-warning" role="alert">
-        No hay ninguna entrada.
+      <div id="alertTablaHistorial" class="alert alert-warning invisible" role="alert">
+        No hay ningun resultado.
       </div>
   </div>
 </main>

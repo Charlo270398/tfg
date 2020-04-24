@@ -1,11 +1,12 @@
 package main
 
 import (
-	routes "./routes"
 	log "./lib/logs"
+	routes "./routes"
 )
 
 func main() {
 	log.PrintLog("Servicio iniciado")
+	routes.LoadRoles()
 	routes.LoadRouter()
 }

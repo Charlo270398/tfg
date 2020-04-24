@@ -26,41 +26,47 @@ func addUserHandler(w http.ResponseWriter, req *http.Request) {
 			if err != nil {
 				jsonReturn = util.JSON_Return{"", "Error insertando las claves del usuario en la base de datos"}
 			} else {
-				//INSERTAMOS LOS ROLES DEL USUARIO
-				inserted, err := models.InsertUserAndRole(userId, user.Roles)
-				if err == nil && inserted == true {
-					jsonReturn = util.JSON_Return{"OK", ""}
-					//INSERTAR EL USUARIO EN LAS CLINICAS
-					clinicaId, _ := strconv.Atoi(user.EnfermeroClinica)
-					if clinicaId != -1 {
-						result, err := models.InsertarUserClinica(clinicaId, userId, models.Rol_enfermero.Id)
-						if err != nil || result == false {
-							jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
-						}
-					}
-					clinicaId, _ = strconv.Atoi(user.MedicoClinica)
-					if clinicaId != -1 {
-						result, err := models.InsertarUserClinica(clinicaId, userId, models.Rol_medico.Id)
-						if err != nil || result == false {
-							jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
-						}
-					}
-					clinicaId, _ = strconv.Atoi(user.AdminClinica)
-					if clinicaId != -1 {
-						result, err := models.InsertarUserClinica(clinicaId, userId, models.Rol_administradorC.Id)
-						if err != nil || result == false {
-							jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
-						}
-					}
-					especialidadId, _ := strconv.Atoi(user.MedicoEspecialidad)
-					if especialidadId != -1 {
-						result, err := models.InsertEspecialidadMedico(userId, especialidadId)
-						if err != nil || result == false {
-							jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
-						}
-					}
+				//Insertamos DNI hasheado
+				_, err := models.InsertUserDniHash(userId, user.Identificacion)
+				if err != nil {
+					jsonReturn = util.JSON_Return{"", "Error insertando el hash del documento de identificación"}
 				} else {
-					jsonReturn = util.JSON_Return{"", "Error insertando los roles del usuario en la base de datos"}
+					//INSERTAMOS LOS ROLES DEL USUARIO
+					inserted, err := models.InsertUserAndRole(userId, user.Roles)
+					if err == nil && inserted == true {
+						jsonReturn = util.JSON_Return{"OK", ""}
+						//INSERTAR EL USUARIO EN LAS CLINICAS
+						clinicaId, _ := strconv.Atoi(user.EnfermeroClinica)
+						if clinicaId != -1 {
+							result, err := models.InsertarUserClinica(clinicaId, userId, models.Rol_enfermero.Id)
+							if err != nil || result == false {
+								jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
+							}
+						}
+						clinicaId, _ = strconv.Atoi(user.MedicoClinica)
+						if clinicaId != -1 {
+							result, err := models.InsertarUserClinica(clinicaId, userId, models.Rol_medico.Id)
+							if err != nil || result == false {
+								jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
+							}
+						}
+						clinicaId, _ = strconv.Atoi(user.AdminClinica)
+						if clinicaId != -1 {
+							result, err := models.InsertarUserClinica(clinicaId, userId, models.Rol_administradorC.Id)
+							if err != nil || result == false {
+								jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
+							}
+						}
+						especialidadId, _ := strconv.Atoi(user.MedicoEspecialidad)
+						if especialidadId != -1 {
+							result, err := models.InsertEspecialidadMedico(userId, especialidadId)
+							if err != nil || result == false {
+								jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
+							}
+						}
+					} else {
+						jsonReturn = util.JSON_Return{"", "Error insertando los roles del usuario en la base de datos"}
+					}
 				}
 			}
 		} else {

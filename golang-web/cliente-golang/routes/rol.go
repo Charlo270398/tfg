@@ -7,6 +7,21 @@ import (
 	util "../utils"
 )
 
+var Rol_paciente util.Rol
+var Rol_enfermero util.Rol
+var Rol_medico util.Rol
+var Rol_administradorC util.Rol
+var Rol_administradorG util.Rol
+
+func LoadRoles() {
+	//Definimos los roles basicos
+	Rol_paciente = util.Rol{Id: 1, Nombre: "paciente", Descripcion: "Paciente"}
+	Rol_enfermero = util.Rol{Id: 2, Nombre: "enfermero", Descripcion: "Enfermero"}
+	Rol_medico = util.Rol{Id: 3, Nombre: "medico", Descripcion: "Medico"}
+	Rol_administradorC = util.Rol{Id: 4, Nombre: "administradorC", Descripcion: "Administrador clinica"}
+	Rol_administradorG = util.Rol{Id: 5, Nombre: "administradorG", Descripcion: "Administrador global"}
+}
+
 //GET
 
 func rolesListHandler(w http.ResponseWriter, req *http.Request) {

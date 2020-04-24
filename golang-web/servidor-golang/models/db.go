@@ -49,6 +49,7 @@ func CreateDB() {
 	query(USERS_ROLES_TABLE)
 	query(USERS_TOKENS_TABLE)
 	query(USERS_PAIRKEYS_TABLE)
+	query(USERS_DNIHASHES_TABLE)
 
 	//SEEDERS
 	//Roles
@@ -123,7 +124,6 @@ var USERS_ROLES_TABLE string = `
 CREATE TABLE IF NOT EXISTS usuarios_roles (
 	usuario_id INT,
 	rol_id INT,
-	created_at DATETIME,
 	PRIMARY KEY (usuario_id, rol_id),
 	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
 	FOREIGN KEY(rol_id) REFERENCES roles(id) ON DELETE CASCADE
@@ -147,4 +147,12 @@ CREATE TABLE IF NOT EXISTS usuarios_pairkeys (
 	private_key BLOB,
 	PRIMARY KEY (id),
 	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+var USERS_DNIHASHES_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_dnihashes(
+	usuario_id INT,
+	dni_hash VARCHAR(64),
+	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+	PRIMARY KEY (usuario_id,dni_hash)
 );`

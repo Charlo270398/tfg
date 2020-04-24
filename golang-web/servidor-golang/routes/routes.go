@@ -45,6 +45,9 @@ func LoadRouter(port string) {
 	http.HandleFunc("/user/delete", deleteUserHandler)
 	http.HandleFunc("/user", getUserHandler)
 
+	//USER(MEDICO)
+	http.HandleFunc("/user/doctor/historial/solicitar", MedicoSolicitarHistorialHandler)
+
 	//USER(ADMIN)
 	http.HandleFunc("/user/admin", getAdminMenuDataHandler)
 	http.HandleFunc("/user/admin/nurse/add", addEnfermeroAdminHandler)
@@ -53,6 +56,7 @@ func LoadRouter(port string) {
 	//USER(ADMING)
 	http.HandleFunc("/user/adminG/userList/add", addUserHandler)
 	http.HandleFunc("/user/adminG/userList", getUsersPaginationHandler)
+
 	if port == "" {
 		port = "5001"
 	}

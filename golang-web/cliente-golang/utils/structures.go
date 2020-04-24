@@ -166,6 +166,12 @@ type EspecialidadList_Page struct {
 	EspecialidadList []Especialidad
 }
 
+//Historial
+type SolicitarHistorial_JSON struct {
+	UserDNI   string    `json:"userDNI"`
+	UserToken UserToken `json:"userToken"`
+}
+
 //SEGURIDAD
 //Token
 
@@ -215,6 +221,13 @@ type PageMenuAdmin struct {
 	Title   string
 	Body    string
 	Clinica Clinica
+}
+
+type PageAdminAddMedico struct {
+	Title          string
+	Body           string
+	Clinica        Clinica
+	Especialidades []Especialidad_JSON
 }
 
 type CitaPage struct {

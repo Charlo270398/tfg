@@ -1,0 +1,52 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/admin/addMedico.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/admin/addMedico.css">
+{{end}}
+{{define "body"}}
+<main>
+    <div>
+        <div id="alert" class="alert alert-success invisible" role="alert">
+        This is a success alert—check it out!
+        </div>
+        <h1 class="h2 mb-3 font-weight-normal">Datos del médico</h1>
+        <div class="form-group">
+        <label>Nombre</label>
+        <input id="name" class="form-control"  aria-describedby="emailHelp" placeholder="Introduce tu nombre" required="">
+        </div>
+        <div class="form-group">
+        <label>Primer apellido</label>
+        <input id="surname1" class="form-control"  aria-describedby="emailHelp" placeholder="Introduce tu primer apellido" required="">
+        </div>
+        <div class="form-group">
+        <label>Segundo apellido</label>
+        <input id="surname2" class="form-control"  aria-describedby="emailHelp" placeholder="Introduce tu segundo apellido">
+        </div>
+        <div class="form-group">
+        <label>Dirección de correo</label>
+        <input id="email" type="email" class="form-control"  aria-describedby="emailHelp" placeholder="Introduce tu dirección correo" required="">
+        </div>
+        <div class="form-group">
+        <label>DNI</label>
+        <input id="idnumber" maxlength="9" class="form-control"  aria-describedby="emailHelp" placeholder="Introduce tu DNI" required="">
+        </div>
+        <div class="form-group">
+        <label>Contraseña</label>
+        <input id="pass" type="password" class="form-control" placeholder="Contraseña" required="">
+        </div>
+        <div id="medicoEspecialidadGroup" class="form-group">
+            <label for="medicoEspecialidadSelector">Especialidad del médico</label>
+            <select class="browser-default custom-select" id="medicoEspecialidadSelector">
+                <option value="-1" disabled selected>Selecciona una especialidad</option>
+            </select>
+        </div>
+        <button id="submit" type="submit" class="btn btn-primary">Añadir medico</button>
+    </div>
+    
+    <script>
+        var clinicaId = {{.Clinica.Id}};
+        var especialidades = {{.Especialidades}};
+    </script>
+</main>
+{{end}} 

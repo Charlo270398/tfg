@@ -142,11 +142,18 @@ func LoadRouter() {
 	//USER(ENFERMERO)
 	router.HandleFunc("/user/nurse", menuEnfermeroHandler).Methods("GET")
 	router.HandleFunc("/user/nurse/historial/solicitar", solicitarHistorialEnfermeroHandler).Methods("GET")
+
 	//USER(MEDICO)
 	router.HandleFunc("/user/doctor", menuMedicoHandler).Methods("GET")
-	router.HandleFunc("/user/doctor/historial/solicitar", solicitarHistorialMedicoHandler).Methods("GET")
+	router.HandleFunc("/user/doctor/historial/solicitar", solicitarHistorialMedicoFormHandler).Methods("GET")
+	router.HandleFunc("/user/doctor/historial/solicitar", solicitarHistorialMedicoHandler).Methods("POST")
+
 	//USER(ADMIN-CLINICA)
 	router.HandleFunc("/user/admin", menuAdminHandler).Methods("GET")
+	router.HandleFunc("/user/admin/nurse/add", adminAddEnfermeroFormHandler).Methods("GET")
+	router.HandleFunc("/user/admin/nurse/add", addEnfermeroAdminHandler).Methods("POST")
+	router.HandleFunc("/user/admin/doctor/add", adminAddMedicoFormHandler).Methods("GET")
+	router.HandleFunc("/user/admin/doctor/add", addMedicoAdminHandler).Methods("POST")
 
 	//USER(ADMIN-GLOBAL)
 	router.HandleFunc("/user/adminG", menuAdminGHandler).Methods("GET")

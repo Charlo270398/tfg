@@ -1,6 +1,7 @@
 package models
 
 import (
+	"crypto/sha256"
 	"fmt"
 	"strconv"
 	"time"
@@ -53,6 +54,47 @@ func InsertUser(user util.User_JSON) (userId int, err error) {
 		util.PrintErrorLog(err)
 	}
 	return -1, nil
+}
+
+func InsertUserDniHash(user_id int, user_dni string) (inserted bool, err error) {
+	//SHA 256, cogemos la primera mitad
+	sha_256 := sha256.New()
+	sha_256.Write([]byte(user_dni))
+	hash := sha_256.Sum(nil)
+	stringHash := fmt.Sprintf("%x", hash) //Pasamos a hexadecimal el hash
+	//INSERT
+	_, err = db.Exec(`INSERT INTO usuarios_dnihashes (usuario_id, dni_hash) VALUES (?, ?)`, user_id, stringHash)
+	if err == nil {
+		return true, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+	}
+	return false, nil
+}
+
+func CheckUserDniHash(user_id string, user_dni string) (usuarioId int, err error) {
+	//SHA 256, cogemos la primera mitad
+	sha_256 := sha256.New()
+	sha_256.Write([]byte(user_dni))
+	hash := sha_256.Sum(nil)
+	stringHash := fmt.Sprintf("%x", hash) //Pasamos a hexadecimal el hash
+	var bdString string
+	//INSERT
+	row, err := db.Query(`SELECT dni_hash, usuario_id FROM usuarios_dnihashes where dni_hash = '` + stringHash + `'`) // check err
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&bdString, &usuarioId)
+		if stringHash == bdString {
+			return usuarioId, nil
+		}
+		return -1, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return -1, err
+	}
 }
 
 func InsertUserPairKeys(user_id int, pairKeys util.PairKeys) (result bool, err error) {
