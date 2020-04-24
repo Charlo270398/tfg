@@ -204,7 +204,8 @@ func GetUsersPagination(page int) []util.User {
 
 func ProveUserToken(user_id int, token string) (result bool, err error) {
 	timeNow := time.Now().Local().UTC()
-	row, err := db.Query(`SELECT token, fecha_expiracion FROM usuarios_tokens where usuario_id = ` + strconv.Itoa(user_id))
+	var idToken int
+	row, err := db.Query(`SELECT id, token, fecha_expiracion FROM usuarios_tokens where usuario_id = ` + strconv.Itoa(user_id))
 	if err != nil {
 		fmt.Println(err)
 		util.PrintErrorLog(err)
@@ -214,9 +215,12 @@ func ProveUserToken(user_id int, token string) (result bool, err error) {
 	var tokenBD string
 	var fechaExpiracionBD time.Time
 	for row.Next() {
-		row.Scan(&tokenBD, &fechaExpiracionBD)
+		row.Scan(&idToken, &tokenBD, &fechaExpiracionBD)
 	}
 	if tokenBD == token && timeNow.Before(fechaExpiracionBD) {
+		//Reseteamos el tiempo
+		timeNow = time.Now().Local().Add(time.Minute * time.Duration(30))
+		_, err = db.Exec(`UPDATE usuarios_tokens SET fecha_expiracion = (?) WHERE id = (?)`, timeNow, idToken)
 		return true, nil
 	}
 	return false, nil
