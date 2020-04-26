@@ -41,6 +41,14 @@ func loginUserHandler(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	//RECUPERAMOS CLAVE PUBLICA Y PRIVADA DEL USUARIO
+	pairKeys, err := models.GetUserPairKeys(strconv.Itoa(user.Id))
+	if err != nil {
+		util.PrintErrorLog(err)
+		// If the structure of the body is wrong, return an HTTP error
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 	if correctLogin == true {
 		token, err := models.InsertUserToken(user.Id)
 		if err != nil {
@@ -49,7 +57,7 @@ func loginUserHandler(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 		// Example: this will give us a 64 byte output
-		jsonReturn = util.JSON_Login_Return{UserId: strconv.Itoa(user.Id), Nombre: user.Nombre, Apellidos: user.Apellidos, Token: token}
+		jsonReturn = util.JSON_Login_Return{UserId: strconv.Itoa(user.Id), Nombre: user.Nombre, Apellidos: user.Apellidos, Token: token, PairKeys: pairKeys, Clave: user.Clave}
 	} else {
 		jsonReturn = util.JSON_Login_Return{Error: "Usuario y contraseña incorrectos"}
 	}
@@ -84,6 +92,13 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 			rolesList = []int{models.Rol_paciente.Id, models.Rol_enfermero.Id, models.Rol_medico.Id, models.Rol_administradorG.Id}
 		} else {
 			rolesList = []int{models.Rol_paciente.Id}
+		}
+		//Insertamos DNI hasheado
+		_, err = models.InsertUserDniHash(userId, user.IdentificacionHash)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
 		}
 		//INSERTAMOS CLAVES RSA
 		_, err = models.InsertUserPairKeys(userId, user.PairKeys)

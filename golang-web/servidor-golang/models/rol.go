@@ -3,7 +3,6 @@ package models
 import (
 	"fmt"
 	"strconv"
-	"time"
 
 	util "../utils"
 )
@@ -26,13 +25,12 @@ func LoadRoles() {
 func InsertUserAndRole(userid int, roles []int) (inserted bool, err error) {
 	//INSERT
 	for _, rolId := range roles {
-		createdAt := time.Now()
-		_, err = db.Exec(`INSERT INTO usuarios_roles (usuario_id, rol_id, created_at) VALUES (?, ?, ?)`, userid,
-			rolId, createdAt)
+		_, err = db.Exec(`INSERT INTO usuarios_roles (usuario_id, rol_id) VALUES (?, ?)`, userid,
+			rolId)
 		if err != nil {
-			return false, nil
 			fmt.Println(err)
 			util.PrintErrorLog(err)
+			return false, nil
 		}
 	}
 	return true, nil

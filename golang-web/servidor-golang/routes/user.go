@@ -44,7 +44,7 @@ func getUsersPaginationHandler(w http.ResponseWriter, req *http.Request) {
 func getUserHandler(w http.ResponseWriter, req *http.Request) {
 	userIdURL, ok := req.URL.Query()["userId"]
 	var usersReturn util.User_JSON
-	var user util.User
+	var user util.User_JSON
 	if !ok || len(userIdURL[0]) < 1 {
 		http.Error(w, "No hay parámetros", http.StatusInternalServerError)
 		return

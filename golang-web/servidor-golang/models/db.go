@@ -50,6 +50,7 @@ func CreateDB() {
 	query(USERS_TOKENS_TABLE)
 	query(USERS_PAIRKEYS_TABLE)
 	query(USERS_DNIHASHES_TABLE)
+	//query(MEDICOS_NOMBRES_TABLE)
 
 	//SEEDERS
 	//Roles
@@ -81,12 +82,13 @@ CREATE TABLE IF NOT EXISTS especialidades (
 var USUARIOS_TABLE string = `
 CREATE TABLE IF NOT EXISTS usuarios (
 	id INT AUTO_INCREMENT,
-	dni VARCHAR(9) UNIQUE,
-	nombre VARCHAR(25) NOT NULL,
-	apellidos VARCHAR(50) NOT NULL,
-	email VARCHAR(59) UNIQUE,
+	dni VARCHAR(36) UNIQUE,
+	nombre VARCHAR(100) NOT NULL,
+	apellidos VARCHAR(150) NOT NULL,
+	email VARCHAR(100) UNIQUE,
 	password VARCHAR(100) NOT NULL,
 	created_at DATETIME,
+	clave VARCHAR(344) NOT NULL,
 	PRIMARY KEY (id)
 );`
 
@@ -105,6 +107,8 @@ CREATE TABLE IF NOT EXISTS usuarios_clinicas (
 	usuario_id INT,
 	clinica_id INT,
 	rol_id INT,
+	nombre VARCHAR(100) NOT NULL,
+	apellidos VARCHAR(100) NOT NULL,
 	PRIMARY KEY (usuario_id, clinica_id, rol_id),
 	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
 	FOREIGN KEY(clinica_id) REFERENCES clinicas(id) ON DELETE CASCADE,
@@ -156,3 +160,12 @@ CREATE TABLE IF NOT EXISTS usuarios_dnihashes(
 	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
 	PRIMARY KEY (usuario_id,dni_hash)
 );`
+
+/*var MEDICOS_NOMBRES_TABLE string = `
+CREATE TABLE IF NOT EXISTS medicos_nombres (
+	usuario_id INT,
+	nombre VARCHAR(100) NOT NULL,
+	apellidos VARCHAR(100) NOT NULL,
+	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+	PRIMARY KEY (usuario_id)
+);`*/

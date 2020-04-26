@@ -23,11 +23,11 @@ func LoginUser(email string, password []byte) bool {
 		util.PrintErrorLog(err)
 		return false
 	}
-	if user.Password == "" {
+	if string(user.Password) == "" {
 		util.PrintLog("El usuario no existe")
 		return false
 	}
-	match, err := util.Argon2comparePasswordAndHash(password, user.Password)
+	match, err := util.Argon2comparePasswordAndHash(password, string(user.Password))
 	if err != nil {
 		util.PrintErrorLog(err)
 	}
@@ -44,8 +44,8 @@ func InsertUser(user util.User_JSON) (userId int, err error) {
 	}
 	//INSERT
 	createdAt := time.Now()
-	res, err := db.Exec(`INSERT INTO usuarios (dni, nombre, apellidos, email, password, created_at) VALUES (?, ?, ?, ?, ?, ?)`, user.Identificacion,
-		user.Nombre, user.Apellidos, user.Email, encodedHash, createdAt)
+	res, err := db.Exec(`INSERT INTO usuarios (dni, nombre, apellidos, email, password, created_at, clave) VALUES (?, ?, ?, ?, ?, ?, ?)`, user.Identificacion,
+		user.Nombre, user.Apellidos, user.Email, encodedHash, createdAt, user.Clave)
 	if err == nil {
 		userId, _ := res.LastInsertId()
 		return int(userId), nil
@@ -57,13 +57,8 @@ func InsertUser(user util.User_JSON) (userId int, err error) {
 }
 
 func InsertUserDniHash(user_id int, user_dni string) (inserted bool, err error) {
-	//SHA 256, cogemos la primera mitad
-	sha_256 := sha256.New()
-	sha_256.Write([]byte(user_dni))
-	hash := sha_256.Sum(nil)
-	stringHash := fmt.Sprintf("%x", hash) //Pasamos a hexadecimal el hash
 	//INSERT
-	_, err = db.Exec(`INSERT INTO usuarios_dnihashes (usuario_id, dni_hash) VALUES (?, ?)`, user_id, stringHash)
+	_, err = db.Exec(`INSERT INTO usuarios_dnihashes (usuario_id, dni_hash) VALUES (?, ?)`, user_id, user_dni)
 	if err == nil {
 		return true, nil
 	} else {
@@ -95,19 +90,6 @@ func CheckUserDniHash(user_id string, user_dni string) (usuarioId int, err error
 		util.PrintErrorLog(err)
 		return -1, err
 	}
-}
-
-func InsertUserPairKeys(user_id int, pairKeys util.PairKeys) (result bool, err error) {
-	//INSERT
-	_, err = db.Exec(`INSERT INTO usuarios_pairkeys (usuario_id, public_key, private_key) VALUES (?, ?, ?)`, user_id,
-		pairKeys.PublicKey, pairKeys.PrivateKey)
-	if err == nil {
-		return true, nil
-	} else {
-		fmt.Println(err)
-		util.PrintErrorLog(err)
-	}
-	return false, nil
 }
 
 func EditUserData(user util.User_JSON) (edited bool, err error) {
@@ -153,12 +135,12 @@ func GetUsersList() (usersList []util.User, err error) {
 	}
 }
 
-func GetUserById(id int) (user util.User, err error) {
-	row, err := db.Query(`SELECT id, dni, nombre, apellidos, email, created_at FROM usuarios where id = ` + strconv.Itoa(id)) // check err
+func GetUserById(id int) (user util.User_JSON, err error) {
+	row, err := db.Query(`SELECT id, dni, nombre, apellidos, email, created_at, clave FROM usuarios where id = ` + strconv.Itoa(id)) // check err
 	if err == nil {
 		defer row.Close()
 		row.Next()
-		row.Scan(&user.Id, &user.Identificacion, &user.Nombre, &user.Apellidos, &user.Email, &user.CreatedAt)
+		row.Scan(&user.Id, &user.Identificacion, &user.Nombre, &user.Apellidos, &user.Email, &user.CreatedAt, &user.Clave)
 		return user, err
 	} else {
 		fmt.Println(err)
@@ -167,12 +149,12 @@ func GetUserById(id int) (user util.User, err error) {
 	}
 }
 
-func GetUserByEmail(email string) (user util.User, err error) {
-	row, err := db.Query(`SELECT id, dni, nombre, apellidos, email, password, created_at FROM usuarios where email = '` + email + `'`) // check err
+func GetUserByEmail(email string) (user util.User_JSON, err error) {
+	row, err := db.Query(`SELECT id, dni, nombre, apellidos, email, password, created_at, clave FROM usuarios where email = '` + email + `'`) // check err
 	if err == nil {
 		defer row.Close()
 		row.Next()
-		row.Scan(&user.Id, &user.Identificacion, &user.Nombre, &user.Apellidos, &user.Email, &user.Password, &user.CreatedAt)
+		row.Scan(&user.Id, &user.Identificacion, &user.Nombre, &user.Apellidos, &user.Email, &user.Password, &user.CreatedAt, &user.Clave)
 		return user, err
 	} else {
 		fmt.Println(err)
@@ -255,7 +237,66 @@ func InsertUserToken(user_id int) (token string, err error) {
 		util.PrintErrorLog(err)
 		return "", err
 	}
-	return "", nil
+}
+
+//PAIRKEYS
+
+func InsertUserPairKeys(user_id int, pairKeys util.PairKeys) (result bool, err error) {
+	//INSERT
+	_, err = db.Exec(`INSERT INTO usuarios_pairkeys (usuario_id, public_key, private_key) VALUES (?, ?, ?)`, user_id,
+		pairKeys.PublicKey, pairKeys.PrivateKey)
+	if err == nil {
+		return true, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+	}
+	return false, nil
+}
+
+func GetUserPairKeys(user_id string) (result util.PairKeys, err error) {
+	//GET
+	row, err := db.Query(`SELECT public_key, private_key FROM usuarios_pairkeys WHERE usuario_id = ` + user_id)
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&result.PublicKey, &result.PrivateKey)
+		return result, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+	}
+	return result, nil
+}
+
+func GetUserPublicKey(user_id string) (result util.PairKeys, err error) {
+	//GET
+	row, err := db.Query(`SELECT public_key FROM usuarios_pairkeys WHERE usuario_id = ` + user_id)
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&result.PublicKey)
+		return result, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+	}
+	return result, nil
+}
+
+func GetUserPrivateKey(user_id string) (result util.PairKeys, err error) {
+	//GET
+	row, err := db.Query(`SELECT private_key FROM usuarios_pairkeys WHERE usuario_id = ` + user_id)
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&result.PrivateKey)
+		return result, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+	}
+	return result, nil
 }
 
 /*

@@ -27,7 +27,7 @@ func addUserHandler(w http.ResponseWriter, req *http.Request) {
 				jsonReturn = util.JSON_Return{"", "Error insertando las claves del usuario en la base de datos"}
 			} else {
 				//Insertamos DNI hasheado
-				_, err := models.InsertUserDniHash(userId, user.Identificacion)
+				_, err := models.InsertUserDniHash(userId, user.IdentificacionHash)
 				if err != nil {
 					jsonReturn = util.JSON_Return{"", "Error insertando el hash del documento de identificación"}
 				} else {
