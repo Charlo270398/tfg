@@ -2,8 +2,10 @@ package routes
 
 import (
 	"bytes"
+	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -84,11 +86,19 @@ func loginUserHandler(w http.ResponseWriter, req *http.Request) {
 		json.NewDecoder(response.Body).Decode(&serverRes)
 		jsonReturn := JSON_Return{"", ""}
 		if serverRes.Error == "" {
+			/*pkString, _ := util.AESdecrypt(privateKeyHash, string(serverRes.PairKeys.PrivateKey))
+			privateKey := util.RSAStringToPrivateKey(pkString)
+			aeskey := util.RSADecryptOAEP(serverRes.Clave, *privateKey)
+			nombre, _ := util.AESdecrypt(util.Base64Decode([]byte(aeskey)), serverRes.Nombre)
+			apellidos, _ := util.AESdecrypt(util.Base64Decode([]byte(aeskey)), serverRes.Apellidos)
+			fmt.Println(nombre)
+			fmt.Println(apellidos)*/
 			jsonReturn = JSON_Return{"Sesión Iniciada", ""}
 			session, _ := store.Get(req, "userSession")
 			session.Values["authenticated"] = true
 			session.Values["userId"] = serverRes.UserId
 			session.Values["userToken"] = serverRes.Token
+			session.Values["userPublicKey"] = serverRes.PairKeys.PublicKey
 			session.Options.MaxAge = 60 * 30
 			session.Save(req, w)
 		} else {
@@ -132,18 +142,37 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	//Generamos par de claves RSA
-	privK := util.GenerateKeys()
+	privK := util.RSAGenerateKeys()
 	//Pasamos las claves a []byte
 	var pairKeys util.PairKeys
-	pairKeys.PrivateKey = util.PrivateKeyToBytes(privK)
-	pairKeys.PublicKey = util.PublicKeyToBytes(&privK.PublicKey)
-	pairKeys.PrivateKey = util.PrivateKeyToBytes(privK)
+	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
+	pairKeys.PublicKey = util.RSAPublicKeyToBytes(&privK.PublicKey)
+	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
 	//Ciframos clave privada con AES
 	privKcifrada, _ := util.AESencrypt(privateKeyHash, string(pairKeys.PrivateKey))
 	pairKeys.PrivateKey = []byte(privKcifrada)
 
-	locJson, err := json.Marshal(util.User_JSON{Identificacion: creds.Identificacion, Nombre: creds.Nombre, Apellidos: creds.Apellidos,
-		Email: creds.Email, Password: loginHash, PairKeys: pairKeys})
+	//Generamos una clave AES aleatoria de 256 bits para cifrar los datos sensibles
+	AESkeyDatos := util.AEScreateKey()
+
+	//Ciframos los datos sensibles con la clave
+	identificacionCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Identificacion)
+	nombreCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Nombre)
+	apellidosCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Apellidos)
+
+	//Hacemos HASH del DNI para poder hacer busquedas despues
+	sha_256 := sha256.New()
+	sha_256.Write([]byte(creds.Identificacion))
+	hash := sha_256.Sum(nil)
+	identificacionHash := fmt.Sprintf("%x", hash) //Pasamos a hexadecimal el hash
+
+	//Pasamos la clave a base 64
+	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))
+	//Ciframos la clave AES usada con nuestra clave pública
+	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, privK.PublicKey)
+
+	locJson, err := json.Marshal(util.User_JSON{Identificacion: identificacionCifrado, IdentificacionHash: identificacionHash, Nombre: nombreCifrado, Apellidos: apellidosCifrado,
+		Email: creds.Email, Password: loginHash, PairKeys: pairKeys, Clave: claveAEScifrada})
 
 	//Certificado
 	client := GetTLSClient()

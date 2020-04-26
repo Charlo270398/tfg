@@ -11,9 +11,10 @@ import (
 	"encoding/pem"
 	"errors"
 	"io"
+	"log"
 )
 
-func GenerateKeys() *rsa.PrivateKey {
+func RSAGenerateKeys() *rsa.PrivateKey {
 	// Generate RSA keys Of 2048 Buts
 	privKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
@@ -22,7 +23,7 @@ func GenerateKeys() *rsa.PrivateKey {
 	return privKey
 }
 
-func EncryptOAEP(secretMessage string, pubkey rsa.PublicKey) string {
+func RSAEncryptOAEP(secretMessage string, pubkey rsa.PublicKey) string {
 	label := []byte("OAEP Encrypted")
 	// crypto/rand.Reader is a good source of entropy for randomizing the
 	// encryption function.
@@ -35,7 +36,7 @@ func EncryptOAEP(secretMessage string, pubkey rsa.PublicKey) string {
 	return base64.StdEncoding.EncodeToString(ciphertext)
 }
 
-func DecryptOAEP(cipherText string, privKey rsa.PrivateKey) string {
+func RSADecryptOAEP(cipherText string, privKey rsa.PrivateKey) string {
 	ct, _ := base64.StdEncoding.DecodeString(cipherText)
 	label := []byte("OAEP Encrypted")
 
@@ -52,7 +53,7 @@ func DecryptOAEP(cipherText string, privKey rsa.PrivateKey) string {
 }
 
 // PrivateKeyToBytes private key to bytes
-func PrivateKeyToBytes(priv *rsa.PrivateKey) []byte {
+func RSAPrivateKeyToBytes(priv *rsa.PrivateKey) []byte {
 	privBytes := pem.EncodeToMemory(
 		&pem.Block{
 			Type:  "RSA PRIVATE KEY",
@@ -64,7 +65,7 @@ func PrivateKeyToBytes(priv *rsa.PrivateKey) []byte {
 }
 
 // PublicKeyToBytes public key to bytes
-func PublicKeyToBytes(pub *rsa.PublicKey) []byte {
+func RSAPublicKeyToBytes(pub *rsa.PublicKey) []byte {
 	pubASN1, err := x509.MarshalPKIXPublicKey(pub)
 	if err != nil {
 		PrintErrorLog(err)
@@ -78,8 +79,28 @@ func PublicKeyToBytes(pub *rsa.PublicKey) []byte {
 	return pubBytes
 }
 
+// StringToPrivateKey bytes to private key
+func RSAStringToPrivateKey(privString string) *rsa.PrivateKey {
+	priv := []byte(privString)
+	block, _ := pem.Decode(priv)
+	enc := x509.IsEncryptedPEMBlock(block)
+	b := block.Bytes
+	var err error
+	if enc {
+		b, err = x509.DecryptPEMBlock(block, nil)
+		if err != nil {
+			PrintErrorLog(err)
+		}
+	}
+	key, err := x509.ParsePKCS1PrivateKey(b)
+	if err != nil {
+		PrintErrorLog(err)
+	}
+	return key
+}
+
 // BytesToPrivateKey bytes to private key
-func BytesToPrivateKey(priv []byte) *rsa.PrivateKey {
+func RSABytesToPrivateKey(priv []byte) *rsa.PrivateKey {
 	block, _ := pem.Decode(priv)
 	enc := x509.IsEncryptedPEMBlock(block)
 	b := block.Bytes
@@ -98,7 +119,7 @@ func BytesToPrivateKey(priv []byte) *rsa.PrivateKey {
 }
 
 // BytesToPublicKey bytes to public key
-func BytesToPublicKey(pub []byte) *rsa.PublicKey {
+func RSABytesToPublicKey(pub []byte) *rsa.PublicKey {
 	block, _ := pem.Decode(pub)
 	enc := x509.IsEncryptedPEMBlock(block)
 	b := block.Bytes
@@ -121,6 +142,15 @@ func BytesToPublicKey(pub []byte) *rsa.PublicKey {
 }
 
 //AES
+
+func AEScreateKey() []byte {
+	genkey := make([]byte, 32) //32-BYTES; 256 bits
+	_, err := rand.Read(genkey)
+	if err != nil {
+		log.Fatalf("Failed to read new random key: %s", err)
+	}
+	return genkey
+}
 
 func AESencrypt(key []byte, message string) (encmess string, err error) {
 	plainText := []byte(message)
@@ -173,4 +203,22 @@ func AESdecrypt(key []byte, securemess string) (decodedmess string, err error) {
 
 	decodedmess = string(cipherText)
 	return
+}
+
+//BASE 64
+
+func Base64Encode(message []byte) []byte {
+	b := make([]byte, base64.StdEncoding.EncodedLen(len(message)))
+	base64.StdEncoding.Encode(b, message)
+	return b
+}
+
+func Base64Decode(message []byte) []byte {
+	var l int
+	b := make([]byte, base64.StdEncoding.DecodedLen(len(message)))
+	l, err := base64.StdEncoding.Decode(b, message)
+	if err != nil {
+		return nil
+	}
+	return b[:l]
 }

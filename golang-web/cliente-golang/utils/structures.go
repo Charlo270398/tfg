@@ -17,10 +17,13 @@ type User struct {
 }
 
 type User_JSON struct {
+	Id                 int       `json:"id"`
 	Identificacion     string    `json:"identificacion"`
+	IdentificacionHash string    `json:"identificacionHash"`
 	Nombre             string    `json:"nombre"`
 	Apellidos          string    `json:"apellidos"`
 	Email              string    `json:"email"`
+	CreatedAt          time.Time `json:"createdAt"`
 	Password           []byte    `json:"password"`
 	Roles              []int     `json:"roles"`
 	EnfermeroClinica   string    `json:"enfermeroClinica"`
@@ -29,6 +32,7 @@ type User_JSON struct {
 	MedicoEspecialidad string    `json:"medicoEspecialidad"`
 	UserToken          UserToken `json:"userToken"`
 	PairKeys           PairKeys  `json:"pairKeys"`
+	Clave              string    `json:"clave"`
 }
 
 type JSON_Credentials_CLIENTE struct {
@@ -199,6 +203,8 @@ type JSON_Login_Return struct {
 	Apellidos string
 	Error     string
 	Token     string
+	PairKeys  PairKeys
+	Clave     string `json:"clave"`
 }
 
 type JSON_Return struct {

@@ -159,12 +159,12 @@ func addEnfermeroAdminHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	//Generamos par de claves RSA
-	privK := util.GenerateKeys()
+	privK := util.RSAGenerateKeys()
 	//Pasamos las claves a []byte
 	var pairKeys util.PairKeys
-	pairKeys.PrivateKey = util.PrivateKeyToBytes(privK)
-	pairKeys.PublicKey = util.PublicKeyToBytes(&privK.PublicKey)
-	pairKeys.PrivateKey = util.PrivateKeyToBytes(privK)
+	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
+	pairKeys.PublicKey = util.RSAPublicKeyToBytes(&privK.PublicKey)
+	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
 	//Ciframos clave privada con AES
 	privKcifrada, _ := util.AESencrypt(privateKeyHash, string(pairKeys.PrivateKey))
 	pairKeys.PrivateKey = []byte(privKcifrada)
@@ -233,12 +233,12 @@ func addMedicoAdminHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	//Generamos par de claves RSA
-	privK := util.GenerateKeys()
+	privK := util.RSAGenerateKeys()
 	//Pasamos las claves a []byte
 	var pairKeys util.PairKeys
-	pairKeys.PrivateKey = util.PrivateKeyToBytes(privK)
-	pairKeys.PublicKey = util.PublicKeyToBytes(&privK.PublicKey)
-	pairKeys.PrivateKey = util.PrivateKeyToBytes(privK)
+	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
+	pairKeys.PublicKey = util.RSAPublicKeyToBytes(&privK.PublicKey)
+	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
 	//Ciframos clave privada con AES
 	privKcifrada, _ := util.AESencrypt(privateKeyHash, string(pairKeys.PrivateKey))
 	pairKeys.PrivateKey = []byte(privKcifrada)
