@@ -135,8 +135,8 @@ func GetClinicaByAdmin(user_id string) (c util.Clinica, err error) {
 }
 
 func GetEspecialidadesClinica(clinica_id string) (especialidadList []util.Especialidad, err error) {
-	rows, err := db.Query("select e.id, e.nombre from usuarios_especialidades ue, especialidades e, usuarios_clinicas uc where ue.especialidad_id = " +
-		"e.id and uc.usuario_id = ue.usuario_id and uc.clinica_id = " + clinica_id)
+	rows, err := db.Query("select DISTINCT e.id, e.nombre from usuarios_especialidades ue, especialidades e, usuarios_clinicas uc where ue.especialidad_id = " +
+		"e.id and uc.usuario_id = ue.usuario_id and uc.clinica_id = " + clinica_id + " ORDER BY e.nombre")
 	if err == nil {
 		defer rows.Close()
 		for rows.Next() {
@@ -149,5 +149,25 @@ func GetEspecialidadesClinica(clinica_id string) (especialidadList []util.Especi
 		fmt.Println(err)
 		util.PrintErrorLog(err)
 		return especialidadList, err
+	}
+}
+
+func GetMedicosClinicaByEspecialidad(clinica_id string, especialidad_id string) (medicosList []util.User_JSON, err error) {
+	rolMedico := strconv.Itoa(Rol_medico.Id)
+	rows, err := db.Query("SELECT mn.usuario_id, mn.nombreDoctor FROM usuarios_clinicas uc, medicos_nombres mn, usuarios_especialidades ue " +
+		"WHERE uc.usuario_id = mn.usuario_id AND uc.clinica_id = " + clinica_id + " AND uc.rol_id = " + rolMedico + " AND ue.especialidad_id = " +
+		especialidad_id + " and ue.usuario_id = uc.usuario_id ORDER BY mn.nombreDoctor")
+	if err == nil {
+		defer rows.Close()
+		for rows.Next() {
+			var u util.User_JSON
+			rows.Scan(&u.Id, &u.NombreDoctor)
+			medicosList = append(medicosList, u)
+		}
+		return medicosList, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return medicosList, err
 	}
 }

@@ -7,6 +7,7 @@ function init () {
     addLinkBreadcrumb('Solicitar', '/user/patient/citas/add');
     document.querySelector("#clinicaSelector").addEventListener('change',cambiarClinica,false);
     document.querySelector("#especialidadSelector").addEventListener('change',cambiarEspecialidad,false);
+    document.querySelector("#facultativoSelector").addEventListener('change',cambiarFacultativo,false);
     document.querySelector("#diaSelector").addEventListener('change',cambiarDia,false);
     document.querySelector("#horaSelector").addEventListener('change',cambiarHora,false);
 }
@@ -56,6 +57,8 @@ function cambiarEspecialidad(event){
     document.querySelector("#facultativoGroup").classList.remove("invisible");
     document.querySelector("#facultativoSelector").value = "-1";
     limpiarSelect(document.querySelector("#facultativoSelector"));
+    GETfacultativos(document.querySelector("#clinicaSelector").value, 
+    document.querySelector("#especialidadSelector").value, document.querySelector("#facultativoSelector"));
 
     //Recargar los dias
     document.querySelector("#diaGroup").classList.add("invisible");
@@ -105,6 +108,30 @@ function GETespecialidades(clinica_id, selector){
                     var option = document.createElement("option");
                     option.value = e.id;
                     option.textContent = e.nombre;
+                    selector.append(option);
+                });
+            }
+            else{
+
+            }
+        })
+        .catch(err => alert(err));
+}
+
+function GETfacultativos(clinica_id, especialidad_id, selector){
+    const url= `/clinica/especialidad/doctor/list?clinicaId=` + clinica_id + "&especialidadId=" + especialidad_id;
+    const request = {
+        method: 'GET', 
+        headers: cabeceras,
+    };
+    fetch(url,request)
+    .then( response => response.json() )
+        .then( result => {
+            if(!result.Error){
+                result.forEach(f => {
+                    var option = document.createElement("option");
+                    option.value = f.Id;
+                    option.textContent = f.NombreDoctor;
                     selector.append(option);
                 });
             }

@@ -98,7 +98,7 @@ func getClinicaListGadminHandler(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
-//Listar espcecialidades de la clinica pasada como parametro
+//Listar especialidades de la clinica pasada como parametro
 func getClinicaEspecialidadListHandler(w http.ResponseWriter, req *http.Request) {
 	session, _ := store.Get(req, "userSession")
 	// Check if user is authenticated
@@ -125,6 +125,44 @@ func getClinicaEspecialidadListHandler(w http.ResponseWriter, req *http.Request)
 		var especialidadListJSON []util.Especialidad_JSON
 		err := json.NewDecoder(response.Body).Decode(&especialidadListJSON)
 		js, err := json.Marshal(especialidadListJSON)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+	}
+}
+
+//Listar medicos dada una especialidad de la clinica
+func getMedicosClinicaByEspecialidadListHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+	clinicaId, _ := req.URL.Query()["clinicaId"]
+	especialidadId, _ := req.URL.Query()["especialidadId"]
+	//Certificado
+	client := GetTLSClient()
+
+	// Request /hello via the created HTTPS client over port 5001 via GET
+	response, err := client.Get(SERVER_URL + "/clinica/especialidad/doctor/list?clinicaId=" + clinicaId[0] + "&especialidadId=" + especialidadId[0])
+	if err != nil {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	} else {
+		var medicosListJSON []util.User_JSON
+		err := json.NewDecoder(response.Body).Decode(&medicosListJSON)
+		js, err := json.Marshal(medicosListJSON)
 		if err != nil {
 			util.PrintErrorLog(err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)

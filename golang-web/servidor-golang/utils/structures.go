@@ -33,6 +33,7 @@ type User_JSON struct {
 	UserToken          UserToken `json:"userToken"`
 	PairKeys           PairKeys  `json:"pairKeys"`
 	Clave              string    `json:"clave"`
+	NombreDoctor       string    `json:nombreDoctor`
 }
 
 type JSON_Credentials_CLIENTE struct {

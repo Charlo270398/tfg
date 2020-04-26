@@ -2,8 +2,10 @@ package routes
 
 import (
 	"bytes"
+	"crypto/sha256"
 	"crypto/sha512"
 	"encoding/json"
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -243,9 +245,30 @@ func addMedicoAdminHandler(w http.ResponseWriter, req *http.Request) {
 	privKcifrada, _ := util.AESencrypt(privateKeyHash, string(pairKeys.PrivateKey))
 	pairKeys.PrivateKey = []byte(privKcifrada)
 
-	locJson, err := json.Marshal(util.User_JSON{Identificacion: creds.Identificacion, Nombre: creds.Nombre, Apellidos: creds.Apellidos,
+	//Generamos una clave AES aleatoria de 256 bits para cifrar los datos sensibles
+	AESkeyDatos := util.AEScreateKey()
+
+	//Ciframos los datos sensibles con la clave
+	identificacionCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Identificacion)
+	nombreCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Nombre)
+	apellidosCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Apellidos)
+
+	//Hacemos HASH del DNI para poder hacer busquedas despues
+	sha_256 := sha256.New()
+	sha_256.Write([]byte(creds.Identificacion))
+	hash := sha_256.Sum(nil)
+	identificacionHash := fmt.Sprintf("%x", hash) //Pasamos a hexadecimal el hash
+
+	//Pasamos la clave a base 64
+	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))
+	//Ciframos la clave AES usada con nuestra clave pública
+	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, privK.PublicKey)
+
+	nombreDoctor := creds.Nombre + " " + creds.Apellidos
+	locJson, err := json.Marshal(util.User_JSON{Identificacion: identificacionCifrado, Nombre: nombreCifrado, Apellidos: apellidosCifrado,
 		Email: creds.Email, Password: loginHash, Roles: []int{Rol_medico.Id}, MedicoClinica: creds.MedicoClinica,
-		MedicoEspecialidad: creds.MedicoEspecialidad, UserToken: prepareUserToken(req), PairKeys: pairKeys})
+		MedicoEspecialidad: creds.MedicoEspecialidad, UserToken: prepareUserToken(req), PairKeys: pairKeys,
+		IdentificacionHash: identificacionHash, Clave: claveAEScifrada, NombreDoctor: nombreDoctor})
 
 	//Certificado
 	client := GetTLSClient()

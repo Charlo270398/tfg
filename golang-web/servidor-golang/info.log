@@ -73,3 +73,94 @@
 2020/04/26 19:15:01 Intentando iniciar sesión...
 2020/04/26 19:24:57 Servicio iniciado
 2020/04/26 19:25:08 Servicio iniciado
+2020/04/26 19:39:59 Servicio iniciado
+2020/04/26 19:44:12 Insertando usuario elgato_27@hotmail.com
+2020/04/26 19:44:36 Insertando especialidad Clinica1
+2020/04/26 19:44:36 Clinica Clinica1 INSERTADA
+2020/04/26 19:44:44 Insertando especialidad Especialidad1
+2020/04/26 19:44:44 Especialidad Especialidad1 INSERTADA
+2020/04/26 19:44:57 Insertando usuario carloszamora270398@gmail.com
+2020/04/26 19:44:57 ERROR: &{%!g(uint16=1364) %!g(string=Field 'nombre' doesn't have a default value)}
+2020/04/26 19:44:57 ERROR: &{%!g(uint16=1136) %!g(string=Column count doesn't match value count at row 1)}
+2020/04/26 19:45:20 Borrando Usuario con ID 2
+2020/04/26 19:45:20 El usuario con ID 2 ha sido borrado correctamente
+2020/04/26 19:46:28 Servicio iniciado
+2020/04/26 19:46:35 Insertando usuario carloszamora270398@gmail.com
+2020/04/26 19:46:35 ERROR: &{%!g(uint16=1364) %!g(string=Field 'nombre' doesn't have a default value)}
+2020/04/26 19:46:35 ERROR: &{%!g(uint16=1452) %!g(string=Cannot add or update a child row: a foreign key constraint fails (`golang`.`medicos_nombres`, CONSTRAINT `medicos_nombres_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE))}
+2020/04/26 19:48:09 Servicio iniciado
+2020/04/26 19:48:15 Borrando Usuario con ID 3
+2020/04/26 19:48:15 El usuario con ID 3 ha sido borrado correctamente
+2020/04/26 19:48:20 Insertando usuario carloszamora270398@gmail.com
+2020/04/26 19:48:20 ERROR: &{%!g(uint16=1364) %!g(string=Field 'nombre' doesn't have a default value)}
+2020/04/26 19:50:01 Servicio iniciado
+2020/04/26 19:50:04 Insertando usuario carloszamora270398@gmail.com
+2020/04/26 19:50:04 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry 'carloszamora270398@gmail.com' for key 'email')}
+2020/04/26 19:50:04 ERROR: &{%!g(uint16=1452) %!g(string=Cannot add or update a child row: a foreign key constraint fails (`golang`.`usuarios_pairkeys`, CONSTRAINT `usuarios_pairkeys_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE))}
+2020/04/26 19:50:04 ERROR: &{%!g(uint16=1452) %!g(string=Cannot add or update a child row: a foreign key constraint fails (`golang`.`usuarios_dnihashes`, CONSTRAINT `usuarios_dnihashes_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE))}
+2020/04/26 19:50:04 ERROR: &{%!g(uint16=1452) %!g(string=Cannot add or update a child row: a foreign key constraint fails (`golang`.`usuarios_roles`, CONSTRAINT `usuarios_roles_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE))}
+2020/04/26 19:50:24 Borrando Usuario con ID 4
+2020/04/26 19:50:24 El usuario con ID 4 ha sido borrado correctamente
+2020/04/26 19:50:31 Insertando usuario carloszamora270398@gmail.com
+2020/04/26 19:50:31 ERROR: &{%!g(uint16=1364) %!g(string=Field 'nombre' doesn't have a default value)}
+2020/04/26 19:50:31 ERROR: &{%!g(uint16=1452) %!g(string=Cannot add or update a child row: a foreign key constraint fails (`golang`.`medicos_nombres`, CONSTRAINT `medicos_nombres_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE))}
+2020/04/26 19:54:28 Borrando Usuario con ID 6
+2020/04/26 19:54:28 El usuario con ID 6 ha sido borrado correctamente
+2020/04/26 19:57:18 Servicio iniciado
+2020/04/26 19:57:27 Insertando usuario carloszamora270398@gmail.com
+2020/04/26 19:57:27 ERROR: &{%!g(uint16=1364) %!g(string=Field 'nombre' doesn't have a default value)}
+2020/04/26 19:57:27 ERROR: &{%!g(uint16=1452) %!g(string=Cannot add or update a child row: a foreign key constraint fails (`golang`.`medicos_nombres`, CONSTRAINT `medicos_nombres_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE))}
+2020/04/26 19:59:11 Servicio iniciado
+2020/04/26 19:59:17 Borrando Usuario con ID 7
+2020/04/26 19:59:17 El usuario con ID 7 ha sido borrado correctamente
+2020/04/26 19:59:19 Insertando usuario carloszamora270398@gmail.com
+2020/04/26 19:59:19 ERROR: &{%!g(uint16=1364) %!g(string=Field 'nombre' doesn't have a default value)}
+2020/04/26 20:00:43 Servicio iniciado
+2020/04/26 20:00:51 Borrando Usuario con ID 8
+2020/04/26 20:00:51 El usuario con ID 8 ha sido borrado correctamente
+2020/04/26 20:00:53 Insertando usuario carloszamora270398@gmail.com
+2020/04/26 20:00:53 ERROR: &{%!g(uint16=1364) %!g(string=Field 'nombre' doesn't have a default value)}
+2020/04/26 20:03:38 Servicio iniciado
+2020/04/26 20:03:46 ERROR: %!g(<nil>)
+2020/04/26 20:04:02 Insertando usuario elgato_27@hotmail.com
+2020/04/26 20:04:39 Insertando especialidad Clinica1
+2020/04/26 20:04:39 Clinica Clinica1 INSERTADA
+2020/04/26 20:04:47 Insertando especialidad Especialidad1
+2020/04/26 20:04:47 Especialidad Especialidad1 INSERTADA
+2020/04/26 20:05:03 Insertando usuario carloszamora270398@gmail.com
+2020/04/26 20:05:03 ERROR: &{%!g(uint16=1364) %!g(string=Field 'apellidos' doesn't have a default value)}
+2020/04/26 20:05:03 ERROR: &{%!g(uint16=1452) %!g(string=Cannot add or update a child row: a foreign key constraint fails (`golang`.`medicos_nombres`, CONSTRAINT `medicos_nombres_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE))}
+2020/04/26 20:05:37 Servicio iniciado
+2020/04/26 20:05:43 Borrando Usuario con ID 2
+2020/04/26 20:05:43 El usuario con ID 2 ha sido borrado correctamente
+2020/04/26 20:05:45 Insertando usuario carloszamora270398@gmail.com
+2020/04/26 20:05:45 ERROR: &{%!g(uint16=1364) %!g(string=Field 'apellidos' doesn't have a default value)}
+2020/04/26 20:06:34 Servicio iniciado
+2020/04/26 20:06:45 Insertando usuario elgato_27@hotmail.com
+2020/04/26 20:06:53 Insertando especialidad Clinica1
+2020/04/26 20:06:53 Clinica Clinica1 INSERTADA
+2020/04/26 20:06:59 Insertando especialidad Especialidad1
+2020/04/26 20:06:59 Especialidad Especialidad1 INSERTADA
+2020/04/26 20:07:12 Insertando usuario carloszamora270398@gmail.com
+2020/04/26 20:10:31 Servicio iniciado
+2020/04/26 20:10:58 Insertando usuario carloszamora270391@gmail.com
+2020/04/26 20:11:05 Intentando iniciar sesión...
+2020/04/26 20:11:58 Insertando usuario elgato_21@hotmail.com
+2020/04/26 20:11:58 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '4' for key 'PRIMARY')}
+2020/04/26 20:18:24 Intentando iniciar sesión...
+2020/04/26 20:18:56 Insertando especialidad Clinica2
+2020/04/26 20:18:56 Clinica Clinica2 INSERTADA
+2020/04/26 20:19:05 Insertando especialidad Especialidad2
+2020/04/26 20:19:05 Especialidad Especialidad2 INSERTADA
+2020/04/26 20:19:27 Insertando usuario aagato_27@hotmail.com
+2020/04/26 20:19:35 Insertando usuario bbgato_27@hotmail.com
+2020/04/26 20:19:42 Insertando usuario ccgato_27@hotmail.com
+2020/04/26 20:28:45 Servicio iniciado
+2020/04/26 20:36:03 Intentando iniciar sesión...
+2020/04/26 20:38:02 Servicio iniciado
+2020/04/26 20:38:16 Servicio iniciado
+2020/04/26 20:42:39 Servicio iniciado
+2020/04/26 20:42:47 ERROR: &{%!g(uint16=1054) %!g(string=Unknown column 'e.nombre' in 'order clause')}
+2020/04/26 20:42:48 ERROR: &{%!g(uint16=1054) %!g(string=Unknown column 'e.nombre' in 'order clause')}
+2020/04/26 20:42:49 ERROR: &{%!g(uint16=1054) %!g(string=Unknown column 'e.nombre' in 'order clause')}
+2020/04/26 20:43:06 Servicio iniciado

@@ -21,6 +21,7 @@ func addUserHandler(w http.ResponseWriter, req *http.Request) {
 		//INSERTAMOS EL USUARIO
 		userId, err := models.InsertUser(user)
 		if err == nil {
+			user.Id = userId
 			//INSERTAMOS CLAVES RSA
 			_, err := models.InsertUserPairKeys(userId, user.PairKeys)
 			if err != nil {
@@ -46,6 +47,8 @@ func addUserHandler(w http.ResponseWriter, req *http.Request) {
 						clinicaId, _ = strconv.Atoi(user.MedicoClinica)
 						if clinicaId != -1 {
 							result, err := models.InsertarUserClinica(clinicaId, userId, models.Rol_medico.Id)
+							//Insertamos nombre medico
+							models.InsertNombresMedico(user)
 							if err != nil || result == false {
 								jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
 							}
