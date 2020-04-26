@@ -41,9 +41,10 @@ func LoadRouter(port string) {
 	http.HandleFunc("/rol/list/user", getRolesByUserHandler)
 
 	//USER(GLOBAL)
+	http.HandleFunc("/user", getUserHandler)
 	http.HandleFunc("/user/menu/edit", menuUserEditHandler)
 	http.HandleFunc("/user/delete", deleteUserHandler)
-	http.HandleFunc("/user", getUserHandler)
+	http.HandleFunc("/user/pairkeys", getUserPairKeysHandler)
 
 	//USER(MEDICO)
 	http.HandleFunc("/user/doctor/historial/solicitar", MedicoSolicitarHistorialHandler)

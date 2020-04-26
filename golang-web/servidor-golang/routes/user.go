@@ -92,3 +92,30 @@ func getUserRolesHandler(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }
+
+//PAIRKEYS
+
+func getUserPairKeysHandler(w http.ResponseWriter, req *http.Request) {
+	userIdURL, ok := req.URL.Query()["userId"]
+	var userReturn util.User_JSON
+	if !ok || len(userIdURL[0]) < 1 {
+		http.Error(w, "No hay parámetros", http.StatusInternalServerError)
+		return
+	} else {
+		pairKeys, err := models.GetUserPairKeys(userIdURL[0])
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		userId, err := strconv.Atoi(userIdURL[0])
+		userReturn.Id = userId
+		userReturn.PairKeys = pairKeys
+	}
+	js, err := json.Marshal(userReturn)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
