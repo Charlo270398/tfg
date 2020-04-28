@@ -180,6 +180,7 @@ type SolicitarHistorial_JSON struct {
 //Citas
 
 type Cita struct {
+	Id           int
 	PacienteId   int
 	MedicoId     int
 	MedicoNombre string
@@ -187,11 +188,13 @@ type Cita struct {
 	Dia          int
 	Mes          int
 	Anyo         int
+	Tipo         string
 	Fecha        time.Time
 	UserToken    UserToken
 }
 
 type CitaJSON struct {
+	Id           int       `json:"id"`
 	PacienteId   string    `json:"pacienteId"`
 	MedicoId     string    `json:"medicoId"`
 	MedicoNombre string    `json:"medicoNombre"`
@@ -199,6 +202,7 @@ type CitaJSON struct {
 	Dia          int       `json:"dia"`
 	Mes          int       `json:"mes"`
 	Anyo         int       `json:"anyo"`
+	Tipo         string    `json:"tipo"`
 	Fecha        time.Time `json:"fecha"`
 	FechaString  string    `json:"fechaString"`
 	UserToken    UserToken `json:"userToken"`

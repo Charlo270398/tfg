@@ -170,13 +170,16 @@ CREATE TABLE IF NOT EXISTS medicos_nombres (
 
 var CITAS_TABLE string = `
 CREATE TABLE IF NOT EXISTS citas (
+	id INT AUTO_INCREMENT,
 	medico_id INT,
 	paciente_id INT,
 	anyo INT,
 	mes INT,
 	dia INT,
 	hora INT,
+	tipo VARCHAR(30) NOT NULL, 
 	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE,
 	FOREIGN KEY(paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-	PRIMARY KEY (medico_id, anyo, mes, dia, hora)
+	UNIQUE (medico_id, anyo, mes, dia, hora),
+	PRIMARY KEY (id)
 );`

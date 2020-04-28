@@ -35,3 +35,24 @@ func PacienteInsertCita(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }
+
+func PacienteGetCitasFuturasList(w http.ResponseWriter, req *http.Request) {
+	var userToken util.UserToken_JSON
+	json.NewDecoder(req.Body).Decode(&userToken)
+
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(userToken.UserId, userToken.Token, models.Rol_paciente.Id)
+	if authorized == true {
+		jsonReturn, _ := models.GetCitasFuturas(userToken.UserId)
+		js, err := json.Marshal(jsonReturn)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}

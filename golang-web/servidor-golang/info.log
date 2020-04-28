@@ -4,3 +4,18 @@
 2020/04/28 18:23:29 Servicio iniciado
 2020/04/28 18:24:04 Servicio iniciado
 2020/04/28 18:25:04 Servicio iniciado
+2020/04/28 18:35:37 Servicio iniciado
+2020/04/28 18:36:14 Servicio iniciado
+2020/04/28 18:36:25 ERROR: &{%!g(uint16=1136) %!g(string=Column count doesn't match value count at row 1)}
+2020/04/28 18:36:45 Servicio iniciado
+2020/04/28 19:03:04 Servicio iniciado
+2020/04/28 19:03:04 ERROR: &{%!g(uint16=1075) %!g(string=Incorrect table definition; there can be only one auto column and it must be defined as a key)}
+2020/04/28 19:03:41 Servicio iniciado
+2020/04/28 19:03:41 ERROR: &{%!g(uint16=1075) %!g(string=Incorrect table definition; there can be only one auto column and it must be defined as a key)}
+2020/04/28 19:04:09 Servicio iniciado
+2020/04/28 19:04:09 ERROR: &{%!g(uint16=1075) %!g(string=Incorrect table definition; there can be only one auto column and it must be defined as a key)}
+2020/04/28 19:04:58 Servicio iniciado
+2020/04/28 19:09:10 Servicio iniciado
+2020/04/28 19:13:33 Servicio iniciado
+2020/04/28 19:13:39 Intentando iniciar sesión...
+2020/04/28 19:29:31 Servicio iniciado

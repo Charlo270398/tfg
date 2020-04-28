@@ -248,6 +248,29 @@ function registrarCita(fecha, facultativoId){
             if(!r.Error){
                 console.log("CITA AÑADIDA CORRECTAMENTE");
                 document.querySelector("#submit").classList.add("invisible");
+                //Recargar las clinica
+                document.querySelector("#clinicaSelector").value = "-1";
+
+                //Recargar las especialidades
+                document.querySelector("#especialidadGroup").classList.add("invisible");
+                document.querySelector("#especialidadSelector").value = "-1";
+                limpiarSelect(document.querySelector("#especialidadSelector"));
+
+                //Recargar los facultativos
+                document.querySelector("#facultativoGroup").classList.add("invisible");
+                document.querySelector("#facultativoSelector").value = "-1";
+                limpiarSelect(document.querySelector("#facultativoSelector"));
+
+                //Recargar los dias
+                document.querySelector("#diaGroup").classList.add("invisible");
+                document.querySelector("#diaSelector").value = "-1";
+                limpiarSelect(document.querySelector("#diaSelector"));
+
+                //Recargar las horas
+                document.querySelector("#horaGroup").classList.add("invisible");
+                document.querySelector("#horaSelector").value = "-1";
+                limpiarSelect(document.querySelector("#horaSelector"));
+                
                 document.querySelector("#alert").classList.replace("alert-danger", "alert-success");
                 document.querySelector("#alert").textContent = "Cita reservada correctamente";
                 document.querySelector("#alert").classList.remove('invisible');

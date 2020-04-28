@@ -14,8 +14,8 @@ func InsertCita(cita util.CitaJSON) (result bool, err error) {
 		return false, nil
 	} else {
 		//INSERT
-		_, err = db.Exec(`INSERT INTO citas (medico_id, paciente_id, anyo, mes, dia, hora) VALUES (?, ?, ?, ?, ?, ?)`, cita.MedicoId,
-			cita.UserToken.UserId, fechaCita.Year(), int(fechaCita.Month()), fechaCita.Day(), fechaCita.Hour())
+		_, err = db.Exec(`INSERT INTO citas (medico_id, paciente_id, anyo, mes, dia, hora, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)`, cita.MedicoId,
+			cita.UserToken.UserId, fechaCita.Year(), int(fechaCita.Month()), fechaCita.Day(), fechaCita.Hour(), "Consulta")
 		if err == nil {
 			return true, nil
 		} else {

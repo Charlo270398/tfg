@@ -85,15 +85,37 @@ func patientCitaListHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
 	}
+
 	// Check user Token
 	if !proveToken(req) {
 		http.Error(w, "Forbidden", http.StatusForbidden)
 		return
 	}
+
+	locJson, err := json.Marshal(prepareUserToken(req))
+
+	//Certificado
+	client := GetTLSClient()
+	var citasList []util.CitaJSON
+
+	//Request al servidor para obtener citas futuras
+	response, err := client.Post(SERVER_URL+"/user/patient/citas/list", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&citasList)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	var tmp = template.Must(
 		template.New("").ParseFiles("public/templates/user/paciente/citas/list.html", "public/templates/layouts/menuPaciente.html", "public/templates/layouts/base.html"),
 	)
-	if err := tmp.ExecuteTemplate(w, "base", &Page{Title: "Citas pendientes", Body: "body"}); err != nil {
+	if err := tmp.ExecuteTemplate(w, "base", &util.CitaListPage{Title: "Citas pendientes", Body: "body", Citas: citasList}); err != nil {
 		log.Printf("Error executing template: %v", err)
 		util.PrintErrorLog(err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
