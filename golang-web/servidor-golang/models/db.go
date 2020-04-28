@@ -51,6 +51,7 @@ func CreateDB() {
 	query(USERS_PAIRKEYS_TABLE)
 	query(USERS_DNIHASHES_TABLE)
 	query(MEDICOS_NOMBRES_TABLE)
+	query(CITAS_TABLE)
 
 	//SEEDERS
 	//Roles
@@ -165,4 +166,17 @@ CREATE TABLE IF NOT EXISTS medicos_nombres (
 	nombreDoctor VARCHAR(150) NOT NULL,
 	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
 	PRIMARY KEY (usuario_id)
+);`
+
+var CITAS_TABLE string = `
+CREATE TABLE IF NOT EXISTS citas (
+	medico_id INT,
+	paciente_id INT,
+	anyo INT,
+	mes INT,
+	dia INT,
+	hora INT,
+	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+	FOREIGN KEY(paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+	PRIMARY KEY (medico_id, anyo, mes, dia, hora)
 );`

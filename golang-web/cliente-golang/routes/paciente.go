@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"bytes"
 	"encoding/json"
 	"html/template"
 	"log"
@@ -134,5 +135,55 @@ func addPatientCitaFormHandler(w http.ResponseWriter, req *http.Request) {
 		log.Printf("Error executing template: %v", err)
 		util.PrintErrorLog(err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	}
+}
+
+//POST
+
+//reservar cita
+func addCitaPacienteHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+	var cita util.CitaJSON
+	// Get the JSON body and decode into credentials
+	err := json.NewDecoder(req.Body).Decode(&cita)
+	if err != nil {
+		util.PrintErrorLog(err)
+		// If the structure of the body is wrong, return an HTTP error
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	locJson, err := json.Marshal(util.CitaJSON{FechaString: cita.FechaString, MedicoId: cita.MedicoId, UserToken: prepareUserToken(req)})
+
+	//Certificado
+	client := GetTLSClient()
+
+	//Request al servidor para registrar cita
+	response, err := client.Post(SERVER_URL+"/user/patient/citas/add", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		var responseJSON JSON_Return
+		err := json.NewDecoder(response.Body).Decode(&responseJSON)
+		js, err := json.Marshal(responseJSON)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
 	}
 }

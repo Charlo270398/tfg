@@ -139,6 +139,7 @@ func LoadRouter() {
 	router.HandleFunc("/user/patient/historial", historialPatientHandler).Methods("GET")
 	router.HandleFunc("/user/patient/citas", patientCitaListHandler).Methods("GET")
 	router.HandleFunc("/user/patient/citas/add", addPatientCitaFormHandler).Methods("GET")
+	router.HandleFunc("/user/patient/citas/add", addCitaPacienteHandler).Methods("POST")
 
 	//USER(ENFERMERO)
 	router.HandleFunc("/user/nurse", menuEnfermeroHandler).Methods("GET")
@@ -148,6 +149,8 @@ func LoadRouter() {
 	router.HandleFunc("/user/doctor", menuMedicoHandler).Methods("GET")
 	router.HandleFunc("/user/doctor/historial/solicitar", solicitarHistorialMedicoFormHandler).Methods("GET")
 	router.HandleFunc("/user/doctor/historial/solicitar", solicitarHistorialMedicoHandler).Methods("POST")
+	router.HandleFunc("/user/doctor/disponible/dia", getMedicoDiasDisponiblesHandler).Methods("GET")
+	router.HandleFunc("/user/doctor/disponible/hora", getMedicoHorasDiaDisponiblesHandler).Methods("GET")
 
 	//USER(ADMIN-CLINICA)
 	router.HandleFunc("/user/admin", menuAdminHandler).Methods("GET")

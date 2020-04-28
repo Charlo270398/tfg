@@ -33,3 +33,45 @@ func MedicoSolicitarHistorialHandler(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }
+
+func MedicoDiasDisponiblesHandler(w http.ResponseWriter, req *http.Request) {
+	urlParam, ok := req.URL.Query()["doctorId"]
+	if !ok || len(urlParam[0]) < 1 {
+		http.Error(w, "¡No hay parametro doctorId!", http.StatusInternalServerError)
+		return
+	}
+	doctorId := urlParam[0]
+
+	diasDisponibles, err := models.GetDiasDisponiblesMedico(doctorId)
+	js, err := json.Marshal(diasDisponibles)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
+
+func MedicoHorasDiaDisponiblesHandler(w http.ResponseWriter, req *http.Request) {
+	urlParam, ok := req.URL.Query()["doctorId"]
+	if !ok || len(urlParam[0]) < 1 {
+		http.Error(w, "¡No hay parametro doctorId!", http.StatusInternalServerError)
+		return
+	}
+	doctorId := urlParam[0]
+
+	urlParam, ok = req.URL.Query()["dia"]
+	if !ok || len(urlParam[0]) < 1 {
+		http.Error(w, "¡No hay parametro doctorId!", http.StatusInternalServerError)
+		return
+	}
+	dia := urlParam[0]
+	horasDisponibles, err := models.GetHorasDiaDisponiblesMedico(doctorId, dia)
+	js, err := json.Marshal(horasDisponibles)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}

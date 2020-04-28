@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
 
 	util "../utils"
 )
@@ -93,5 +94,78 @@ func solicitarHistorialMedicoHandler(w http.ResponseWriter, req *http.Request) {
 		util.PrintErrorLog(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
+	}
+}
+
+//Listar medicos dada una especialidad de la clinica
+func getMedicoDiasDisponiblesHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+	medicoId, _ := req.URL.Query()["doctorId"]
+	//Certificado
+	client := GetTLSClient()
+
+	response, err := client.Get(SERVER_URL + "/user/doctor/disponible/dia?doctorId=" + medicoId[0])
+	if err != nil {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	} else {
+		var citasListJSON []util.Cita
+		err := json.NewDecoder(response.Body).Decode(&citasListJSON)
+		js, err := json.Marshal(citasListJSON)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+	}
+}
+
+//Listar medicos dada una especialidad de la clinica
+func getMedicoHorasDiaDisponiblesHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+	medicoId, _ := req.URL.Query()["doctorId"]
+	dia, _ := req.URL.Query()["dia"]
+	//Certificado
+	client := GetTLSClient()
+	diaTratado := strings.Replace(dia[0], " ", "", -1)
+	response, err := client.Get(SERVER_URL + "/user/doctor/disponible/hora?doctorId=" + medicoId[0] + "&dia=" + diaTratado)
+	if err != nil {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	} else {
+		var citasListJSON []util.Cita
+		err := json.NewDecoder(response.Body).Decode(&citasListJSON)
+		js, err := json.Marshal(citasListJSON)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
 	}
 }

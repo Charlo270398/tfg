@@ -177,6 +177,33 @@ type SolicitarHistorial_JSON struct {
 	UserToken UserToken `json:"userToken"`
 }
 
+//Citas
+
+type Cita struct {
+	PacienteId   int
+	MedicoId     int
+	MedicoNombre string
+	Hora         int
+	Dia          int
+	Mes          int
+	Anyo         int
+	Fecha        time.Time
+	UserToken    UserToken
+}
+
+type CitaJSON struct {
+	PacienteId   string    `json:"pacienteId"`
+	MedicoId     string    `json:"medicoId"`
+	MedicoNombre string    `json:"medicoNombre"`
+	Hora         int       `json:"hora"`
+	Dia          int       `json:"dia"`
+	Mes          int       `json:"mes"`
+	Anyo         int       `json:"anyo"`
+	Fecha        time.Time `json:"fecha"`
+	FechaString  string    `json:"fechaString"`
+	UserToken    UserToken `json:"userToken"`
+}
+
 //SEGURIDAD
 //Token
 

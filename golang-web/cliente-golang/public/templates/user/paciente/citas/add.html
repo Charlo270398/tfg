@@ -7,6 +7,9 @@
 {{define "body"}}
 <main>
   <div>
+    <div id="alert" class="alert alert-success invisible" role="alert">
+      This is a success alert—check it out!
+    </div>
     <!--Clinica-->
     <div class="form-group">
       <label for="clinica">Clínica</label>
@@ -23,7 +26,7 @@
     </div>
     <!--Facultativo-->
     <div id="facultativoGroup" class="form-group invisible">
-      <label for="facultativo">Facultativo</label>
+      <label for="facultativoSelector">Facultativo</label>
       <select class="browser-default custom-select" id="facultativoSelector" searchable="">
         <option value="-1" disabled selected>Selecciona un facultativo</option>
       </select>
@@ -42,6 +45,7 @@
         <option value="-1" disabled selected>Selecciona una hora</option>
       </select>
     </div>
+    <button id="submit" type="submit" class="btn btn-primary invisible">Reservar cita</button>
   </div>
 </main>
 <script>

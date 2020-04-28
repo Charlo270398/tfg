@@ -61,3 +61,37 @@
 2020/04/26 20:10:35 Servicio iniciado
 2020/04/26 20:35:50 Servicio iniciado
 2020/04/26 20:40:07 Servicio iniciado
+2020/04/28 12:41:10 Servicio iniciado
+2020/04/28 14:45:54 Servicio iniciado
+2020/04/28 14:49:17 Servicio iniciado
+2020/04/28 14:51:24 Servicio iniciado
+2020/04/28 14:54:07 Servicio iniciado
+2020/04/28 14:55:05 Servicio iniciado
+2020/04/28 14:55:54 Servicio iniciado
+2020/04/28 15:06:18 Servicio iniciado
+2020/04/28 15:11:10 Servicio iniciado
+2020/04/28 15:12:46 Servicio iniciado
+2020/04/28 15:13:20 Servicio iniciado
+2020/04/28 15:14:27 Servicio iniciado
+2020/04/28 15:17:42 Servicio iniciado
+2020/04/28 15:20:08 Servicio iniciado
+2020/04/28 15:21:01 Servicio iniciado
+2020/04/28 15:22:00 Servicio iniciado
+2020/04/28 15:22:07 Servicio iniciado
+2020/04/28 17:48:17 Servicio iniciado
+2020/04/28 17:48:38 Servicio iniciado
+2020/04/28 17:49:41 Servicio iniciado
+2020/04/28 17:50:44 Servicio iniciado
+2020/04/28 17:57:28 Servicio iniciado
+2020/04/28 17:57:40 ERROR: &{%!g(string=string) %!g(*reflect.rtype=&{8 0 4149441018 15 8 8 2 0x404220 0x9123c4 2803 165888}) %!g(int64=15) %!g(string=CitaJSON) %!g(string=medicoId)}
+2020/04/28 17:58:45 Servicio iniciado
+2020/04/28 17:58:54 ERROR: &{%!g(string=string) %!g(*reflect.rtype=&{8 0 4149441018 15 8 8 2 0x404220 0x9123e4 2803 165888}) %!g(int64=15) %!g(string=CitaJSON) %!g(string=medicoId)}
+2020/04/28 17:59:47 Servicio iniciado
+2020/04/28 17:59:53 ERROR: &{%!g(string=string) %!g(*reflect.rtype=&{8 0 4149441018 15 8 8 2 0x404220 0x912420 2803 165888}) %!g(int64=15) %!g(string=CitaJSON) %!g(string=medicoId)}
+2020/04/28 18:00:14 Servicio iniciado
+2020/04/28 18:00:36 Servicio iniciado
+2020/04/28 18:01:07 Servicio iniciado
+2020/04/28 18:01:14 ERROR: &{%!g(string=string) %!g(*reflect.rtype=&{8 0 4149441018 15 8 8 2 0x404220 0x912420 2803 165888}) %!g(int64=15) %!g(string=CitaJSON) %!g(string=medicoId)}
+2020/04/28 18:01:51 Servicio iniciado
+2020/04/28 18:12:59 Servicio iniciado
+2020/04/28 18:15:22 Servicio iniciado
