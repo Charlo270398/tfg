@@ -40,7 +40,10 @@ func ComprobarHoraDisponible(doctor_id string, anyo int, mes int, dia int, hora 
 		defer rows.Close()
 		rows.Next()
 		rows.Scan(&horasNumber)
-		if horasNumber >= 1 || time.Now().Hour() > hora-1 {
+		if horasNumber >= 1 {
+			return false
+		}
+		if time.Now().Hour() > hora-1 && time.Now().Day() == dia {
 			return false
 		}
 	} else {

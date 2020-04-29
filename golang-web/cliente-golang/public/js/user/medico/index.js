@@ -4,6 +4,7 @@ function init () {
     addLinkBreadcrumb('Medico', '/user/doctor');
     if(citaActualId != -1){
         document.querySelector("#alert").classList.remove('invisible');
+        document.querySelector("#referenciaCita").setAttribute("href", "/user/doctor/citas?citaId=" + citaActualId);
     }
 }
 

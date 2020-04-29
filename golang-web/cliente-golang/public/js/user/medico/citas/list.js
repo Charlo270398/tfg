@@ -60,7 +60,7 @@ function selectDeleteCita(event){
 }
 
 function pasarConsulta(event){
-    SELECTED_CITA_ID = event.target.closest("tr").getAttribute("id");
+    window.location.href = "/user/doctor/citas?citaId=" + event.target.closest("tr").getAttribute("id");
 }
 
 function deleteCita(event){

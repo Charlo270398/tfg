@@ -263,6 +263,12 @@ type PageMenuAdmin struct {
 	Clinica Clinica
 }
 
+type PageMenuMedico struct {
+	Title      string
+	Body       string
+	CitaActual int
+}
+
 type PageAdminAddMedico struct {
 	Title          string
 	Body           string
@@ -275,6 +281,13 @@ type CitaPage struct {
 	Body           string
 	Clinicas       []Clinica_JSON
 	Especialidades []Especialidad_JSON
+}
+
+type ConsultaPage struct {
+	Title          string
+	Body           string
+	CitaId         string
+	NombrePaciente string
 }
 
 type CitaListPage struct {

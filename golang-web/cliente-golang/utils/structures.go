@@ -283,6 +283,13 @@ type CitaPage struct {
 	Especialidades []Especialidad_JSON
 }
 
+type ConsultaPage struct {
+	Title          string
+	Body           string
+	CitaId         string
+	NombrePaciente string
+}
+
 type CitaListPage struct {
 	Title string
 	Body  string

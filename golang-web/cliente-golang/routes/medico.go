@@ -252,10 +252,12 @@ func getCitaFormMedicoHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	citaId, _ := req.URL.Query()["citaId"]
+
 	var tmp = template.Must(
 		template.New("").ParseFiles("public/templates/user/medico/citas/index.html", "public/templates/layouts/base.html"),
 	)
-	if err := tmp.ExecuteTemplate(w, "base", Page{Title: "Cita", Body: "body"}); err != nil {
+	if err := tmp.ExecuteTemplate(w, "base", util.ConsultaPage{Title: "Pasar consulta", Body: "body", CitaId: citaId[0]}); err != nil {
 		log.Printf("Error executing template: %v", err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 	}
