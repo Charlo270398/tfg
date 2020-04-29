@@ -6,7 +6,7 @@
 {{end}}
 {{define "body"}}
 <main>
-  <div id="alert" class="alert alert-primary" role="alert">
+  <div id="alert" class="alert alert-primary invisible" role="alert">
     Tienes citas pendientes. <a href="/user/doctor/cita/actual"> Pincha aquí </a> para pasar cita. 
   </div>
   <!-- Citas -->
@@ -18,7 +18,7 @@
           <div class="card-body">
             <h5 class="card-title">Consultar citas pendientes</h5>
             <p class="card-text">Consulta o cancela las citas que tienes pendientes.</p>
-            <a href="/user/doctor/citas" class="btn btn-primary">Acceder</a>
+            <a href="/user/doctor/citas/list" class="btn btn-primary">Acceder</a>
           </div>
         </div>
       </div>
@@ -47,4 +47,7 @@
       </div>
   </div>
 </main>
+<script>
+  var citaActualId = {{.CitaActual}};
+</script>
 {{end}} 

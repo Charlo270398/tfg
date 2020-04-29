@@ -19,15 +19,37 @@ func menuMedicoHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
 	}
+
 	// Check user Token
 	if !proveToken(req) {
 		http.Error(w, "Forbidden", http.StatusForbidden)
 		return
 	}
+
+	locJson, err := json.Marshal(prepareUserToken(req))
+
+	//Certificado
+	client := GetTLSClient()
+	var cita util.CitaJSON
+
+	//Request al servidor para obtener citas futuras
+	response, err := client.Post(SERVER_URL+"/user/doctor/citas/actual", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&cita)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 	var tmp = template.Must(
 		template.New("").ParseFiles("public/templates/user/medico/index.html", "public/templates/layouts/base.html"),
 	)
-	if err := tmp.ExecuteTemplate(w, "base", &Page{Title: "Menú médico", Body: "body"}); err != nil {
+	if err := tmp.ExecuteTemplate(w, "base", &util.PageMenuMedico{Title: "Menú médico", Body: "body", CitaActual: cita.Id}); err != nil {
 		log.Printf("Error executing template: %v", err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 	}
@@ -167,5 +189,74 @@ func getMedicoHorasDiaDisponiblesHandler(w http.ResponseWriter, req *http.Reques
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
+	}
+}
+
+func medicoCitaListHandler(w http.ResponseWriter, req *http.Request) {
+
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+
+	// Check user Token
+	if !proveToken(req) {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+
+	locJson, err := json.Marshal(prepareUserToken(req))
+
+	//Certificado
+	client := GetTLSClient()
+	var citasList []util.CitaJSON
+
+	//Request al servidor para obtener citas futuras
+	response, err := client.Post(SERVER_URL+"/user/doctor/citas/list", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&citasList)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var tmp = template.Must(
+		template.New("").ParseFiles("public/templates/user/medico/citas/list.html", "public/templates/layouts/base.html"),
+	)
+	if err := tmp.ExecuteTemplate(w, "base", &util.CitaListPage{Title: "Citas pendientes", Body: "body", Citas: citasList}); err != nil {
+		log.Printf("Error executing template: %v", err)
+		util.PrintErrorLog(err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	}
+}
+
+//GET
+func getCitaFormMedicoHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+
+	// Check user Token
+	if !proveToken(req) {
+		http.Error(w, "Forbidden", http.StatusForbidden)
+		return
+	}
+
+	var tmp = template.Must(
+		template.New("").ParseFiles("public/templates/user/medico/citas/index.html", "public/templates/layouts/base.html"),
+	)
+	if err := tmp.ExecuteTemplate(w, "base", Page{Title: "Cita", Body: "body"}); err != nil {
+		log.Printf("Error executing template: %v", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
 	}
 }

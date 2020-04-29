@@ -1,21 +1,70 @@
-2020/04/28 18:18:01 Servicio iniciado
-2020/04/28 18:18:46 Servicio iniciado
-2020/04/28 18:22:29 ERROR: &{%!g(uint16=1366) %!g(string=Incorrect integer value: '' for column 'paciente_id' at row 1)}
-2020/04/28 18:23:29 Servicio iniciado
-2020/04/28 18:24:04 Servicio iniciado
-2020/04/28 18:25:04 Servicio iniciado
-2020/04/28 18:35:37 Servicio iniciado
-2020/04/28 18:36:14 Servicio iniciado
-2020/04/28 18:36:25 ERROR: &{%!g(uint16=1136) %!g(string=Column count doesn't match value count at row 1)}
-2020/04/28 18:36:45 Servicio iniciado
-2020/04/28 19:03:04 Servicio iniciado
-2020/04/28 19:03:04 ERROR: &{%!g(uint16=1075) %!g(string=Incorrect table definition; there can be only one auto column and it must be defined as a key)}
-2020/04/28 19:03:41 Servicio iniciado
-2020/04/28 19:03:41 ERROR: &{%!g(uint16=1075) %!g(string=Incorrect table definition; there can be only one auto column and it must be defined as a key)}
-2020/04/28 19:04:09 Servicio iniciado
-2020/04/28 19:04:09 ERROR: &{%!g(uint16=1075) %!g(string=Incorrect table definition; there can be only one auto column and it must be defined as a key)}
-2020/04/28 19:04:58 Servicio iniciado
-2020/04/28 19:09:10 Servicio iniciado
-2020/04/28 19:13:33 Servicio iniciado
-2020/04/28 19:13:39 Intentando iniciar sesión...
-2020/04/28 19:29:31 Servicio iniciado
+
+2020/04/29 02:09:28 Servicio iniciado
+2020/04/29 02:12:45 Intentando iniciar sesión...
+2020/04/29 11:28:12 Servicio iniciado
+2020/04/29 11:28:39 Intentando iniciar sesión...
+2020/04/29 11:35:58 Servicio iniciado
+2020/04/29 11:35:58 ERROR: &{%!g(uint16=1072) %!g(string=Key column 'paciente_id' doesn't exist in table)}
+2020/04/29 11:37:02 Servicio iniciado
+2020/04/29 11:41:07 Servicio iniciado
+2020/04/29 11:41:26 Servicio iniciado
+2020/04/29 11:41:45 Servicio iniciado
+2020/04/29 11:42:28 Servicio iniciado
+2020/04/29 11:43:24 Servicio iniciado
+2020/04/29 11:44:09 Insertando usuario admin@gmail.com
+2020/04/29 11:44:58 Insertando especialidad Clínica Alicante
+2020/04/29 11:44:58 Clinica Clínica Alicante INSERTADA
+2020/04/29 11:45:26 Insertando especialidad Clínica Elche
+2020/04/29 11:45:26 Clinica Clínica Elche INSERTADA
+2020/04/29 11:46:10 Insertando especialidad Clínica Benidorm
+2020/04/29 11:46:10 Clinica Clínica Benidorm INSERTADA
+2020/04/29 11:46:33 Insertando especialidad Ginecología
+2020/04/29 11:46:33 Especialidad Ginecología INSERTADA
+2020/04/29 11:46:40 Insertando especialidad Cardiología
+2020/04/29 11:46:40 Especialidad Cardiología INSERTADA
+2020/04/29 11:46:49 Insertando especialidad Dermatología
+2020/04/29 11:46:49 Especialidad Dermatología INSERTADA
+2020/04/29 11:46:59 Insertando especialidad Neurología
+2020/04/29 11:46:59 Especialidad Neurología INSERTADA
+2020/04/29 11:47:06 Insertando especialidad Pediatría
+2020/04/29 11:47:06 Especialidad Pediatría INSERTADA
+2020/04/29 11:50:45 Insertando usuario adminalicante@gmail.com
+2020/04/29 11:51:05 Insertando usuario adminelche@gmail.com
+2020/04/29 11:51:21 Insertando usuario adminbenidorm@gmail.com
+2020/04/29 11:51:32 Intentando iniciar sesión...
+2020/04/29 11:53:04 Insertando usuario davidmartinez@gmail.com
+2020/04/29 11:53:04 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '5' for key 'PRIMARY')}
+2020/04/29 11:53:18 Insertando usuario jorgemartinez@gmail.com
+2020/04/29 11:53:18 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '6' for key 'PRIMARY')}
+2020/04/29 11:53:37 Insertando usuario fernandorodriguez@gmail.com
+2020/04/29 11:53:37 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '7' for key 'PRIMARY')}
+2020/04/29 11:54:12 Insertando usuario carloszamora@gmail.com
+2020/04/29 11:54:42 Intentando iniciar sesión...
+2020/04/29 11:55:15 Insertando usuario davidbenitez@gmail.com
+2020/04/29 11:55:15 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '9' for key 'PRIMARY')}
+2020/04/29 11:55:35 Insertando usuario nicolassalgado@gmail.com
+2020/04/29 11:55:35 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '10' for key 'PRIMARY')}
+2020/04/29 11:58:28 Insertando usuario nicolassalgado@gmail.com
+2020/04/29 11:58:28 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '11' for key 'PRIMARY')}
+2020/04/29 11:58:47 Intentando iniciar sesión...
+2020/04/29 11:59:29 Insertando usuario ismaelzamora@gmail.com
+2020/04/29 11:59:29 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '12' for key 'PRIMARY')}
+2020/04/29 11:59:41 Intentando iniciar sesión...
+2020/04/29 12:02:35 Intentando iniciar sesión...
+2020/04/29 12:22:14 Servicio iniciado
+2020/04/29 12:22:14 ERROR: &{%!g(uint16=1215) %!g(string=Cannot add foreign key constraint)}
+2020/04/29 12:22:28 Servicio iniciado
+2020/04/29 12:22:28 ERROR: &{%!g(uint16=1215) %!g(string=Cannot add foreign key constraint)}
+2020/04/29 12:26:46 Servicio iniciado
+2020/04/29 12:28:58 Intentando iniciar sesión...
+2020/04/29 12:28:58 El usuario no existe
+2020/04/29 12:29:12 Intentando iniciar sesión...
+2020/04/29 12:30:23 Servicio iniciado
+2020/04/29 12:31:49 Servicio iniciado
+2020/04/29 12:32:07 Intentando iniciar sesión...
+2020/04/29 12:33:51 Servicio iniciado
+2020/04/29 12:34:20 Servicio iniciado
+2020/04/29 12:34:40 Servicio iniciado
+2020/04/29 12:35:08 Intentando iniciar sesión...
+2020/04/29 12:44:19 Intentando iniciar sesión...
+2020/04/29 12:45:34 Intentando iniciar sesión...

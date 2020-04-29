@@ -1,0 +1,26 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/medico/historial/addEntrada.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/medico/historial/addEntrada.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div>
+      <div id="alert" class="alert alert-success invisible" role="alert">
+        This is a success alert—check it out!
+      </div>
+      <div class="form-group">
+        <label for="motivoConsulta">Motivo de la consulta</label>
+        <textarea class="form-control" id="motivoConsulta" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="juicioDiagnostico">Juicio diagnostico</label>
+        <textarea class="form-control" id="juicioDiagnostico" rows="3"></textarea>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" id="searchButton">Añadir entrada al historial</button>
+      </div>
+  </div>
+</main>
+{{end}} 

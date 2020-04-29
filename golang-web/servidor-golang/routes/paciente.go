@@ -43,7 +43,7 @@ func PacienteGetCitasFuturasList(w http.ResponseWriter, req *http.Request) {
 	//Comprobamos que el usuario esta autorizado y el token es correcto
 	authorized, _ := models.GetAuthorizationbyUserId(userToken.UserId, userToken.Token, models.Rol_paciente.Id)
 	if authorized == true {
-		jsonReturn, _ := models.GetCitasFuturas(userToken.UserId)
+		jsonReturn, _ := models.GetCitasFuturasPaciente(userToken.UserId)
 		js, err := json.Marshal(jsonReturn)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

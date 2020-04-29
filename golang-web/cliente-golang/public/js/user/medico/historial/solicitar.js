@@ -5,6 +5,8 @@ function busquedaDNI(event){
         document.querySelector("#alert").classList.replace("alert-success", "alert-danger");
         document.querySelector("#alert").classList.remove('invisible');
         document.querySelector("#historialTabla").classList.add('invisible');
+        document.querySelector("#historialTabla").classList.add('invisible');
+        document.querySelector("#historialTabla").classList.add('buttonsForm');
         return;
     }else{
         restBuscarDNI(document.querySelector("#inputDNI").value);
@@ -29,17 +31,32 @@ function restBuscarDNI(DNI){
         .then( r => {
             if(!r.Error){
                 //PROCESAR HISTORIAL
-                console.log(r);
                 cargarTablaHistorial(r);
+                document.querySelector("#buttonsForm").classList.remove('invisible');
             }
             else{
                 document.querySelector("#alert").textContent = r.Error;
                 document.querySelector("#alert").classList.replace("alert-success", "alert-danger");
                 document.querySelector("#alert").classList.remove('invisible');
-                document.querySelector("#historialTabla").classList.add('invisible');
             }
         })
         .catch(err => alert(err));
+}
+
+function addEntrada(){
+    window.location.href = "/user/doctor/historial/addEntrada";
+}
+
+function addAnalitica(){
+    window.location.href = "/user/doctor/historial/addAnalitica";
+}
+
+function solicitarAccesoTotal(){
+
+}
+
+function solicitarAccesoEntrada(){
+
 }
 
 function init () {
@@ -48,6 +65,9 @@ function init () {
     addLinkBreadcrumb('Medico', '/user/doctor');
     addLinkBreadcrumb('Solicitar historial', '/user/historial/solicitar');
     document.querySelector("#searchButton").addEventListener('click',busquedaDNI,false);
+    document.querySelector("#accesoTotalButton").addEventListener('click',solicitarAccesoTotal,false);
+    document.querySelector("#addEntradaButton").addEventListener('click',addEntrada,false);
+    document.querySelector("#addAnaliticaButton").addEventListener('click',addAnalitica,false);
 }
 
 document.addEventListener('DOMContentLoaded',init,false);

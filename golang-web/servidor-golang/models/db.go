@@ -52,6 +52,15 @@ func CreateDB() {
 	query(USERS_DNIHASHES_TABLE)
 	query(MEDICOS_NOMBRES_TABLE)
 	query(CITAS_TABLE)
+	query(USERS_HISTORIAL_TABLE)
+	query(USERS_PERMISOS_HISTORIAL_TABLE)
+	query(USERS_ENTRADAS_HISTORIAL_TABLE)
+	query(USERS_PERMISOS_ENTRADAS_HISTORIAL_TABLE)
+	query(USERS_ANALITICAS_TABLE)
+	query(USERS_PERMISOS_ANALITICAS_TABLE)
+	query(TAGS_TABLE)
+	query(ANALITICAS_TAGS_TABLE)
+	query(ESTADISTICAS_ANALITICAS_TABLE)
 
 	//SEEDERS
 	//Roles
@@ -60,6 +69,8 @@ func CreateDB() {
 	query("INSERT IGNORE INTO roles (id,nombre,descripcion) VALUES (" + strconv.Itoa(Rol_medico.Id) + ",'" + Rol_medico.Nombre + "', '" + Rol_medico.Descripcion + "');")
 	query("INSERT IGNORE INTO roles (id,nombre,descripcion) VALUES (" + strconv.Itoa(Rol_administradorC.Id) + ",'" + Rol_administradorC.Nombre + "', '" + Rol_administradorC.Descripcion + "');")
 	query("INSERT IGNORE INTO roles (id,nombre,descripcion) VALUES (" + strconv.Itoa(Rol_administradorG.Id) + ",'" + Rol_administradorG.Nombre + "', '" + Rol_administradorG.Descripcion + "');")
+
+	//Tags
 
 	fmt.Println("Database OK")
 }
@@ -98,6 +109,13 @@ CREATE TABLE IF NOT EXISTS roles (
 	id INT AUTO_INCREMENT,
 	nombre VARCHAR(20) UNIQUE,
 	descripcion VARCHAR(50),
+	PRIMARY KEY (id)
+);`
+
+var TAGS_TABLE string = `
+CREATE TABLE IF NOT EXISTS tags (
+	id INT AUTO_INCREMENT,
+	nombre VARCHAR(30) UNIQUE,
 	PRIMARY KEY (id)
 );`
 
@@ -182,4 +200,87 @@ CREATE TABLE IF NOT EXISTS citas (
 	FOREIGN KEY(paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
 	UNIQUE (medico_id, anyo, mes, dia, hora),
 	PRIMARY KEY (id)
+);`
+
+var USERS_HISTORIAL_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_historial (
+	id INT AUTO_INCREMENT,
+	usuarios_id INT,
+	PRIMARY KEY (id),
+	FOREIGN KEY(usuarios_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+var USERS_ENTRADAS_HISTORIAL_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_entradas_historial (
+	id INT AUTO_INCREMENT,
+	historial_id INT,
+	motivo_consulta varchar(500), 
+	juicio_diagnostico varchar(500),
+	clave VARCHAR(344) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE
+);`
+
+var USERS_PERMISOS_HISTORIAL_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_permisos_historial (
+	historial_id INT,
+	medico_id INT,
+	fecha_expiracion DATETIME,
+	PRIMARY KEY (historial_id, medico_id),
+	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE,
+	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+var USERS_PERMISOS_ENTRADAS_HISTORIAL_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_permisos_entradas_historial (
+	entrada_id INT,
+	medico_id INT,
+	clave VARCHAR(344) NOT NULL,
+	fecha_expiracion DATETIME,
+	PRIMARY KEY (entrada_id, medico_id),
+	FOREIGN KEY(entrada_id) REFERENCES usuarios_entradas_historial(id) ON DELETE CASCADE,
+	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+var USERS_ANALITICAS_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_analiticas (
+	id INT AUTO_INCREMENT,
+	usuario_id INT,
+	leucocitos VARCHAR(100),
+	hematies VARCHAR(100),
+	plaquetas VARCHAR(100),
+	glucosa VARCHAR(100),
+	hierro VARCHAR(100),
+	clave VARCHAR(344) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+var USERS_PERMISOS_ANALITICAS_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_permisos_analiticas (
+	analitica_id INT,
+	medico_id INT,
+	clave VARCHAR(344) NOT NULL,
+	fecha_expiracion DATETIME,
+	PRIMARY KEY (analitica_id, medico_id),
+	FOREIGN KEY(analitica_id) REFERENCES usuarios_analiticas(id) ON DELETE CASCADE,
+	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+var ANALITICAS_TAGS_TABLE string = `
+CREATE TABLE IF NOT EXISTS analiticas_tags (
+	analitica_id INT,
+	tag_id INT,
+	PRIMARY KEY (analitica_id, tag_id),
+	FOREIGN KEY(tag_id) REFERENCES tags(id) ON DELETE CASCADE,
+	FOREIGN KEY(analitica_id) REFERENCES usuarios_analiticas(id) ON DELETE CASCADE
+);`
+
+var ESTADISTICAS_ANALITICAS_TABLE string = `
+CREATE TABLE IF NOT EXISTS estadisticas_analiticas (
+	leucocitos FLOAT,
+	hematies FLOAT,
+	plaquetas FLOAT,
+	glucosa FLOAT,
+	hierro FLOAT
 );`

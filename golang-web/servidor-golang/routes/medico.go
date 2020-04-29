@@ -75,3 +75,47 @@ func MedicoHorasDiaDisponiblesHandler(w http.ResponseWriter, req *http.Request) 
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }
+
+func MedicoGetCitasFuturasList(w http.ResponseWriter, req *http.Request) {
+	var userToken util.UserToken_JSON
+	json.NewDecoder(req.Body).Decode(&userToken)
+
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(userToken.UserId, userToken.Token, models.Rol_medico.Id)
+	if authorized == true {
+		jsonReturn, _ := models.GetCitasFuturasMedico(userToken.UserId)
+		js, err := json.Marshal(jsonReturn)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}
+
+func MedicoGetCitaActual(w http.ResponseWriter, req *http.Request) {
+	var userToken util.UserToken_JSON
+	json.NewDecoder(req.Body).Decode(&userToken)
+
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(userToken.UserId, userToken.Token, models.Rol_medico.Id)
+	if authorized == true {
+		citaId, _ := models.GetCitaActualMedico(userToken.UserId)
+		var citaJson util.CitaJSON
+		citaJson.Id = citaId
+		js, err := json.Marshal(citaJson)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}

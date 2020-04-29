@@ -88,8 +88,8 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 		}
 		var rolesList []int
 		if len(userlist) == 1 {
-			//SI ES EL PRIMER USUARIO DE LA BD LE DAMOS TODOS LOS ROLES SALVO ADMIN DE UNA CLINICA CONCRETA
-			rolesList = []int{models.Rol_paciente.Id, models.Rol_enfermero.Id, models.Rol_medico.Id, models.Rol_administradorG.Id}
+			//SI ES EL PRIMER USUARIO DE LA BD LE DAMOS PERMISO DE ADMINISTRADOR GLOBAL
+			rolesList = []int{models.Rol_administradorG.Id}
 		} else {
 			rolesList = []int{models.Rol_paciente.Id}
 		}

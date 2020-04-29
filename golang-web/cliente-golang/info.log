@@ -97,3 +97,46 @@
 2020/04/28 18:15:22 Servicio iniciado
 2020/04/28 19:13:29 Servicio iniciado
 2020/04/28 19:16:52 Servicio iniciado
+2020/04/28 20:28:10 Servicio iniciado
+2020/04/28 20:33:30 Servicio iniciado
+2020/04/28 20:34:11 Servicio iniciado
+2020/04/28 20:34:35 Servicio iniciado
+2020/04/28 20:34:55 Servicio iniciado
+2020/04/28 20:35:39 Servicio iniciado
+2020/04/28 20:35:41 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x912834 72832 151776}) %!g(int64=3) %!g(string=) %!g(string=)}
+2020/04/28 20:35:42 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x912834 72832 151776}) %!g(int64=3) %!g(string=) %!g(string=)}
+2020/04/28 20:35:43 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x912834 72832 151776}) %!g(int64=3) %!g(string=) %!g(string=)}
+2020/04/28 20:56:33 Servicio iniciado
+2020/04/20 10:04:36 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=2) %!g(string=) %!g(string=)}
+2020/04/20 10:06:22 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
+2020/04/20 10:06:22 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
+2020/04/20 10:06:23 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
+2020/04/20 10:06:23 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
+2020/04/20 10:06:24 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
+2020/04/20 10:06:24 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
+2020/04/20 10:07:43 Servicio iniciado
+2020/04/20 10:07:46 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f4 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
+2020/04/20 10:07:47 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f4 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
+2020/04/20 10:07:52 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f4 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
+2020/04/20 10:08:10 Servicio iniciado
+2020/04/20 10:09:53 Servicio iniciado
+2020/04/20 10:11:20 Servicio iniciado
+2020/04/20 10:13:07 Servicio iniciado
+2020/04/20 10:13:23 Servicio iniciado
+2020/04/20 10:13:34 Servicio iniciado
+2020/04/20 10:13:37 Servicio iniciado
+2020/04/30 13:04:25 Servicio iniciado
+2020/04/30 10:53:55 Servicio iniciado
+2020/04/30 10:54:42 Servicio iniciado
+2020/04/30 10:59:16 Servicio iniciado
+2020/04/30 11:04:34 Servicio iniciado
+2020/04/29 00:09:07 Servicio iniciado
+2020/04/29 00:09:27 Servicio iniciado
+2020/04/29 00:11:18 Servicio iniciado
+2020/04/29 00:12:05 Servicio iniciado
+2020/04/29 00:21:25 Servicio iniciado
+2020/04/29 00:48:01 Servicio iniciado
+2020/04/29 02:12:41 Servicio iniciado
+2020/04/29 11:28:23 Servicio iniciado
+2020/04/29 11:43:43 Servicio iniciado
+2020/04/29 12:31:56 Servicio iniciado
