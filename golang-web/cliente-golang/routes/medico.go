@@ -22,7 +22,7 @@ func menuMedicoHandler(w http.ResponseWriter, req *http.Request) {
 
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 
@@ -64,7 +64,7 @@ func solicitarHistorialMedicoFormHandler(w http.ResponseWriter, req *http.Reques
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var tmp = template.Must(
@@ -85,7 +85,7 @@ func solicitarHistorialMedicoHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 
@@ -129,7 +129,7 @@ func getMedicoDiasDisponiblesHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	medicoId, _ := req.URL.Query()["doctorId"]
@@ -165,7 +165,7 @@ func getMedicoHorasDiaDisponiblesHandler(w http.ResponseWriter, req *http.Reques
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	medicoId, _ := req.URL.Query()["doctorId"]
@@ -203,7 +203,7 @@ func medicoCitaListHandler(w http.ResponseWriter, req *http.Request) {
 
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 
@@ -248,7 +248,7 @@ func getCitaFormMedicoHandler(w http.ResponseWriter, req *http.Request) {
 
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 

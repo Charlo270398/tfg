@@ -22,7 +22,7 @@ func addEspecialidadFormGadminHandler(w http.ResponseWriter, req *http.Request) 
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var tmp = template.Must(
@@ -44,7 +44,7 @@ func getEspecialidadListGadminHandler(w http.ResponseWriter, req *http.Request) 
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var tmp = template.Must(
@@ -89,7 +89,7 @@ func addEspecialidadGadminHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var especialidad util.Especialidad_JSON

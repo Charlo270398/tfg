@@ -20,7 +20,7 @@ func menuPatientHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var tmp = template.Must(
@@ -41,7 +41,7 @@ func editUserPatientHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var tmp = template.Must(
@@ -64,7 +64,7 @@ func historialPatientHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var tmp = template.Must(
@@ -88,7 +88,7 @@ func patientCitaListHandler(w http.ResponseWriter, req *http.Request) {
 
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 
@@ -132,7 +132,7 @@ func addPatientCitaFormHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 
@@ -172,7 +172,7 @@ func addCitaPacienteHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var cita util.CitaJSON

@@ -16,7 +16,7 @@ func menuEnfermeroHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var tmp = template.Must(
@@ -37,7 +37,7 @@ func solicitarHistorialEnfermeroHandler(w http.ResponseWriter, req *http.Request
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var tmp = template.Must(

@@ -17,7 +17,7 @@ func addEntradaHistorialFormMedicoHandler(w http.ResponseWriter, req *http.Reque
 
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 
@@ -40,7 +40,7 @@ func addAnaliticaHistorialFormMedicoHandler(w http.ResponseWriter, req *http.Req
 
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 

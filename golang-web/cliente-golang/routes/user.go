@@ -23,7 +23,7 @@ func menuUserHandler(w http.ResponseWriter, req *http.Request) {
 
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 
@@ -88,7 +88,7 @@ func menuEditUserFormHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 
@@ -111,7 +111,7 @@ func menuEditUserHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 
@@ -155,7 +155,7 @@ func historialUserHandler(w http.ResponseWriter, req *http.Request) {
 	)
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	if err := tmp.ExecuteTemplate(w, "base", &Page{Title: "Historial", Body: "body"}); err != nil {

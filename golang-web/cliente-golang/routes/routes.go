@@ -96,6 +96,7 @@ func LoadRouter() {
 	router.
 		PathPrefix("/public/").
 		Handler(http.StripPrefix("/public/", http.FileServer(http.Dir("."+"/public/"))))
+	router.HandleFunc("/forbidden", forbiddenHandler).Methods("GET")
 
 	//ROLES
 	router.HandleFunc("/rol/list", rolesListHandler).Methods("GET")

@@ -20,7 +20,7 @@ func addClinicaFormGadminHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var tmp = template.Must(
@@ -42,7 +42,7 @@ func addClinicaEspecialidadFormGadminHandler(w http.ResponseWriter, req *http.Re
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var tmp = template.Must(
@@ -64,7 +64,7 @@ func getClinicaListGadminHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var tmp = template.Must(
@@ -108,7 +108,7 @@ func getClinicaEspecialidadListHandler(w http.ResponseWriter, req *http.Request)
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	clinicaId, _ := req.URL.Query()["clinicaId"]
@@ -145,7 +145,7 @@ func getMedicosClinicaByEspecialidadListHandler(w http.ResponseWriter, req *http
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	clinicaId, _ := req.URL.Query()["clinicaId"]
@@ -185,7 +185,7 @@ func addClinicaGadminHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var clinica util.Clinica_JSON
@@ -233,7 +233,7 @@ func addClinicaEspecialidadGadminHandler(w http.ResponseWriter, req *http.Reques
 	}
 	// Check user Token
 	if !proveToken(req) {
-		http.Error(w, "Forbidden", http.StatusForbidden)
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
 	var clinica util.Clinica_JSON
