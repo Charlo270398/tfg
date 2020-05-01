@@ -158,6 +158,7 @@ func LoadRouter() {
 	router.HandleFunc("/user/doctor/disponible/hora", getMedicoHorasDiaDisponiblesHandler).Methods("GET")
 	router.HandleFunc("/user/doctor/citas", getCitaFormMedicoHandler).Methods("GET")
 	router.HandleFunc("/user/doctor/citas/list", medicoCitaListHandler).Methods("GET")
+	router.HandleFunc("/user/doctor/citas/addEntrada", addEntradaHistorialConsultaMedicoHandler).Methods("POST")
 
 	//USER(ADMIN-CLINICA)
 	router.HandleFunc("/user/admin", menuAdminHandler).Methods("GET")

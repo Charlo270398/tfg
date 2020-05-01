@@ -38,6 +38,7 @@ function restBuscarDNI(DNI){
                 document.querySelector("#alert").textContent = r.Error;
                 document.querySelector("#alert").classList.replace("alert-success", "alert-danger");
                 document.querySelector("#alert").classList.remove('invisible');
+                document.querySelector("#historialTabla").classList.add('invisible');
             }
         })
         .catch(err => alert(err));

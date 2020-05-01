@@ -1,6 +1,6 @@
 function restAddEntrada(motivoConsulta, juicioDiagnostico){
-    const url= `/user/doctor/historial/addEntrada`;
-    const payload= {citaId: citaId, motivoConsulta: motivoConsulta, juicioDiagnostico: juicioDiagnostico};
+    const url= `/user/doctor/citas/addEntrada`;
+    const payload= {citaId: parseInt(cita.id), pacienteId: parseInt(cita.pacienteId), motivoConsulta: motivoConsulta, juicioDiagnostico: juicioDiagnostico};
     const request = {
         method: 'POST', 
         headers: cabeceras,
@@ -16,15 +16,14 @@ function restAddEntrada(motivoConsulta, juicioDiagnostico){
                 document.querySelector("#alert").textContent = r.Error;
                 document.querySelector("#alert").classList.replace("alert-success", "alert-danger");
                 document.querySelector("#alert").classList.remove('invisible');
-                document.querySelector("#historialTabla").classList.add('invisible');
             }
         })
         .catch(err => alert(err));
 }
 
 function addEntrada(event){
-    if(citaId && document.querySelector("#motivoConsulta").value != "" && document.querySelector("#juicioDiagnostico").value != ""){
-     console.log(citaId);
+    if(cita.id && document.querySelector("#motivoConsulta").value != "" && document.querySelector("#juicioDiagnostico").value != ""){
+     restAddEntrada(document.querySelector("#motivoConsulta").value, document.querySelector("#juicioDiagnostico").value);
     }else{
         document.querySelector("#alert").textContent = "Existen campos vacíos";
         document.querySelector("#alert").classList.replace("alert-success", "alert-danger");
@@ -33,6 +32,7 @@ function addEntrada(event){
 }
 
 function init () {
+    console.log(cita.id);
     deleteBreadcrumb();
     addLinkBreadcrumb('Usuario', '/user/menu');
     addLinkBreadcrumb('Medico', '/user/doctor');

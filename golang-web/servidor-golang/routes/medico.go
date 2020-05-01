@@ -119,3 +119,56 @@ func MedicoGetCitaActual(w http.ResponseWriter, req *http.Request) {
 	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
 	return
 }
+
+func MedicoGetCita(w http.ResponseWriter, req *http.Request) {
+	var cita util.CitaJSON
+	json.NewDecoder(req.Body).Decode(&cita)
+
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(cita.UserToken.UserId, cita.UserToken.Token, models.Rol_medico.Id)
+	if authorized == true {
+		cita, _ := models.GetCitaById(cita.Id)
+		js, err := json.Marshal(cita)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}
+
+func MedicoAddEntradaHistorialConsulta(w http.ResponseWriter, req *http.Request) {
+	var entradaHistorial util.EntradaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&entradaHistorial)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(entradaHistorial.UserToken.UserId, entradaHistorial.UserToken.Token, models.Rol_medico.Id)
+	if authorized == true {
+		var returnJSON util.JSON_Return
+		//Insertamos la entrada
+		result, err := models.InsertEntradaHistorial(entradaHistorial)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		if result == true {
+			returnJSON.Result = "OK"
+		} else {
+			returnJSON.Error = "Error insertando la entrada"
+		}
+
+		js, err := json.Marshal(returnJSON)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}

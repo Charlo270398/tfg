@@ -160,3 +160,31 @@ func InsertCita(cita util.CitaJSON) (result bool, err error) {
 		}
 	}
 }
+
+func GetCitaUserIdByCitaId(citaId int) (pacienteId int, err error) {
+	row, err := db.Query(`SELECT paciente_id FROM citas WHERE id = ` + strconv.Itoa(citaId)) // check err
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&pacienteId)
+		return pacienteId, err
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return pacienteId, err
+	}
+}
+
+func GetCitaById(citaId int) (cita util.CitaJSON, err error) {
+	row, err := db.Query(`SELECT * FROM citas WHERE id = ` + strconv.Itoa(citaId)) // check err
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&cita.Id, &cita.MedicoId, &cita.PacienteId, &cita.Anyo, &cita.Mes, &cita.Dia, &cita.Hora, &cita.Tipo)
+		return cita, err
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return cita, err
+	}
+}

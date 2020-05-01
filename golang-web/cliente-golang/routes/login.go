@@ -119,15 +119,15 @@ func loginUserHandler(w http.ResponseWriter, req *http.Request) {
 }
 
 func registerUserHandler(w http.ResponseWriter, req *http.Request) {
-	var creds util.User_JSON
+	var creds util.User_JSON_AddUsers
 	// Get the JSON body and decode into credentials
 	err := json.NewDecoder(req.Body).Decode(&creds)
 	if err != nil {
 		// If the structure of the body is wrong, return an HTTP error
+		util.PrintErrorLog(err)
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
 	//SHA 512, cogemos la primera mitad
 	sha_512 := sha512.New()
 	sha_512.Write([]byte(creds.Password))

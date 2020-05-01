@@ -137,7 +137,7 @@ func addEnfermeroAdminHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
-	var creds util.User_JSON
+	var creds util.User_JSON_AddUsers
 	// Get the JSON body and decode into credentials
 	err := json.NewDecoder(req.Body).Decode(&creds)
 	if err != nil {
@@ -211,7 +211,7 @@ func addMedicoAdminHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
-	var creds util.User_JSON
+	var creds util.User_JSON_AddUsers
 	// Get the JSON body and decode into credentials
 	err := json.NewDecoder(req.Body).Decode(&creds)
 	if err != nil {

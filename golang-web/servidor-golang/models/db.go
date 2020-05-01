@@ -205,9 +205,9 @@ CREATE TABLE IF NOT EXISTS citas (
 var USERS_HISTORIAL_TABLE string = `
 CREATE TABLE IF NOT EXISTS usuarios_historial (
 	id INT AUTO_INCREMENT,
-	usuarios_id INT,
+	usuario_id INT,
 	PRIMARY KEY (id),
-	FOREIGN KEY(usuarios_id) REFERENCES usuarios(id) ON DELETE CASCADE
+	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );`
 
 var USERS_ENTRADAS_HISTORIAL_TABLE string = `
@@ -217,6 +217,7 @@ CREATE TABLE IF NOT EXISTS usuarios_entradas_historial (
 	motivo_consulta varchar(500), 
 	juicio_diagnostico varchar(500),
 	clave VARCHAR(344) NOT NULL,
+	created_at DATETIME,
 	PRIMARY KEY (id),
 	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE
 );`
@@ -251,6 +252,7 @@ CREATE TABLE IF NOT EXISTS usuarios_analiticas (
 	plaquetas VARCHAR(100),
 	glucosa VARCHAR(100),
 	hierro VARCHAR(100),
+	created_at DATETIME,
 	clave VARCHAR(344) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE

@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 
 	util "../utils"
@@ -252,12 +253,36 @@ func getCitaFormMedicoHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	//Preparamos Id cita
 	citaId, _ := req.URL.Query()["citaId"]
+	userId_int, _ := strconv.Atoi(citaId[0])
+
+	//Certificado
+	client := GetTLSClient()
+	var cita util.CitaJSON
+	cita.UserToken = prepareUserToken(req)
+	cita.Id = userId_int
+	locJson, err := json.Marshal(cita)
+
+	//Request al servidor para obtener la cita
+	response, err := client.Post(SERVER_URL+"/user/doctor/citas", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&cita)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 	var tmp = template.Must(
 		template.New("").ParseFiles("public/templates/user/medico/citas/index.html", "public/templates/layouts/base.html"),
 	)
-	if err := tmp.ExecuteTemplate(w, "base", util.ConsultaPage{Title: "Pasar consulta", Body: "body", CitaId: citaId[0]}); err != nil {
+	if err := tmp.ExecuteTemplate(w, "base", util.ConsultaPage{Title: "Pasar consulta", Body: "body", Cita: cita}); err != nil {
 		log.Printf("Error executing template: %v", err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 	}

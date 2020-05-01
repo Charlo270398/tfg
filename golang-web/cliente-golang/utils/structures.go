@@ -16,6 +16,26 @@ type User struct {
 	CreatedAt      time.Time
 }
 
+type User_JSON_AddUsers struct {
+	Id                 int       `json:"id"`
+	Identificacion     string    `json:"identificacion"`
+	IdentificacionHash string    `json:"identificacionHash"`
+	Nombre             string    `json:"nombre"`
+	Apellidos          string    `json:"apellidos"`
+	Email              string    `json:"email"`
+	CreatedAt          time.Time `json:"createdAt"`
+	Password           string    `json:"password"`
+	Roles              []int     `json:"roles"`
+	EnfermeroClinica   string    `json:"enfermeroClinica"`
+	MedicoClinica      string    `json:"medicoClinica"`
+	AdminClinica       string    `json:"adminClinica"`
+	MedicoEspecialidad string    `json:"medicoEspecialidad"`
+	UserToken          UserToken `json:"userToken"`
+	PairKeys           PairKeys  `json:"pairKeys"`
+	Clave              string    `json:"clave"`
+	NombreDoctor       string    `json:nombreDoctor`
+}
+
 type User_JSON struct {
 	Id                 int       `json:"id"`
 	Identificacion     string    `json:"identificacion"`
@@ -37,7 +57,7 @@ type User_JSON struct {
 }
 
 type JSON_Credentials_CLIENTE struct {
-	Password []byte `json:"password"`
+	Password string `json:"password"`
 	Email    string `json:"email"`
 }
 
@@ -177,6 +197,17 @@ type SolicitarHistorial_JSON struct {
 	UserToken UserToken `json:"userToken"`
 }
 
+type EntradaHistorial_JSON struct {
+	Id                int       `json:"id"`
+	PacienteId        int       `json:"pacienteId"`
+	CitaId            int       `json:"citaId"`
+	MotivoConsulta    string    `json:"motivoConsulta"`
+	JuicioDiagnostico string    `json:"juicioDiagnostico"`
+	Tipo              string    `json:"tipo"`
+	Clave             string    `json:"clave"`
+	UserToken         UserToken `json:"userToken"`
+}
+
 //Citas
 
 type Cita struct {
@@ -284,10 +315,9 @@ type CitaPage struct {
 }
 
 type ConsultaPage struct {
-	Title          string
-	Body           string
-	CitaId         string
-	NombrePaciente string
+	Title string
+	Body  string
+	Cita  CitaJSON
 }
 
 type CitaListPage struct {

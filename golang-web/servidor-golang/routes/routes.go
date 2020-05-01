@@ -57,6 +57,8 @@ func LoadRouter(port string) {
 	http.HandleFunc("/user/doctor/disponible/hora", MedicoHorasDiaDisponiblesHandler)
 	http.HandleFunc("/user/doctor/citas/list", MedicoGetCitasFuturasList)
 	http.HandleFunc("/user/doctor/citas/actual", MedicoGetCitaActual)
+	http.HandleFunc("/user/doctor/citas", MedicoGetCita)
+	http.HandleFunc("/user/doctor/citas/addEntrada", MedicoAddEntradaHistorialConsulta)
 
 	//USER(ADMIN)
 	http.HandleFunc("/user/admin", getAdminMenuDataHandler)
