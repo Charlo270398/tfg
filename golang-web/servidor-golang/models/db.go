@@ -69,8 +69,27 @@ func CreateDB() {
 	query("INSERT IGNORE INTO roles (id,nombre,descripcion) VALUES (" + strconv.Itoa(Rol_medico.Id) + ",'" + Rol_medico.Nombre + "', '" + Rol_medico.Descripcion + "');")
 	query("INSERT IGNORE INTO roles (id,nombre,descripcion) VALUES (" + strconv.Itoa(Rol_administradorC.Id) + ",'" + Rol_administradorC.Nombre + "', '" + Rol_administradorC.Descripcion + "');")
 	query("INSERT IGNORE INTO roles (id,nombre,descripcion) VALUES (" + strconv.Itoa(Rol_administradorG.Id) + ",'" + Rol_administradorG.Nombre + "', '" + Rol_administradorG.Descripcion + "');")
+	query("INSERT IGNORE INTO roles (id,nombre,descripcion) VALUES (" + strconv.Itoa(Rol_emergencias.Id) + ",'" + Rol_emergencias.Nombre + "', '" + Rol_emergencias.Descripcion + "');")
+
+	//Roles
+	query("INSERT IGNORE INTO clinicas (id,nombre,direccion,telefono) VALUES (1,'Clínica Alicante', 'C/Noruega nº190', '965891433');")
+	query("INSERT IGNORE INTO clinicas (id,nombre,direccion,telefono) VALUES (2,'Clínica Benidorm', 'Avda. Zamora nº11', '965891438');")
+	query("INSERT IGNORE INTO clinicas (id,nombre,direccion,telefono) VALUES (3,'Clínica Elche', 'C/Palmeral nº13', '965891436');")
+
+	//Especialidades
+	query("INSERT IGNORE INTO especialidades (id,nombre) VALUES (1,'Dermatología');")
+	query("INSERT IGNORE INTO especialidades (id,nombre) VALUES (2,'Pediatría');")
+	query("INSERT IGNORE INTO especialidades (id,nombre) VALUES (3,'Oncología');")
+	query("INSERT IGNORE INTO especialidades (id,nombre) VALUES (4,'Rehabilitación');")
+	query("INSERT IGNORE INTO especialidades (id,nombre) VALUES (5,'Ginecología');")
+	query("INSERT IGNORE INTO especialidades (id,nombre) VALUES (6,'Hematología');")
+	query("INSERT IGNORE INTO especialidades (id,nombre) VALUES (7,'Psiquiatría');")
 
 	//Tags
+	query("INSERT IGNORE INTO tags (id,nombre) VALUES (1,'Obesidad');")
+	query("INSERT IGNORE INTO tags (id,nombre) VALUES (2,'Taquicardia');")
+	query("INSERT IGNORE INTO tags (id,nombre) VALUES (3,'Anorexia');")
+	query("INSERT IGNORE INTO tags (id,nombre) VALUES (4,'Anemia');")
 
 	fmt.Println("Database OK")
 }
@@ -202,73 +221,6 @@ CREATE TABLE IF NOT EXISTS citas (
 	PRIMARY KEY (id)
 );`
 
-var USERS_HISTORIAL_TABLE string = `
-CREATE TABLE IF NOT EXISTS usuarios_historial (
-	id INT AUTO_INCREMENT,
-	usuario_id INT,
-	PRIMARY KEY (id),
-	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
-);`
-
-var USERS_ENTRADAS_HISTORIAL_TABLE string = `
-CREATE TABLE IF NOT EXISTS usuarios_entradas_historial (
-	id INT AUTO_INCREMENT,
-	historial_id INT,
-	motivo_consulta varchar(500), 
-	juicio_diagnostico varchar(500),
-	clave VARCHAR(344) NOT NULL,
-	created_at DATETIME,
-	PRIMARY KEY (id),
-	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE
-);`
-
-var USERS_PERMISOS_HISTORIAL_TABLE string = `
-CREATE TABLE IF NOT EXISTS usuarios_permisos_historial (
-	historial_id INT,
-	medico_id INT,
-	fecha_expiracion DATETIME,
-	PRIMARY KEY (historial_id, medico_id),
-	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE,
-	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
-);`
-
-var USERS_PERMISOS_ENTRADAS_HISTORIAL_TABLE string = `
-CREATE TABLE IF NOT EXISTS usuarios_permisos_entradas_historial (
-	entrada_id INT,
-	medico_id INT,
-	clave VARCHAR(344) NOT NULL,
-	fecha_expiracion DATETIME,
-	PRIMARY KEY (entrada_id, medico_id),
-	FOREIGN KEY(entrada_id) REFERENCES usuarios_entradas_historial(id) ON DELETE CASCADE,
-	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
-);`
-
-var USERS_ANALITICAS_TABLE string = `
-CREATE TABLE IF NOT EXISTS usuarios_analiticas (
-	id INT AUTO_INCREMENT,
-	usuario_id INT,
-	leucocitos VARCHAR(100),
-	hematies VARCHAR(100),
-	plaquetas VARCHAR(100),
-	glucosa VARCHAR(100),
-	hierro VARCHAR(100),
-	created_at DATETIME,
-	clave VARCHAR(344) NOT NULL,
-	PRIMARY KEY (id),
-	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
-);`
-
-var USERS_PERMISOS_ANALITICAS_TABLE string = `
-CREATE TABLE IF NOT EXISTS usuarios_permisos_analiticas (
-	analitica_id INT,
-	medico_id INT,
-	clave VARCHAR(344) NOT NULL,
-	fecha_expiracion DATETIME,
-	PRIMARY KEY (analitica_id, medico_id),
-	FOREIGN KEY(analitica_id) REFERENCES usuarios_analiticas(id) ON DELETE CASCADE,
-	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
-);`
-
 var ANALITICAS_TAGS_TABLE string = `
 CREATE TABLE IF NOT EXISTS analiticas_tags (
 	analitica_id INT,
@@ -285,4 +237,86 @@ CREATE TABLE IF NOT EXISTS estadisticas_analiticas (
 	plaquetas FLOAT,
 	glucosa FLOAT,
 	hierro FLOAT
+);`
+
+//HISTORIAL
+
+var USERS_HISTORIAL_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_historial (
+	id INT AUTO_INCREMENT,
+	sexo varchar(100), 
+	peso varchar(100),
+	altura varchar(100),
+	alergias varchar(500),
+	usuario_id INT,
+	ultima_actualizacion VARCHAR(200),
+	PRIMARY KEY (id),
+	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+var USERS_ENTRADAS_HISTORIAL_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_entradas_historial (
+	id INT AUTO_INCREMENT,
+	historial_id INT,
+	motivo_consulta varchar(500), 
+	juicio_diagnostico varchar(500),
+	clave VARCHAR(344) NOT NULL,
+	created_at VARCHAR(200),
+	PRIMARY KEY (id),
+	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE
+);`
+
+var USERS_ANALITICAS_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_analiticas (
+	id INT AUTO_INCREMENT,
+	usuario_id INT,
+	historial_id INT,
+	leucocitos VARCHAR(100),
+	hematies VARCHAR(100),
+	plaquetas VARCHAR(100),
+	glucosa VARCHAR(100),
+	hierro VARCHAR(100),
+	created_at VARCHAR(200),
+	clave VARCHAR(344) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE,
+	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+//PERMISOS-HISTORIAL
+
+var USERS_PERMISOS_HISTORIAL_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_permisos_historial (
+	historial_id INT,
+	medico_id INT,
+	sexo varchar(100), 
+	peso varchar(100),
+	altura varchar(100),
+	alergias varchar(500),
+	nombrePaciente varchar(500),
+	PRIMARY KEY (historial_id, medico_id),
+	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE,
+	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+var USERS_PERMISOS_ENTRADAS_HISTORIAL_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_permisos_entradas_historial (
+	entrada_id INT,
+	medico_id INT,
+	clave VARCHAR(344) NOT NULL,
+	fecha_expiracion DATETIME,
+	PRIMARY KEY (entrada_id, medico_id),
+	FOREIGN KEY(entrada_id) REFERENCES usuarios_entradas_historial(id) ON DELETE CASCADE,
+	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+var USERS_PERMISOS_ANALITICAS_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_permisos_analiticas (
+	analitica_id INT,
+	medico_id INT,
+	clave VARCHAR(344) NOT NULL,
+	fecha_expiracion DATETIME,
+	PRIMARY KEY (analitica_id, medico_id),
+	FOREIGN KEY(analitica_id) REFERENCES usuarios_analiticas(id) ON DELETE CASCADE,
+	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );`
