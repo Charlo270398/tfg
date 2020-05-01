@@ -17,14 +17,14 @@ var p = &util.Params_argon2{
 	KeyLength:   32,
 }
 
-func LoginUser(email string, password []byte) bool {
-	user, err := GetUserByEmail(email)
+func LoginUser(userId int, password []byte) bool {
+	user, err := GetUserById(userId)
 	if err != nil {
 		util.PrintErrorLog(err)
 		return false
 	}
 	if string(user.Password) == "" {
-		util.PrintLog("El usuario no existe")
+		util.PrintLog("No hay contraseña")
 		return false
 	}
 	match, err := util.Argon2comparePasswordAndHash(password, string(user.Password))
@@ -136,11 +136,25 @@ func GetUsersList() (usersList []util.User, err error) {
 }
 
 func GetUserById(id int) (user util.User_JSON, err error) {
-	row, err := db.Query(`SELECT id, dni, nombre, apellidos, email, created_at, clave FROM usuarios where id = ` + strconv.Itoa(id)) // check err
+	row, err := db.Query(`SELECT id, dni, nombre, apellidos, email, created_at, clave, password FROM usuarios where id = ` + strconv.Itoa(id)) // check err
 	if err == nil {
 		defer row.Close()
 		row.Next()
-		row.Scan(&user.Id, &user.Identificacion, &user.Nombre, &user.Apellidos, &user.Email, &user.CreatedAt, &user.Clave)
+		row.Scan(&user.Id, &user.Identificacion, &user.Nombre, &user.Apellidos, &user.Email, &user.CreatedAt, &user.Clave, &user.Password)
+		return user, err
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return user, err
+	}
+}
+
+func GetUserIdByIdentificacion(Identificacion string) (user util.User_JSON, err error) {
+	row, err := db.Query(`SELECT usuario_id FROM usuarios_dnihashes where dni_hash = '` + Identificacion + `'`) // check err
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&user.Id)
 		return user, err
 	} else {
 		fmt.Println(err)

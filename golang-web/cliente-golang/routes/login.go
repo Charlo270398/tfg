@@ -68,8 +68,15 @@ func loginUserHandler(w http.ResponseWriter, req *http.Request) {
 		loginHash[index] = hash512[index]
 		privateKeyHash[index] = hash512[index+len(hash512)/2]
 	}
+
+	//Hacemos HASH del DNI para poder hacer busquedas despues
+	sha_256 := sha256.New()
+	sha_256.Write([]byte(creds.Identificacion))
+	hash := sha_256.Sum(nil)
+	identificacionHash := fmt.Sprintf("%x", hash) //Pasamos a hexadecimal el hash
+
 	//USER JSON
-	locJson, err := json.Marshal(util.JSON_Credentials_SERVIDOR{Email: creds.Email, Password: loginHash})
+	locJson, err := json.Marshal(util.JSON_Credentials_SERVIDOR{Identificacion: identificacionHash, Password: loginHash})
 
 	//Certificado
 	client := GetTLSClient()
@@ -128,6 +135,7 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+
 	//SHA 512, cogemos la primera mitad
 	sha_512 := sha512.New()
 	sha_512.Write([]byte(creds.Password))
@@ -159,6 +167,9 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 	identificacionCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Identificacion)
 	nombreCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Nombre)
 	apellidosCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Apellidos)
+	emailCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Email)
+	sexoCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Sexo)
+	alergiasCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Alergias)
 
 	//Hacemos HASH del DNI para poder hacer busquedas despues
 	sha_256 := sha256.New()
@@ -172,7 +183,7 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, privK.PublicKey)
 
 	locJson, err := json.Marshal(util.User_JSON{Identificacion: identificacionCifrado, IdentificacionHash: identificacionHash, Nombre: nombreCifrado, Apellidos: apellidosCifrado,
-		Email: creds.Email, Password: loginHash, PairKeys: pairKeys, Clave: claveAEScifrada})
+		Email: emailCifrado, Password: loginHash, PairKeys: pairKeys, Clave: claveAEScifrada, Sexo: sexoCifrado, Alergias: alergiasCifrado})
 
 	//Certificado
 	client := GetTLSClient()

@@ -10,11 +10,6 @@ import (
 	util "../utils"
 )
 
-type JSON_Credentials struct {
-	Password []byte `json:"password"`
-	Email    string `json:"email"`
-}
-
 func getInicioHandler(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "Hello, you've requested: %s\n", req.URL.Path)
 }
@@ -22,7 +17,7 @@ func getInicioHandler(w http.ResponseWriter, req *http.Request) {
 //POST
 func loginUserHandler(w http.ResponseWriter, req *http.Request) {
 	util.PrintLog("Intentando iniciar sesión...")
-	var creds JSON_Credentials
+	var creds util.JSON_Credentials_SERVIDOR
 	// Get the JSON body and decode into credentials
 	err := json.NewDecoder(req.Body).Decode(&creds)
 	if err != nil {
@@ -33,8 +28,8 @@ func loginUserHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	//COMPROBAMOS USER Y PASS
 	jsonReturn := util.JSON_Login_Return{}
-	correctLogin := models.LoginUser(creds.Email, creds.Password)
-	user, err := models.GetUserByEmail(creds.Email)
+	user, _ := models.GetUserIdByIdentificacion(creds.Identificacion)
+	correctLogin := models.LoginUser(user.Id, creds.Password)
 	if err != nil {
 		util.PrintErrorLog(err)
 		// If the structure of the body is wrong, return an HTTP error
@@ -97,15 +92,20 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 		_, err = models.InsertUserDniHash(userId, user.IdentificacionHash)
 		if err != nil {
 			util.PrintErrorLog(err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+			jsonReturn = util.JSON_Login_Return{Error: "El DNI no se ha podido insertar"}
+		}
+		//Insertamos Historial
+		user.Id = userId
+		_, err = models.InsertHistorial(user)
+		if err != nil {
+			util.PrintErrorLog(err)
+			jsonReturn = util.JSON_Login_Return{Error: "El historial no se ha podido insertar"}
 		}
 		//INSERTAMOS CLAVES RSA
 		_, err = models.InsertUserPairKeys(userId, user.PairKeys)
 		if err != nil {
 			util.PrintErrorLog(err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
+			jsonReturn = util.JSON_Login_Return{Error: "Las claves no se han podido insertar"}
 		}
 		//INSERTAMOS ROLES DEL USUARIO
 		inserted, err := models.InsertUserAndRole(userId, rolesList)

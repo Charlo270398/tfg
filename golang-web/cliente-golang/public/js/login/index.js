@@ -1,13 +1,13 @@
 function submit(event){
-    let email = document.querySelector("#email").value;
+    let identificacion = document.querySelector("#identificacion").value;
     let password = document.querySelector("#password").value;
-    if(email && password){
-        login(email, password);
+    if(identificacion && password){
+        login(identificacion, password);
     }
 }
-function login(email, password){
+function login(identificacion, password){
     const url= `/login`;
-    const payload= {email: email, password: password};
+    const payload= {identificacion: identificacion, password: password};
     const request = {
         method: 'POST', 
         headers: cabeceras,

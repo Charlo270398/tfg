@@ -32,6 +32,8 @@ type User_JSON_AddUsers struct {
 	MedicoEspecialidad string    `json:"medicoEspecialidad"`
 	UserToken          UserToken `json:"userToken"`
 	PairKeys           PairKeys  `json:"pairKeys"`
+	Sexo               string    `json:"sexo"`
+	Alergias           string    `json:"alergias"`
 	Clave              string    `json:"clave"`
 	NombreDoctor       string    `json:nombreDoctor`
 }
@@ -52,18 +54,20 @@ type User_JSON struct {
 	MedicoEspecialidad string    `json:"medicoEspecialidad"`
 	UserToken          UserToken `json:"userToken"`
 	PairKeys           PairKeys  `json:"pairKeys"`
+	Sexo               string    `json:"sexo"`
+	Alergias           string    `json:"alergias"`
 	Clave              string    `json:"clave"`
 	NombreDoctor       string    `json:nombreDoctor`
 }
 
 type JSON_Credentials_CLIENTE struct {
-	Password string `json:"password"`
-	Email    string `json:"email"`
+	Password       string `json:"password"`
+	Identificacion string `json:"identificacion"`
 }
 
 type JSON_Credentials_SERVIDOR struct {
-	Password []byte `json:"password"`
-	Email    string `json:"email"`
+	Password       []byte `json:"password"`
+	Identificacion string `json:"identificacion"`
 }
 
 type JSON_user_SERVIDOR struct {

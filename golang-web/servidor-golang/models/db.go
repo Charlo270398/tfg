@@ -90,6 +90,8 @@ func CreateDB() {
 	query("INSERT IGNORE INTO tags (id,nombre) VALUES (2,'Taquicardia');")
 	query("INSERT IGNORE INTO tags (id,nombre) VALUES (3,'Anorexia');")
 	query("INSERT IGNORE INTO tags (id,nombre) VALUES (4,'Anemia');")
+	query("INSERT IGNORE INTO tags (id,nombre) VALUES (5,'Hombre');")
+	query("INSERT IGNORE INTO tags (id,nombre) VALUES (6,'Mujer');")
 
 	fmt.Println("Database OK")
 }
@@ -245,11 +247,10 @@ var USERS_HISTORIAL_TABLE string = `
 CREATE TABLE IF NOT EXISTS usuarios_historial (
 	id INT AUTO_INCREMENT,
 	sexo varchar(100), 
-	peso varchar(100),
-	altura varchar(100),
 	alergias varchar(500),
 	usuario_id INT,
 	ultima_actualizacion VARCHAR(200),
+	clave VARCHAR(344) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );`
@@ -290,10 +291,9 @@ CREATE TABLE IF NOT EXISTS usuarios_permisos_historial (
 	historial_id INT,
 	medico_id INT,
 	sexo varchar(100), 
-	peso varchar(100),
-	altura varchar(100),
 	alergias varchar(500),
 	nombrePaciente varchar(500),
+	clave VARCHAR(344) NOT NULL,
 	PRIMARY KEY (historial_id, medico_id),
 	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE,
 	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE

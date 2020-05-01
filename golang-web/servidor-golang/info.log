@@ -13,3 +13,69 @@
 2020/05/01 18:44:33 Servicio iniciado
 2020/05/01 18:44:55 Servicio iniciado
 2020/05/01 18:48:40 Servicio iniciado
+2020/05/01 19:00:44 Servicio iniciado
+2020/05/01 19:02:00 Servicio iniciado
+2020/05/01 19:22:01 Servicio iniciado
+2020/05/01 19:23:01 Servicio iniciado
+2020/05/01 19:25:20 Servicio iniciado
+2020/05/01 19:25:29 Insertando usuario elgato_27@hotmail.com
+2020/05/01 19:27:09 Servicio iniciado
+2020/05/01 19:27:11 ERROR: %!g(<nil>)
+2020/05/01 19:27:56 Insertando usuario carloszamora270398@gmail.com
+2020/05/01 19:32:20 Servicio iniciado
+2020/05/01 19:40:37 Servicio iniciado
+2020/05/01 19:42:07 Servicio iniciado
+2020/05/01 19:42:17 Servicio iniciado
+2020/05/01 19:42:33 Insertando usuario v7lwQlUBv9ML_EEDX-U9imjswwwuyj8hvQa6PO42MFT2gPZ60w==
+2020/05/01 19:42:40 Intentando iniciar sesión...
+2020/05/01 19:42:40 ERROR: &{%!g(uint16=1054) %!g(string=Unknown column 'id' in 'field list')}
+2020/05/01 19:42:40 El usuario no existe
+2020/05/01 19:43:25 Servicio iniciado
+2020/05/01 19:43:27 Intentando iniciar sesión...
+2020/05/01 19:43:27 El usuario no existe
+2020/05/01 19:45:31 Servicio iniciado
+2020/05/01 19:45:33 Intentando iniciar sesión...
+2020/05/01 19:45:33 No hay contraseña
+2020/05/01 19:45:56 Intentando iniciar sesión...
+2020/05/01 19:45:56 No hay contraseña
+2020/05/01 19:46:32 Intentando iniciar sesión...
+2020/05/01 19:46:32 No hay contraseña
+2020/05/01 19:46:50 Servicio iniciado
+2020/05/01 19:46:52 Intentando iniciar sesión...
+2020/05/01 19:46:52 No hay contraseña
+2020/05/01 19:47:44 Intentando iniciar sesión...
+2020/05/01 19:47:44 No hay contraseña
+2020/05/01 19:48:32 Insertando usuario REzOtuW6eCLtK6ImVuGQ0QEzIkM3HHug6qCjVLSPj_B-nplWN0XGSaKaoU0=
+2020/05/01 19:48:42 Intentando iniciar sesión...
+2020/05/01 19:48:42 No hay contraseña
+2020/05/01 19:48:56 Intentando iniciar sesión...
+2020/05/01 19:48:56 No hay contraseña
+2020/05/01 19:49:52 Intentando iniciar sesión...
+2020/05/01 19:49:52 No hay contraseña
+2020/05/01 19:50:20 Intentando iniciar sesión...
+2020/05/01 19:50:20 No hay contraseña
+2020/05/01 19:51:33 Servicio iniciado
+2020/05/01 19:51:39 Intentando iniciar sesión...
+2020/05/01 19:51:39 No hay contraseña
+2020/05/01 19:52:28 Intentando iniciar sesión...
+2020/05/01 19:52:28 No hay contraseña
+2020/05/01 19:52:57 Servicio iniciado
+2020/05/01 19:53:00 Intentando iniciar sesión...
+2020/05/01 19:53:00 No hay contraseña
+2020/05/01 19:54:04 Servicio iniciado
+2020/05/01 19:54:06 Intentando iniciar sesión...
+2020/05/01 19:54:06 ERROR: &{%!g(string=the encoded hash is not in the correct format)}
+2020/05/01 19:54:34 Intentando iniciar sesión...
+2020/05/01 19:54:34 ERROR: &{%!g(string=the encoded hash is not in the correct format)}
+2020/05/01 19:55:57 Servicio iniciado
+2020/05/01 19:56:00 Intentando iniciar sesión...
+2020/05/01 19:56:00 ERROR: &{%!g(string=the encoded hash is not in the correct format)}
+2020/05/01 19:56:43 Servicio iniciado
+2020/05/01 19:56:46 Intentando iniciar sesión...
+2020/05/01 19:56:46 ERROR: &{%!g(string=the encoded hash is not in the correct format)}
+2020/05/01 19:57:14 Servicio iniciado
+2020/05/01 19:57:16 Intentando iniciar sesión...
+2020/05/01 19:57:26 Intentando iniciar sesión...
+2020/05/01 19:57:26 No hay contraseña
+2020/05/01 19:57:28 Intentando iniciar sesión...
+2020/05/01 19:57:28 No hay contraseña

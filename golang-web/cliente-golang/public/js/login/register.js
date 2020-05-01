@@ -6,18 +6,20 @@ function submit(event){
     let email = document.querySelector("#email").value;
     let password = document.querySelector("#pass").value;
     let condiciones = document.querySelector("#conditions").checked;
-    if(nombre && apellido1 && apellido2 && identificacion && email && password && condiciones){
-        register(nombre,apellido1, apellido2, email, identificacion, password);
+    let alergias = document.querySelector("#alergiasConocidas").value;
+    let sexo = document.querySelector("#sexoSelect").value;
+    if(nombre && apellido1 && apellido2 && identificacion && email && password && condiciones && sexo !=""){
+        register(nombre,apellido1, apellido2, email, identificacion, password, alergias, sexo);
     }
 }
-function register(nombre, apellido1, apellido2, email, identificacion, password){
+function register(nombre, apellido1, apellido2, email, identificacion, password, alergias, sexo){
     var result = false;
     let apellidos = apellido1;
     if(apellido2){
         apellidos += " " + apellido2;
     }
     const url= `/register`;
-    const payload= {nombre: nombre, identificacion:identificacion, apellidos: apellidos, email: email, password: password};
+    const payload= {nombre: nombre, identificacion:identificacion, apellidos: apellidos, email: email, password: password, alergias: alergias, sexo: sexo};
     const request = {
         method: 'POST', 
         headers: cabeceras,
