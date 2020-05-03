@@ -7,11 +7,38 @@ import (
 	util "../utils"
 )
 
+func GetHistorialByUserId(userId string) (historial util.Historial_JSON, err error) {
+	row, err := db.Query(`SELECT id, sexo, alergias, clave FROM usuarios_historial where usuario_id = ` + userId) // check err
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&historial.Id, &historial.Sexo, &historial.Alergias, &historial.Clave)
+		return historial, err
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return historial, err
+	}
+}
+
 func InsertHistorial(user util.User_JSON) (result bool, err error) {
 	//INSERT
 	createdAt := time.Now()
 	_, err = db.Exec(`INSERT INTO usuarios_historial (sexo,alergias,usuario_id,ultima_actualizacion, clave) VALUES (?, ?, ?, ?, ?)`, user.Sexo,
 		user.Alergias, user.Id, createdAt, user.Clave)
+	if err == nil {
+		return true, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return false, err
+	}
+}
+
+func InsertShareHistorial(historial util.Historial_JSON) (result bool, err error) {
+	//INSERT
+	_, err = db.Exec(`INSERT IGNORE INTO usuarios_permisos_historial (historial_id, medico_id,sexo,alergias,nombrePaciente, clave) VALUES (?, ?, ?, ?, ?, ?)`, historial.Id,
+		historial.MedicoId, historial.Sexo, historial.Alergias, historial.NombrePaciente, historial.Clave)
 	if err == nil {
 		return true, nil
 	} else {

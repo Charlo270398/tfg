@@ -196,6 +196,18 @@ type EspecialidadList_Page struct {
 }
 
 //Historial
+
+type Historial_JSON struct {
+	Id             int       `json:"id"`
+	PacienteId     int       `json:"pacienteId"`
+	MedicoId       int       `json:"medicoId"`
+	Sexo           string    `json:"sexo"`
+	Alergias       string    `json:"alergias"`
+	NombrePaciente string    `json:"nombrePaciente"`
+	Clave          string    `json:"clave"`
+	UserToken      UserToken `json:"userToken"`
+}
+
 type SolicitarHistorial_JSON struct {
 	UserDNI   string    `json:"userDNI"`
 	UserToken UserToken `json:"userToken"`

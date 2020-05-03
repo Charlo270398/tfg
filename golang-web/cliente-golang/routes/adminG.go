@@ -170,7 +170,7 @@ func addUserGadminHandler(w http.ResponseWriter, req *http.Request) {
 	pairKeys.PublicKey = util.RSAPublicKeyToBytes(&privK.PublicKey)
 	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
 	//Ciframos clave privada con AES
-	privKcifrada, _ := util.AESencrypt(privateKeyHash, string(pairKeys.PrivateKey))
+	privKcifrada, _ := util.AESencrypt(privateKeyHash, string(util.Base64Encode(pairKeys.PrivateKey)))
 	pairKeys.PrivateKey = []byte(privKcifrada)
 
 	//Generamos una clave AES aleatoria de 256 bits para cifrar los datos sensibles

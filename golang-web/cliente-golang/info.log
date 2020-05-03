@@ -1,193 +1,21 @@
-2020/04/24 12:40:14 Servicio iniciado
-2020/04/24 12:40:38 Servicio iniciado
-2020/04/24 12:40:57 Servicio iniciado
-2020/04/24 12:42:15 Servicio iniciado
-2020/04/24 12:42:19 ERROR: &{%!g(string=EOF)}
-2020/04/24 12:43:35 Servicio iniciado
-2020/04/24 12:43:39 ERROR: &{%!g(string=EOF)}
-2020/04/24 12:44:19 Servicio iniciado
-2020/04/24 12:46:04 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x404350 0x90bdcc 14298 189472}) %!g(int64=144) %!g(string=User_JSON) %!g(string=medicoClinica)}
-2020/04/24 12:47:19 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x404350 0x90bdcc 14298 189472}) %!g(int64=148) %!g(string=User_JSON) %!g(string=medicoClinica)}
-2020/04/24 12:53:12 Servicio iniciado
-2020/04/24 12:53:35 Servicio iniciado
-2020/04/24 12:57:26 Servicio iniciado
-2020/04/24 18:32:59 Servicio iniciado
-2020/04/24 18:57:48 Servicio iniciado
-2020/04/24 19:13:30 Servicio iniciado
-2020/04/24 19:28:47 Servicio iniciado
-2020/04/24 19:41:50 Servicio iniciado
-2020/04/24 19:49:09 Servicio iniciado
-2020/04/24 19:51:04 Servicio iniciado
-2020/04/24 19:52:33 Servicio iniciado
-2020/04/24 19:54:06 Servicio iniciado
-2020/04/24 20:11:13 Servicio iniciado
-2020/04/26 12:29:36 Servicio iniciado
-2020/04/26 13:15:39 Servicio iniciado
-2020/04/26 13:35:50 Servicio iniciado
-2020/04/26 13:35:53 Servicio iniciado
-2020/04/26 13:47:28 Servicio iniciado
-2020/04/26 13:50:04 Servicio iniciado
-2020/04/26 13:52:21 Servicio iniciado
-2020/04/26 13:58:07 Servicio iniciado
-2020/04/26 14:41:19 Servicio iniciado
-2020/04/26 14:44:31 Servicio iniciado
-2020/04/26 14:46:49 Servicio iniciado
-2020/04/26 14:47:05 Servicio iniciado
-2020/04/26 14:47:35 Servicio iniciado
-2020/04/26 14:47:59 Servicio iniciado
-2020/04/26 14:48:25 Servicio iniciado
-2020/04/26 14:49:09 Servicio iniciado
-2020/04/26 15:24:42 Servicio iniciado
-2020/04/26 15:30:22 Servicio iniciado
-2020/04/26 15:32:00 Servicio iniciado
-2020/04/26 15:33:38 Servicio iniciado
-2020/04/26 15:36:27 Servicio iniciado
-2020/04/26 15:38:31 Servicio iniciado
-2020/04/26 15:39:46 Servicio iniciado
-2020/04/26 15:42:09 Servicio iniciado
-2020/04/26 15:42:53 Servicio iniciado
-2020/04/26 15:44:58 Servicio iniciado
-2020/04/26 15:45:37 Servicio iniciado
-2020/04/26 15:46:23 Servicio iniciado
-2020/04/26 15:47:16 Servicio iniciado
-2020/04/26 18:49:02 Servicio iniciado
-2020/04/26 19:00:08 Servicio iniciado
-2020/04/26 19:02:04 Servicio iniciado
-2020/04/26 19:03:14 Servicio iniciado
-2020/04/26 19:12:53 Servicio iniciado
-2020/04/26 19:14:55 Servicio iniciado
-2020/04/26 19:43:58 Servicio iniciado
-2020/04/26 20:03:42 Servicio iniciado
-2020/04/26 20:10:35 Servicio iniciado
-2020/04/26 20:35:50 Servicio iniciado
-2020/04/26 20:40:07 Servicio iniciado
-2020/04/28 12:41:10 Servicio iniciado
-2020/04/28 14:45:54 Servicio iniciado
-2020/04/28 14:49:17 Servicio iniciado
-2020/04/28 14:51:24 Servicio iniciado
-2020/04/28 14:54:07 Servicio iniciado
-2020/04/28 14:55:05 Servicio iniciado
-2020/04/28 14:55:54 Servicio iniciado
-2020/04/28 15:06:18 Servicio iniciado
-2020/04/28 15:11:10 Servicio iniciado
-2020/04/28 15:12:46 Servicio iniciado
-2020/04/28 15:13:20 Servicio iniciado
-2020/04/28 15:14:27 Servicio iniciado
-2020/04/28 15:17:42 Servicio iniciado
-2020/04/28 15:20:08 Servicio iniciado
-2020/04/28 15:21:01 Servicio iniciado
-2020/04/28 15:22:00 Servicio iniciado
-2020/04/28 15:22:07 Servicio iniciado
-2020/04/28 17:48:17 Servicio iniciado
-2020/04/28 17:48:38 Servicio iniciado
-2020/04/28 17:49:41 Servicio iniciado
-2020/04/28 17:50:44 Servicio iniciado
-2020/04/28 17:57:28 Servicio iniciado
-2020/04/28 17:57:40 ERROR: &{%!g(string=string) %!g(*reflect.rtype=&{8 0 4149441018 15 8 8 2 0x404220 0x9123c4 2803 165888}) %!g(int64=15) %!g(string=CitaJSON) %!g(string=medicoId)}
-2020/04/28 17:58:45 Servicio iniciado
-2020/04/28 17:58:54 ERROR: &{%!g(string=string) %!g(*reflect.rtype=&{8 0 4149441018 15 8 8 2 0x404220 0x9123e4 2803 165888}) %!g(int64=15) %!g(string=CitaJSON) %!g(string=medicoId)}
-2020/04/28 17:59:47 Servicio iniciado
-2020/04/28 17:59:53 ERROR: &{%!g(string=string) %!g(*reflect.rtype=&{8 0 4149441018 15 8 8 2 0x404220 0x912420 2803 165888}) %!g(int64=15) %!g(string=CitaJSON) %!g(string=medicoId)}
-2020/04/28 18:00:14 Servicio iniciado
-2020/04/28 18:00:36 Servicio iniciado
-2020/04/28 18:01:07 Servicio iniciado
-2020/04/28 18:01:14 ERROR: &{%!g(string=string) %!g(*reflect.rtype=&{8 0 4149441018 15 8 8 2 0x404220 0x912420 2803 165888}) %!g(int64=15) %!g(string=CitaJSON) %!g(string=medicoId)}
-2020/04/28 18:01:51 Servicio iniciado
-2020/04/28 18:12:59 Servicio iniciado
-2020/04/28 18:15:22 Servicio iniciado
-2020/04/28 19:13:29 Servicio iniciado
-2020/04/28 19:16:52 Servicio iniciado
-2020/04/28 20:28:10 Servicio iniciado
-2020/04/28 20:33:30 Servicio iniciado
-2020/04/28 20:34:11 Servicio iniciado
-2020/04/28 20:34:35 Servicio iniciado
-2020/04/28 20:34:55 Servicio iniciado
-2020/04/28 20:35:39 Servicio iniciado
-2020/04/28 20:35:41 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x912834 72832 151776}) %!g(int64=3) %!g(string=) %!g(string=)}
-2020/04/28 20:35:42 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x912834 72832 151776}) %!g(int64=3) %!g(string=) %!g(string=)}
-2020/04/28 20:35:43 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x912834 72832 151776}) %!g(int64=3) %!g(string=) %!g(string=)}
-2020/04/28 20:56:33 Servicio iniciado
-2020/04/20 10:04:36 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=2) %!g(string=) %!g(string=)}
-2020/04/20 10:06:22 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
-2020/04/20 10:06:22 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
-2020/04/20 10:06:23 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
-2020/04/20 10:06:23 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
-2020/04/20 10:06:24 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
-2020/04/20 10:06:24 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f8 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
-2020/04/20 10:07:43 Servicio iniciado
-2020/04/20 10:07:46 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f4 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
-2020/04/20 10:07:47 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f4 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
-2020/04/20 10:07:52 ERROR: &{%!g(string=object) %!g(*reflect.rtype=&{24 8 602763033 2 8 8 23 <nil> 0x9138f4 72832 151776}) %!g(int64=1) %!g(string=) %!g(string=)}
-2020/04/20 10:08:10 Servicio iniciado
-2020/04/20 10:09:53 Servicio iniciado
-2020/04/20 10:11:20 Servicio iniciado
-2020/04/20 10:13:07 Servicio iniciado
-2020/04/20 10:13:23 Servicio iniciado
-2020/04/20 10:13:34 Servicio iniciado
-2020/04/20 10:13:37 Servicio iniciado
-2020/04/30 13:04:25 Servicio iniciado
-2020/04/30 10:53:55 Servicio iniciado
-2020/04/30 10:54:42 Servicio iniciado
-2020/04/30 10:59:16 Servicio iniciado
-2020/04/30 11:04:34 Servicio iniciado
-2020/04/29 00:09:07 Servicio iniciado
-2020/04/29 00:09:27 Servicio iniciado
-2020/04/29 00:11:18 Servicio iniciado
-2020/04/29 00:12:05 Servicio iniciado
-2020/04/29 00:21:25 Servicio iniciado
-2020/04/29 00:48:01 Servicio iniciado
-2020/04/29 02:12:41 Servicio iniciado
-2020/04/29 11:28:23 Servicio iniciado
-2020/04/29 11:43:43 Servicio iniciado
-2020/04/29 12:31:56 Servicio iniciado
-2020/04/29 12:49:43 Servicio iniciado
-2020/04/29 13:56:34 Servicio iniciado
-2020/04/29 14:00:10 Servicio iniciado
-2020/04/29 14:01:47 Servicio iniciado
-2020/04/29 14:11:12 Servicio iniciado
-2020/04/29 14:13:18 Servicio iniciado
-2020/04/29 14:13:57 Servicio iniciado
-2020/04/29 21:29:53 Servicio iniciado
-2020/04/29 21:38:55 Servicio iniciado
-2020/04/29 21:41:17 Servicio iniciado
-2020/04/29 21:42:14 Servicio iniciado
-2020/04/29 21:45:03 Servicio iniciado
-2020/04/29 21:45:38 Servicio iniciado
-2020/04/29 21:46:18 Servicio iniciado
-2020/04/29 21:46:43 Servicio iniciado
-2020/05/01 00:36:16 Servicio iniciado
-2020/05/01 00:46:56 Servicio iniciado
-2020/05/01 01:15:15 Servicio iniciado
-2020/05/01 01:17:42 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x404350 0x916368 14394 191136}) %!g(int64=22) %!g(string=CitaJSON) %!g(string=pacienteId)}
-2020/05/01 01:18:08 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x404350 0x916368 14394 191136}) %!g(int64=22) %!g(string=CitaJSON) %!g(string=pacienteId)}
-2020/05/01 01:19:28 Servicio iniciado
-2020/05/01 01:19:30 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x404350 0x91639c 14394 191136}) %!g(int64=22) %!g(string=CitaJSON) %!g(string=pacienteId)}
-2020/05/01 01:20:48 Servicio iniciado
-2020/05/01 01:20:50 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{16 8 3774831796 7 8 8 24 0x404350 0x916418 14394 191136}) %!g(int64=22) %!g(string=CitaJSON) %!g(string=pacienteId)}
-2020/05/01 01:24:03 Servicio iniciado
-2020/05/01 01:24:38 Servicio iniciado
-2020/05/01 01:27:30 Servicio iniciado
-2020/05/01 01:27:34 Servicio iniciado
-2020/05/01 01:30:13 Servicio iniciado
-2020/05/01 01:31:21 Servicio iniciado
-2020/05/01 01:31:54 Servicio iniciado
-2020/05/01 01:34:02 Servicio iniciado
-2020/05/01 01:37:19 Servicio iniciado
-2020/05/01 01:38:44 Servicio iniciado
-2020/05/01 12:10:33 Servicio iniciado
-2020/05/01 12:31:27 Servicio iniciado
-2020/05/01 12:31:48 Servicio iniciado
-2020/05/01 12:32:37 Servicio iniciado
-2020/05/01 12:34:17 Servicio iniciado
-2020/05/01 12:35:30 Servicio iniciado
-2020/05/01 12:37:30 Servicio iniciado
-2020/05/01 12:51:45 Servicio iniciado
-2020/05/01 18:21:21 Servicio iniciado
-2020/05/01 19:16:13 Servicio iniciado
-2020/05/01 19:17:10 Servicio iniciado
-2020/05/01 19:27:04 Servicio iniciado
-2020/05/01 19:31:33 Servicio iniciado
-2020/05/01 19:40:33 Servicio iniciado
-2020/05/01 19:46:30 Servicio iniciado
-2020/05/01 19:47:42 Servicio iniciado
-2020/05/01 19:51:18 Servicio iniciado
+2020/05/03 19:39:37 Servicio iniciado
+2020/05/03 19:40:11 Servicio iniciado
+2020/05/03 19:40:30 Servicio iniciado
+2020/05/03 19:40:44 Servicio iniciado
+2020/05/03 19:41:08 Servicio iniciado
+2020/05/03 19:41:28 Servicio iniciado
+2020/05/03 19:41:44 Servicio iniciado
+2020/05/03 19:43:27 Servicio iniciado
+2020/05/03 19:44:14 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/03 19:44:14 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/03 19:44:19 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/03 19:45:56 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/03 19:45:56 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/03 19:46:01 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/03 19:46:31 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/03 19:47:32 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/03 19:49:08 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/03 19:49:12 Servicio iniciado
+2020/05/03 19:49:14 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/03 19:49:53 Servicio iniciado
+2020/05/03 19:50:37 Servicio iniciado

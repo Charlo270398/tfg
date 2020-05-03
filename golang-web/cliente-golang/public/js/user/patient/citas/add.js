@@ -129,16 +129,18 @@ function GETespecialidades(clinica_id, selector){
     fetch(url,request)
     .then( response => response.json() )
         .then( result => {
-            if(!result.Error){
-                result.forEach(e => {
-                    var option = document.createElement("option");
-                    option.value = e.id;
-                    option.textContent = e.nombre;
-                    selector.append(option);
-                });
-            }
-            else{
-
+            if(result){
+                if(!result.Error){
+                    result.forEach(e => {
+                        var option = document.createElement("option");
+                        option.value = e.id;
+                        option.textContent = e.nombre;
+                        selector.append(option);
+                    });
+                }
+                else{
+    
+                }
             }
         })
         .catch(err => alert(err));

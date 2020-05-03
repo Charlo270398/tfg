@@ -93,19 +93,16 @@ func loginUserHandler(w http.ResponseWriter, req *http.Request) {
 		json.NewDecoder(response.Body).Decode(&serverRes)
 		jsonReturn := JSON_Return{"", ""}
 		if serverRes.Error == "" {
-			/*pkString, _ := util.AESdecrypt(privateKeyHash, string(serverRes.PairKeys.PrivateKey))
-			privateKey := util.RSAStringToPrivateKey(pkString)
-			aeskey := util.RSADecryptOAEP(serverRes.Clave, *privateKey)
-			nombre, _ := util.AESdecrypt(util.Base64Decode([]byte(aeskey)), serverRes.Nombre)
-			apellidos, _ := util.AESdecrypt(util.Base64Decode([]byte(aeskey)), serverRes.Apellidos)
-			fmt.Println(nombre)
-			fmt.Println(apellidos)*/
 			jsonReturn = JSON_Return{"Sesión Iniciada", ""}
 			session, _ := store.Get(req, "userSession")
 			session.Values["authenticated"] = true
 			session.Values["userId"] = serverRes.UserId
 			session.Values["userToken"] = serverRes.Token
+			session.Values["userName"] = serverRes.Nombre
+			session.Values["userSurname"] = serverRes.Apellidos
+			session.Values["userDataKey"] = serverRes.Clave
 			session.Values["userPublicKey"] = serverRes.PairKeys.PublicKey
+			session.Values["userPrivateKeyHash"] = privateKeyHash
 			session.Options.MaxAge = 60 * 30
 			session.Save(req, w)
 		} else {
@@ -157,7 +154,7 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 	pairKeys.PublicKey = util.RSAPublicKeyToBytes(&privK.PublicKey)
 	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
 	//Ciframos clave privada con AES
-	privKcifrada, _ := util.AESencrypt(privateKeyHash, string(pairKeys.PrivateKey))
+	privKcifrada, _ := util.AESencrypt(privateKeyHash, string(util.Base64Encode(pairKeys.PrivateKey)))
 	pairKeys.PrivateKey = []byte(privKcifrada)
 
 	//Generamos una clave AES aleatoria de 256 bits para cifrar los datos sensibles
@@ -201,6 +198,10 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 			session.Values["authenticated"] = true
 			session.Values["userId"] = serverRes.UserId
 			session.Values["userToken"] = serverRes.Token
+			session.Values["userName"] = serverRes.Nombre
+			session.Values["userSurname"] = serverRes.Apellidos
+			session.Values["userPublicKey"] = pairKeys.PublicKey
+			session.Values["userPrivateKeyHash"] = privateKeyHash
 			session.Options.MaxAge = 60 * 30
 			session.Save(req, w)
 		} else {

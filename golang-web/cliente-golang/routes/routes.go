@@ -85,6 +85,23 @@ func GetTLSClient() *http.Client {
 	return client
 }
 
+func getUserPairKeys(userId string) util.PairKeys {
+	//Certificado
+	client := GetTLSClient()
+	var user util.User_JSON
+	//Recuperamos la clave publica del medico
+	response, _ := client.Get(SERVER_URL + "/user/pairkeys?userId=" + userId)
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&user)
+		if err != nil {
+			return user.PairKeys
+		}
+	} else {
+		return user.PairKeys
+	}
+	return user.PairKeys
+}
+
 //URL DEL SERVIDOR AL QUE NOS CONECTAMOS
 const SERVER_URL = "https://localhost:5001"
 

@@ -12,7 +12,7 @@ function submit(event){
         document.querySelector("#alert").classList.remove('invisible');
     }
 }
-function register(nombre, apellido1, apellido2, email, identificacion, password){
+function register(nombre, apellido1, apellido2, email, identificacion){
     var result = false;
     let apellidos = apellido1;
     if(apellido2){
@@ -45,13 +45,15 @@ function register(nombre, apellido1, apellido2, email, identificacion, password)
     return result;
 }
 function cargarDatos(){
-    
+    document.querySelector("#name").value = nombre;
+    document.querySelector("#surname1").value = apellido1;
+    document.querySelector("#surname2").value = apellido2;
 }
 function init () {
     deleteBreadcrumb();
     addLinkBreadcrumb('Usuario', '/user/menu');
     addLinkBreadcrumb('Editar', '/user/menu/edit');
-    cargarDatos();
+    cargarDatos(nombre, apellido1, apellido2);
     document.querySelector("#submit").addEventListener('click',submit,false);
 }
 

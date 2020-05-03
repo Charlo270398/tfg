@@ -28,7 +28,7 @@ func loginUserHandler(w http.ResponseWriter, req *http.Request) {
 	}
 	//COMPROBAMOS USER Y PASS
 	jsonReturn := util.JSON_Login_Return{}
-	user, _ := models.GetUserIdByIdentificacion(creds.Identificacion)
+	user, _ := models.GetUserByIdentificacion(creds.Identificacion)
 	correctLogin := models.LoginUser(user.Id, creds.Password)
 	if err != nil {
 		util.PrintErrorLog(err)

@@ -149,12 +149,12 @@ func GetUserById(id int) (user util.User_JSON, err error) {
 	}
 }
 
-func GetUserIdByIdentificacion(Identificacion string) (user util.User_JSON, err error) {
-	row, err := db.Query(`SELECT usuario_id FROM usuarios_dnihashes where dni_hash = '` + Identificacion + `'`) // check err
+func GetUserByIdentificacion(Identificacion string) (user util.User_JSON, err error) {
+	row, err := db.Query(`SELECT u.id, dni, nombre, apellidos, email, clave FROM usuarios_dnihashes ud, usuarios u where dni_hash = '` + Identificacion + `' and u.id = ud.usuario_id`) // check err
 	if err == nil {
 		defer row.Close()
 		row.Next()
-		row.Scan(&user.Id)
+		row.Scan(&user.Id, &user.Identificacion, &user.Nombre, &user.Apellidos, &user.Email, &user.Clave)
 		return user, err
 	} else {
 		fmt.Println(err)
