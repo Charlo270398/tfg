@@ -11,7 +11,9 @@
         This is a success alert—check it out!
       </div>
       <h2>Pasando consulta</h2>
-      <p>Paciente: </p>
+      <p><strong>Paciente:</strong> {{.Cita.Historial.NombrePaciente}}</p>
+      <p><strong>Sexo:</strong> {{.Cita.Historial.Sexo}}</p>
+      <p><strong>Alergias:</strong> {{.Cita.Historial.Alergias}}</p>
       <div class="form-group">
         <label for="motivoConsulta">Motivo de la consulta</label>
         <textarea class="form-control" id="motivoConsulta" rows="3"></textarea>

@@ -242,19 +242,20 @@ type Cita struct {
 }
 
 type CitaJSON struct {
-	Id             int       `json:"id"`
-	PacienteId     string    `json:"pacienteId"`
-	PacienteNombre string    `json:"pacienteNombre"`
-	MedicoId       string    `json:"medicoId"`
-	MedicoNombre   string    `json:"medicoNombre"`
-	Hora           int       `json:"hora"`
-	Dia            int       `json:"dia"`
-	Mes            int       `json:"mes"`
-	Anyo           int       `json:"anyo"`
-	Tipo           string    `json:"tipo"`
-	Fecha          time.Time `json:"fecha"`
-	FechaString    string    `json:"fechaString"`
-	UserToken      UserToken `json:"userToken"`
+	Id             int            `json:"id"`
+	PacienteId     string         `json:"pacienteId"`
+	PacienteNombre string         `json:"pacienteNombre"`
+	MedicoId       string         `json:"medicoId"`
+	MedicoNombre   string         `json:"medicoNombre"`
+	Hora           int            `json:"hora"`
+	Dia            int            `json:"dia"`
+	Mes            int            `json:"mes"`
+	Anyo           int            `json:"anyo"`
+	Tipo           string         `json:"tipo"`
+	Fecha          time.Time      `json:"fecha"`
+	Historial      Historial_JSON `json:historial`
+	FechaString    string         `json:"fechaString"`
+	UserToken      UserToken      `json:"userToken"`
 }
 
 //SEGURIDAD
@@ -341,6 +342,12 @@ type CitaListPage struct {
 	Title string
 	Body  string
 	Citas []CitaJSON
+}
+
+type HistorialListPage struct {
+	Title       string
+	Body        string
+	Historiales []Historial_JSON
 }
 
 type CambiarDatosPage struct {

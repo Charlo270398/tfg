@@ -68,6 +68,7 @@ func historialPatientHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
+
 	var tmp = template.Must(
 		template.New("").ParseFiles("public/templates/user/paciente/historial/index.html", "public/templates/layouts/menuPaciente.html", "public/templates/layouts/base.html"),
 	)

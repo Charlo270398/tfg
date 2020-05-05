@@ -228,6 +228,25 @@ func medicoCitaListHandler(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	//Recuperamos nuestra clave privada cifrada
+	userId, _ := session.Values["userId"].(string)
+	userPairkeys := getUserPairKeys(userId)
+	userPrivateKeyHash, _ := session.Values["userPrivateKeyHash"].([]byte)
+
+	//Desciframos nuestra clave privada cifrada con AES
+	userPrivateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(userPairkeys.PrivateKey))
+	userPrivateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(userPrivateKeyString)))
+
+	//DESCIFRADO DE DATOS
+	for index, cita := range citasList {
+		//Desciframos la clave AES de los datos cifrados
+		claveAEShistorial := util.RSADecryptOAEP(cita.Historial.Clave, *userPrivateKey)
+		claveAEShistorialByte := util.Base64Decode([]byte(claveAEShistorial))
+		//Desciframos los datos del historial con AES
+		citasList[index].Historial.NombrePaciente, _ = util.AESdecrypt(claveAEShistorialByte, cita.Historial.NombrePaciente)
+	}
+
 	var tmp = template.Must(
 		template.New("").ParseFiles("public/templates/user/medico/citas/list.html", "public/templates/layouts/base.html"),
 	)
@@ -278,6 +297,21 @@ func getCitaFormMedicoHandler(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	//DESCIFRAMOS DATOS HISTORIAL
+	//Recuperamos nuestra clave privada cifrada
+	userId, _ := session.Values["userId"].(string)
+	userPairkeys := getUserPairKeys(userId)
+	userPrivateKeyHash, _ := session.Values["userPrivateKeyHash"].([]byte)
+	//Desciframos nuestra clave privada cifrada con AES
+	userPrivateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(userPairkeys.PrivateKey))
+	userPrivateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(userPrivateKeyString)))
+	//Desciframos la clave AES de los datos cifrados
+	claveAEShistorial := util.RSADecryptOAEP(cita.Historial.Clave, *userPrivateKey)
+	claveAEShistorialByte := util.Base64Decode([]byte(claveAEShistorial))
+	//Desciframos los datos del historial con AES
+	cita.Historial.NombrePaciente, _ = util.AESdecrypt(claveAEShistorialByte, cita.Historial.NombrePaciente)
+	cita.Historial.Sexo, _ = util.AESdecrypt(claveAEShistorialByte, cita.Historial.Sexo)
+	cita.Historial.Alergias, _ = util.AESdecrypt(claveAEShistorialByte, cita.Historial.Alergias)
 
 	var tmp = template.Must(
 		template.New("").ParseFiles("public/templates/user/medico/citas/index.html", "public/templates/layouts/base.html"),

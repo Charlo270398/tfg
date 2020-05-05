@@ -23,3 +23,61 @@
 2020/05/05 17:00:51 Intentando iniciar sesión...
 2020/05/05 17:01:37 Servicio iniciado
 2020/05/05 17:02:01 Servicio iniciado
+2020/05/05 18:49:34 Intentando iniciar sesión...
+2020/05/05 18:49:50 Intentando iniciar sesión...
+2020/05/05 18:55:39 Intentando iniciar sesión...
+2020/05/05 18:58:00 Servicio iniciado
+2020/05/05 18:59:11 Servicio iniciado
+2020/05/05 19:00:06 Servicio iniciado
+2020/05/05 19:00:46 Servicio iniciado
+2020/05/05 19:01:02 Servicio iniciado
+2020/05/05 19:05:02 Servicio iniciado
+2020/05/05 19:05:10 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and paciente_id =3' at line 1)}
+2020/05/05 19:05:33 Servicio iniciado
+2020/05/05 19:05:34 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and paciente_id = 3' at line 1)}
+2020/05/05 19:06:36 Servicio iniciado
+2020/05/05 19:06:37 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND paciente_id = 3' at line 1)}
+2020/05/05 19:07:04 Servicio iniciado
+2020/05/05 19:07:06 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'AND historial_id = 3' at line 1)}
+2020/05/05 19:07:17 Servicio iniciado
+2020/05/05 19:07:24 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1)}
+2020/05/05 19:07:53 Servicio iniciado
+2020/05/05 19:08:17 Servicio iniciado
+2020/05/05 19:08:39 Servicio iniciado
+2020/05/05 19:09:03 Servicio iniciado
+2020/05/05 19:09:24 Servicio iniciado
+2020/05/05 19:09:52 Servicio iniciado
+2020/05/05 19:10:34 Servicio iniciado
+2020/05/05 19:10:45 Servicio iniciado
+2020/05/05 19:12:55 Servicio iniciado
+2020/05/05 19:13:10 Servicio iniciado
+2020/05/05 19:13:28 Servicio iniciado
+2020/05/05 19:13:49 Servicio iniciado
+2020/05/05 19:22:13 Servicio iniciado
+2020/05/05 19:27:24 Intentando iniciar sesión...
+2020/05/05 19:29:42 Servicio iniciado
+2020/05/05 19:39:25 Servicio iniciado
+2020/05/05 19:39:28 Servicio iniciado
+2020/05/05 19:39:33 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 2' at line 1)}
+2020/05/05 19:39:33 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 3' at line 1)}
+2020/05/05 19:39:33 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 4' at line 1)}
+2020/05/05 19:39:33 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 5' at line 1)}
+2020/05/05 19:39:33 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 5' at line 1)}
+2020/05/05 19:39:33 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 5' at line 1)}
+2020/05/05 19:39:33 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 5' at line 1)}
+2020/05/05 19:39:33 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 5' at line 1)}
+2020/05/05 19:39:33 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 2' at line 1)}
+2020/05/05 19:39:33 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 4' at line 1)}
+2020/05/05 19:40:17 Servicio iniciado
+2020/05/05 19:40:20 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 2' at line 1)}
+2020/05/05 19:40:20 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 3' at line 1)}
+2020/05/05 19:40:20 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 4' at line 1)}
+2020/05/05 19:40:20 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 5' at line 1)}
+2020/05/05 19:40:20 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 5' at line 1)}
+2020/05/05 19:40:20 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 5' at line 1)}
+2020/05/05 19:40:20 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 5' at line 1)}
+2020/05/05 19:40:20 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 5' at line 1)}
+2020/05/05 19:40:20 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 2' at line 1)}
+2020/05/05 19:40:20 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'and historial_id = 4' at line 1)}
+2020/05/05 19:40:50 Servicio iniciado
+2020/05/05 19:41:41 Servicio iniciado

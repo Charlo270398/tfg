@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"strconv"
 	"time"
 
 	util "../utils"
@@ -64,6 +65,23 @@ func InsertEntradaHistorial(entrada util.EntradaHistorial_JSON) (result bool, er
 		}*/
 }
 
+func GetHistorialCompartidosByCita(medicoId string) (historiales []util.Historial_JSON, err error) {
+	rows, err := db.Query(`SELECT historial_id, sexo, alergias, nombrePaciente, clave FROM usuarios_permisos_historial where medico_id = ` + medicoId) // check err
+	if err == nil {
+		var h util.Historial_JSON
+		defer rows.Close()
+		for rows.Next() {
+			rows.Scan(&h.Id, &h.Sexo, &h.Alergias, &h.NombrePaciente, &h.Clave)
+			historiales = append(historiales, h)
+		}
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return historiales, err
+	}
+	return historiales, nil
+}
+
 func GetHistorialesCompartidosByMedicoId(medicoId string) (historiales []util.Historial_JSON, err error) {
 	rows, err := db.Query(`SELECT historial_id, sexo, alergias, nombrePaciente, clave FROM usuarios_permisos_historial where medico_id = ` + medicoId) // check err
 	if err == nil {
@@ -79,4 +97,20 @@ func GetHistorialesCompartidosByMedicoId(medicoId string) (historiales []util.Hi
 		return historiales, err
 	}
 	return historiales, nil
+}
+
+func GetHistorialCompartidoByMedicoIdPacienteId(medicoId string, pacienteId string) (historial util.Historial_JSON, err error) {
+	historialPaciente, _ := GetHistorialByUserId(pacienteId)
+	historialPacienteIdString := strconv.Itoa(historialPaciente.Id)
+	rows, err := db.Query(`SELECT historial_id, sexo, alergias, nombrePaciente, clave FROM usuarios_permisos_historial where medico_id = ` + medicoId + ` and historial_id = ` + historialPacienteIdString) // check err
+	if err == nil {
+		defer rows.Close()
+		rows.Next()
+		rows.Scan(&historial.Id, &historial.Sexo, &historial.Alergias, &historial.NombrePaciente, &historial.Clave)
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return historial, err
+	}
+	return historial, nil
 }

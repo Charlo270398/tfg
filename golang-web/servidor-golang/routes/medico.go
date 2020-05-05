@@ -3,6 +3,7 @@ package routes
 import (
 	"encoding/json"
 	"net/http"
+	"strconv"
 
 	models "../models"
 	util "../utils"
@@ -84,6 +85,11 @@ func MedicoGetCitasFuturasList(w http.ResponseWriter, req *http.Request) {
 	authorized, _ := models.GetAuthorizationbyUserId(userToken.UserId, userToken.Token, models.Rol_medico.Id)
 	if authorized == true {
 		jsonReturn, _ := models.GetCitasFuturasMedico(userToken.UserId)
+		for index, cita := range jsonReturn {
+			jsonReturn[index].Historial, _ = models.GetHistorialCompartidoByMedicoIdPacienteId(userToken.UserId, cita.PacienteId)
+			jsonReturn[index].Historial.Sexo = ""
+			jsonReturn[index].Historial.Alergias = ""
+		}
 		js, err := json.Marshal(jsonReturn)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -123,11 +129,12 @@ func MedicoGetCitaActual(w http.ResponseWriter, req *http.Request) {
 func MedicoGetCita(w http.ResponseWriter, req *http.Request) {
 	var cita util.CitaJSON
 	json.NewDecoder(req.Body).Decode(&cita)
-
 	//Comprobamos que el usuario esta autorizado y el token es correcto
 	authorized, _ := models.GetAuthorizationbyUserId(cita.UserToken.UserId, cita.UserToken.Token, models.Rol_medico.Id)
 	if authorized == true {
 		cita, _ := models.GetCitaById(cita.Id)
+		historialPaciente, _ := models.GetHistorialCompartidoByMedicoIdPacienteId(cita.MedicoId, cita.PacienteId)
+		cita.Historial = historialPaciente
 		js, err := json.Marshal(cita)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -182,6 +189,28 @@ func MedicoGetHistorialesCompartidos(w http.ResponseWriter, req *http.Request) {
 	if authorized == true {
 		historiales, _ := models.GetHistorialesCompartidosByMedicoId(userToken.UserId)
 		js, err := json.Marshal(historiales)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}
+
+func GetHistorialCompartido(w http.ResponseWriter, req *http.Request) {
+	var historial util.Historial_JSON
+	json.NewDecoder(req.Body).Decode(&historial)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(historial.UserToken.UserId, historial.UserToken.Token, models.Rol_medico.Id)
+	if authorized == true {
+		medicoIdString := strconv.Itoa(historial.MedicoId)
+		pacienteIdString := strconv.Itoa(historial.PacienteId)
+		historialPaciente, _ := models.GetHistorialCompartidoByMedicoIdPacienteId(medicoIdString, pacienteIdString)
+		js, err := json.Marshal(historialPaciente)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

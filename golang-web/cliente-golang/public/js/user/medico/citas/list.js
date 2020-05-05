@@ -24,7 +24,7 @@ function loadTable(cList){
 function addRow(cita){
     let tr = document.createElement('tr');
     let fecha = document.createElement('td');
-    let especialista = document.createElement('td');
+    let nombrePaciente = document.createElement('td');
     let tipo = document.createElement('td');
     let cancelacion = document.createElement('td');
 
@@ -45,10 +45,10 @@ function addRow(cita){
     cancelacion.append(deleteButton);
     cancelacion.append(pasarConsultaButton);
     fecha.textContent = cita.dia + "-" + cita.mes + "-" + cita.anyo + " a las " + cita.hora + ":00";
-    especialista.textContent = cita.medicoNombre;
+    nombrePaciente.textContent = cita.Historial.nombrePaciente;
     tipo.textContent = cita.tipo;
     tr.append(fecha);
-    tr.append(especialista);
+    tr.append(nombrePaciente);
     tr.append(tipo);
     tr.append(cancelacion);
     tr.setAttribute("id", cita.id);
