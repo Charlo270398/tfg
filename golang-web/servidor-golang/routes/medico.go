@@ -172,3 +172,24 @@ func MedicoAddEntradaHistorialConsulta(w http.ResponseWriter, req *http.Request)
 	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
 	return
 }
+
+func MedicoGetHistorialesCompartidos(w http.ResponseWriter, req *http.Request) {
+	var userToken util.UserToken_JSON
+	json.NewDecoder(req.Body).Decode(&userToken)
+
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(userToken.UserId, userToken.Token, models.Rol_medico.Id)
+	if authorized == true {
+		historiales, _ := models.GetHistorialesCompartidosByMedicoId(userToken.UserId)
+		js, err := json.Marshal(historiales)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}

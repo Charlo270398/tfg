@@ -37,7 +37,7 @@ func InsertHistorial(user util.User_JSON) (result bool, err error) {
 
 func InsertShareHistorial(historial util.Historial_JSON) (result bool, err error) {
 	//INSERT
-	_, err = db.Exec(`INSERT IGNORE INTO usuarios_permisos_historial (historial_id, medico_id,sexo,alergias,nombrePaciente, clave) VALUES (?, ?, ?, ?, ?, ?)`, historial.Id,
+	_, err = db.Exec(`INSERT IGNORE INTO usuarios_permisos_historial (historial_id, medico_id,sexo,alergias, nombrePaciente, clave) VALUES (?, ?, ?, ?, ?, ?)`, historial.Id,
 		historial.MedicoId, historial.Sexo, historial.Alergias, historial.NombrePaciente, historial.Clave)
 	if err == nil {
 		return true, nil
@@ -50,8 +50,6 @@ func InsertShareHistorial(historial util.Historial_JSON) (result bool, err error
 
 func InsertEntradaHistorial(entrada util.EntradaHistorial_JSON) (result bool, err error) {
 	//createdAt := time.Now()
-	fmt.Println(entrada.JuicioDiagnostico)
-	fmt.Println(entrada.MotivoConsulta)
 	return true, nil
 	//INSERT
 	/*
@@ -64,4 +62,21 @@ func InsertEntradaHistorial(entrada util.EntradaHistorial_JSON) (result bool, er
 			util.PrintErrorLog(err)
 			return false, err
 		}*/
+}
+
+func GetHistorialesCompartidosByMedicoId(medicoId string) (historiales []util.Historial_JSON, err error) {
+	rows, err := db.Query(`SELECT historial_id, sexo, alergias, nombrePaciente, clave FROM usuarios_permisos_historial where medico_id = ` + medicoId) // check err
+	if err == nil {
+		var h util.Historial_JSON
+		defer rows.Close()
+		for rows.Next() {
+			rows.Scan(&h.Id, &h.Sexo, &h.Alergias, &h.NombrePaciente, &h.Clave)
+			historiales = append(historiales, h)
+		}
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return historiales, err
+	}
+	return historiales, nil
 }

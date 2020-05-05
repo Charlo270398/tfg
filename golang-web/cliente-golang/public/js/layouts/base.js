@@ -38,7 +38,9 @@ function displayLogoutButton(){
         document.querySelector("#loginMenu").classList.add("invisible");
         document.querySelector("#registerMenu").classList.add("invisible");
     }else{
-
+      document.querySelector("#userMenuDropdown").classList.add("invisible");
+      document.querySelector("#loginMenu").classList.remove("invisible");
+      document.querySelector("#registerMenu").classList.remove("invisible");
     }
 }
 

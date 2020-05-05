@@ -1,0 +1,31 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/medico/historial/list.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/medico/historial/list.css">
+{{end}}
+{{define "body"}}
+<main>
+  <!-- Tabla historial -->
+  <div>
+      <table id="historialesTabla" class="table">
+            <thead class="thead-dark">
+                  <tr>
+                      <th scope="col">Paciente</th>
+                      <th scope="col">Sexo</th>
+                      <th scope="col">Consultar historial</th>
+                  </tr>
+            </thead>
+            <tbody>
+            
+            </tbody>
+      </table>
+      <div id="alert" class="alert alert-warning invisible" role="alert">
+
+      </div>
+  </div>
+</main>
+<script>
+  var historialesList = {{.Historiales}};
+</script>
+{{end}} 

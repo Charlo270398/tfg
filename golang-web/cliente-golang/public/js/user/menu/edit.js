@@ -48,6 +48,7 @@ function cargarDatos(){
     document.querySelector("#name").value = nombre;
     document.querySelector("#surname1").value = apellido1;
     document.querySelector("#surname2").value = apellido2;
+    document.querySelector("#email").value = email;
 }
 function init () {
     deleteBreadcrumb();

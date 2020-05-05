@@ -61,6 +61,9 @@ func CreateDB() {
 	query(TAGS_TABLE)
 	query(ANALITICAS_TAGS_TABLE)
 	query(ESTADISTICAS_ANALITICAS_TABLE)
+	query(SOLICITAR_HISTORIAL_TABLE)
+	query(SOLICITAR_ENTRADAS_HISTORIAL_TABLE)
+	query(SOLICITAR_ANALITICAS_HISTORIAL_TABLE)
 
 	//SEEDERS
 	//Roles
@@ -319,4 +322,36 @@ CREATE TABLE IF NOT EXISTS usuarios_permisos_analiticas (
 	PRIMARY KEY (analitica_id, medico_id),
 	FOREIGN KEY(analitica_id) REFERENCES usuarios_analiticas(id) ON DELETE CASCADE,
 	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+//Solicitudes
+var SOLICITAR_HISTORIAL_TABLE string = `
+CREATE TABLE IF NOT EXISTS solicitar_historial (
+	paciente_id INT,
+	medico_id INT,
+	PRIMARY KEY (paciente_id, medico_id),
+	FOREIGN KEY(paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+var SOLICITAR_ENTRADAS_HISTORIAL_TABLE string = `
+CREATE TABLE IF NOT EXISTS solicitar_entradas_historial (
+	paciente_id INT,
+	medico_id INT,
+	entrada_id INT,
+	PRIMARY KEY (paciente_id, medico_id, entrada_id),
+	FOREIGN KEY(paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+	FOREIGN KEY(entrada_id) REFERENCES usuarios_entradas_historial(id) ON DELETE CASCADE
+);`
+
+var SOLICITAR_ANALITICAS_HISTORIAL_TABLE string = `
+CREATE TABLE IF NOT EXISTS solicitar_analiticas (
+	paciente_id INT,
+	medico_id INT,
+	analitica_id INT,
+	PRIMARY KEY (paciente_id, medico_id, analitica_id),
+	FOREIGN KEY(paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+	FOREIGN KEY(analitica_id) REFERENCES usuarios_analiticas(id) ON DELETE CASCADE
 );`

@@ -282,6 +282,7 @@ type JSON_Login_Return struct {
 	UserId    string
 	Nombre    string
 	Apellidos string
+	Email     string
 	Error     string
 	Token     string
 	PairKeys  PairKeys
@@ -340,6 +341,12 @@ type CitaListPage struct {
 	Title string
 	Body  string
 	Citas []CitaJSON
+}
+
+type HistorialListPage struct {
+	Title       string
+	Body        string
+	Historiales []Historial_JSON
 }
 
 type CambiarDatosPage struct {

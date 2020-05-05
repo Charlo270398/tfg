@@ -55,6 +55,7 @@ func LoadRouter(port string) {
 
 	//USER(MEDICO)
 	http.HandleFunc("/user/doctor/historial/solicitar", MedicoSolicitarHistorialHandler)
+	http.HandleFunc("/user/doctor/historial/list", MedicoGetHistorialesCompartidos)
 	http.HandleFunc("/user/doctor/disponible/dia", MedicoDiasDisponiblesHandler)
 	http.HandleFunc("/user/doctor/disponible/hora", MedicoHorasDiaDisponiblesHandler)
 	http.HandleFunc("/user/doctor/citas/list", MedicoGetCitasFuturasList)

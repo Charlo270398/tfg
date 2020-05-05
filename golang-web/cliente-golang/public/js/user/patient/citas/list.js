@@ -3,7 +3,6 @@ function init () {
     addLinkBreadcrumb('Usuario', '/user/menu');
     addLinkBreadcrumb('Paciente', '/user/patient');
     addLinkBreadcrumb('Citas', '/user/patient/citas');
-    console.log(citasList);
     loadTable(citasList);
     modalBorrar = document.querySelector("#borrarCitaIdModal");
     modalBorrar.addEventListener("click", deleteCita, false);

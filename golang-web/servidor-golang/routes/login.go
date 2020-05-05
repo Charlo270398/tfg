@@ -52,7 +52,7 @@ func loginUserHandler(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 		// Example: this will give us a 64 byte output
-		jsonReturn = util.JSON_Login_Return{UserId: strconv.Itoa(user.Id), Nombre: user.Nombre, Apellidos: user.Apellidos, Token: token, PairKeys: pairKeys, Clave: user.Clave}
+		jsonReturn = util.JSON_Login_Return{UserId: strconv.Itoa(user.Id), Nombre: user.Nombre, Apellidos: user.Apellidos, Email: user.Email, Token: token, PairKeys: pairKeys, Clave: user.Clave}
 	} else {
 		jsonReturn = util.JSON_Login_Return{Error: "Usuario y contraseña incorrectos"}
 	}

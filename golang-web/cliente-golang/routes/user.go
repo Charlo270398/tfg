@@ -3,7 +3,6 @@ package routes
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -94,18 +93,14 @@ func menuEditUserFormHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	fmt.Println("AAA")
 	//Recuperamos nuestra clave privada cifrada
 	userId, _ := session.Values["userId"].(string)
 	userPairkeys := getUserPairKeys(userId)
 
 	//Desciframos nuestra clave privada cifrada con AES
 	userPrivateKeyHash := session.Values["userPrivateKeyHash"].([]byte)
-	fmt.Println(userPrivateKeyHash)
 	userPrivateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(userPairkeys.PrivateKey))
-	fmt.Println(userPrivateKeyString)
 	userPrivateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(userPrivateKeyString)))
-	fmt.Println(userPrivateKey)
 
 	//Desciframos la clave AES de los datos del usuario
 	userDataKey, _ := session.Values["userDataKey"].(string)
@@ -115,8 +110,11 @@ func menuEditUserFormHandler(w http.ResponseWriter, req *http.Request) {
 	//Desciframos los datos del usuario con AES
 	userNameCifrado, _ := session.Values["userName"].(string)
 	userSurnameCifrado, _ := session.Values["userSurname"].(string)
+	userEmailCifrado, _ := session.Values["userEmail"].(string)
 	userName, _ := util.AESdecrypt(claveAESuserDataByte, userNameCifrado)
 	userSurname, _ := util.AESdecrypt(claveAESuserDataByte, userSurnameCifrado)
+	userEmail, _ := util.AESdecrypt(claveAESuserDataByte, userEmailCifrado)
+
 	//Separar apellidos
 	r := regexp.MustCompile("[^\\s]+")
 	arrayApellidos := r.FindAllString(userSurname, -1)
@@ -124,7 +122,7 @@ func menuEditUserFormHandler(w http.ResponseWriter, req *http.Request) {
 	var tmp = template.Must(
 		template.New("").ParseFiles("public/templates/user/menu/edit.html", "public/templates/layouts/base.html"),
 	)
-	if err := tmp.ExecuteTemplate(w, "base", util.CambiarDatosPage{Title: "Cambiar datos", Body: "body", Nombre: userName, Apellido1: arrayApellidos[0], Apellido2: arrayApellidos[1]}); err != nil {
+	if err := tmp.ExecuteTemplate(w, "base", util.CambiarDatosPage{Title: "Cambiar datos", Body: "body", Nombre: userName, Apellido1: arrayApellidos[0], Apellido2: arrayApellidos[1], Email: userEmail}); err != nil {
 		log.Printf("Error executing template: %v", err)
 		util.PrintErrorLog(err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
@@ -154,7 +152,7 @@ func menuEditUserHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	locJson, err := json.Marshal(util.JSON_user_SERVIDOR{Identificacion: creds.Identificacion, Nombre: creds.Nombre, Apellidos: creds.Apellidos,
+	locJson, err := json.Marshal(util.JSON_user_SERVIDOR{Nombre: creds.Nombre, Apellidos: creds.Apellidos,
 		Email: creds.Email})
 
 	//Certificado

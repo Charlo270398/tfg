@@ -100,6 +100,7 @@ func loginUserHandler(w http.ResponseWriter, req *http.Request) {
 			session.Values["userToken"] = serverRes.Token
 			session.Values["userName"] = serverRes.Nombre
 			session.Values["userSurname"] = serverRes.Apellidos
+			session.Values["userEmail"] = serverRes.Email
 			session.Values["userDataKey"] = serverRes.Clave
 			session.Values["userPublicKey"] = serverRes.PairKeys.PublicKey
 			session.Values["userPrivateKeyHash"] = privateKeyHash
@@ -200,6 +201,7 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 			session.Values["userToken"] = serverRes.Token
 			session.Values["userName"] = serverRes.Nombre
 			session.Values["userSurname"] = serverRes.Apellidos
+			session.Values["userEmail"] = serverRes.Email
 			session.Values["userPublicKey"] = pairKeys.PublicKey
 			session.Values["userPrivateKeyHash"] = privateKeyHash
 			session.Options.MaxAge = 60 * 30

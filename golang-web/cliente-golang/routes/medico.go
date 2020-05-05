@@ -287,3 +287,66 @@ func getCitaFormMedicoHandler(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 	}
 }
+
+func getListHistorialMedicoHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	locJson, err := json.Marshal(prepareUserToken(req))
+
+	//Certificado
+	client := GetTLSClient()
+	var historialList []util.Historial_JSON
+
+	//Request al servidor para obtener historiales compartidos
+	response, err := client.Post(SERVER_URL+"/user/doctor/historial/list", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&historialList)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	//Recuperamos nuestra clave privada cifrada
+	userId, _ := session.Values["userId"].(string)
+	userPairkeys := getUserPairKeys(userId)
+	userPrivateKeyHash, _ := session.Values["userPrivateKeyHash"].([]byte)
+
+	//Desciframos nuestra clave privada cifrada con AES
+	userPrivateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(userPairkeys.PrivateKey))
+	userPrivateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(userPrivateKeyString)))
+
+	//DESCIFRADO DE DATOS
+	for index, historial := range historialList {
+		//Desciframos la clave AES de los datos cifrados
+		claveAEShistorial := util.RSADecryptOAEP(historial.Clave, *userPrivateKey)
+		claveAEShistorialByte := util.Base64Decode([]byte(claveAEShistorial))
+		//Desciframos los datos del historial con AES
+		historialList[index].NombrePaciente, _ = util.AESdecrypt(claveAEShistorialByte, historial.NombrePaciente)
+		historialList[index].Sexo, _ = util.AESdecrypt(claveAEShistorialByte, historial.Sexo)
+	}
+	var tmp = template.Must(
+		template.New("").ParseFiles("public/templates/user/medico/historial/list.html", "public/templates/layouts/base.html"),
+	)
+	if err := tmp.ExecuteTemplate(w, "base", &util.HistorialListPage{Title: "Historiales compartidos", Body: "body", Historiales: historialList}); err != nil {
+		log.Printf("Error executing template: %v", err)
+		util.PrintErrorLog(err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	}
+}
