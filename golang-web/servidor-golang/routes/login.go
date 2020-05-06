@@ -117,7 +117,8 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-			jsonReturn = util.JSON_Login_Return{UserId: strconv.Itoa(userId), Nombre: user.Nombre, Apellidos: user.Apellidos, Token: token}
+			//RECUPERAMOS CLAVE PUBLICA Y PRIVADA DEL USUARIO
+			jsonReturn = util.JSON_Login_Return{UserId: strconv.Itoa(user.Id), Nombre: user.Nombre, Apellidos: user.Apellidos, Email: user.Email, Token: token, PairKeys: user.PairKeys, Clave: user.Clave}
 		} else {
 			jsonReturn = util.JSON_Login_Return{Error: "Los roles no se han podido registrar"}
 		}
