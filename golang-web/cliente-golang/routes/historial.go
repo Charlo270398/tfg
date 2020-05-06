@@ -75,6 +75,7 @@ func addEntradaHistorialConsultaMedicoHandler(w http.ResponseWriter, req *http.R
 
 	//Recuperamos datos del form
 	var entradaHistorial util.EntradaHistorial_JSON
+	var entradaHistorialCompartida util.EntradaHistorial_JSON
 	json.NewDecoder(req.Body).Decode(&entradaHistorial)
 
 	//Certificado
@@ -99,24 +100,59 @@ func addEntradaHistorialConsultaMedicoHandler(w http.ResponseWriter, req *http.R
 
 	//Pasamos la clave a base 64
 	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))
+
+	//CIFRADO PARA PACIENTE
+	//Recuperamos nuestra clave publica del paciente
+	pacienteIdString := strconv.Itoa(entradaHistorial.PacienteId)
+	pacientePairkeys := getUserPairKeys(pacienteIdString)
 	//Ciframos la clave AES usada con nuestra clave pública
-	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(user.PairKeys.PublicKey))
+	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(pacientePairkeys.PublicKey))
 
 	//Preparamos los datos para enviar
 	entradaHistorial.UserToken = prepareUserToken(req)
 	entradaHistorial.Clave = claveAEScifrada
 	locJson, err := json.Marshal(entradaHistorial)
 
-	//Request al servidor para añadir entrada
+	//Request al servidor para añadir entrada paciente
 	response, err = client.Post(SERVER_URL+"/user/doctor/citas/addEntrada", "application/json", bytes.NewBuffer(locJson))
 	if response != nil {
 		var result util.JSON_Return
 		err := json.NewDecoder(response.Body).Decode(&result)
-		js, err := json.Marshal(result)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
+		} else {
+			if result.Error == "" {
+				//CIFRADO PARA MEDICO
+				//Recuperamos la clave publica del medico
+				userId, _ := session.Values["userId"].(string)
+				medicoPairkeys := getUserPairKeys(userId)
+				//Ciframos la clave AES usada con nuestra clave pública
+				claveAEScifrada = util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(medicoPairkeys.PublicKey))
+				//Preparamos los datos para enviar
+				entradaHistorialCompartida = entradaHistorial
+				entradaHistorialCompartida.Id, _ = strconv.Atoi(result.Result)
+				entradaHistorialCompartida.Clave = claveAEScifrada
+				locJson, err = json.Marshal(entradaHistorialCompartida)
+				//Request al servidor para añadir entrada compartida
+				response, err = client.Post(SERVER_URL+"/user/doctor/citas/addEntradaCompartida", "application/json", bytes.NewBuffer(locJson))
+				if response != nil {
+					err := json.NewDecoder(response.Body).Decode(&result)
+					if err != nil {
+						http.Error(w, err.Error(), http.StatusInternalServerError)
+						return
+					}
+				} else {
+					util.PrintErrorLog(err)
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+			} else {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
 		}
+		js, err := json.Marshal(result)
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 	} else {

@@ -204,6 +204,7 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 			session.Values["userEmail"] = serverRes.Email
 			session.Values["userPublicKey"] = pairKeys.PublicKey
 			session.Values["userPrivateKeyHash"] = privateKeyHash
+			session.Values["userDataKey"] = serverRes.Clave
 			session.Options.MaxAge = 60 * 30
 			session.Save(req, w)
 		} else {

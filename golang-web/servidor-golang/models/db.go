@@ -261,19 +261,21 @@ CREATE TABLE IF NOT EXISTS usuarios_historial (
 var USERS_ENTRADAS_HISTORIAL_TABLE string = `
 CREATE TABLE IF NOT EXISTS usuarios_entradas_historial (
 	id INT AUTO_INCREMENT,
+	empleado_id INT,
 	historial_id INT,
 	motivo_consulta varchar(500), 
 	juicio_diagnostico varchar(500),
 	clave VARCHAR(344) NOT NULL,
 	created_at VARCHAR(200),
 	PRIMARY KEY (id),
-	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE
+	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE,
+	FOREIGN KEY(empleado_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );`
 
 var USERS_ANALITICAS_TABLE string = `
 CREATE TABLE IF NOT EXISTS usuarios_analiticas (
 	id INT AUTO_INCREMENT,
-	usuario_id INT,
+	empleado_id INT,
 	historial_id INT,
 	leucocitos VARCHAR(100),
 	hematies VARCHAR(100),
@@ -284,7 +286,7 @@ CREATE TABLE IF NOT EXISTS usuarios_analiticas (
 	clave VARCHAR(344) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE,
-	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+	FOREIGN KEY(empleado_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );`
 
 //PERMISOS-HISTORIAL
@@ -292,66 +294,65 @@ CREATE TABLE IF NOT EXISTS usuarios_analiticas (
 var USERS_PERMISOS_HISTORIAL_TABLE string = `
 CREATE TABLE IF NOT EXISTS usuarios_permisos_historial (
 	historial_id INT,
-	medico_id INT,
+	empleado_id INT,
 	sexo varchar(100), 
 	alergias varchar(500),
 	nombrePaciente varchar(500),
 	clave VARCHAR(344) NOT NULL,
-	PRIMARY KEY (historial_id, medico_id),
+	PRIMARY KEY (historial_id, empleado_id),
 	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE,
-	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
+	FOREIGN KEY(empleado_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );`
 
 var USERS_PERMISOS_ENTRADAS_HISTORIAL_TABLE string = `
 CREATE TABLE IF NOT EXISTS usuarios_permisos_entradas_historial (
 	entrada_id INT,
-	medico_id INT,
+	empleado_id INT,
 	clave VARCHAR(344) NOT NULL,
-	fecha_expiracion DATETIME,
-	PRIMARY KEY (entrada_id, medico_id),
+	PRIMARY KEY (entrada_id, empleado_id),
 	FOREIGN KEY(entrada_id) REFERENCES usuarios_entradas_historial(id) ON DELETE CASCADE,
-	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
+	FOREIGN KEY(empleado_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );`
 
 var USERS_PERMISOS_ANALITICAS_TABLE string = `
 CREATE TABLE IF NOT EXISTS usuarios_permisos_analiticas (
 	analitica_id INT,
-	medico_id INT,
+	empleado_id INT,
 	clave VARCHAR(344) NOT NULL,
 	fecha_expiracion DATETIME,
-	PRIMARY KEY (analitica_id, medico_id),
+	PRIMARY KEY (analitica_id, empleado_id),
 	FOREIGN KEY(analitica_id) REFERENCES usuarios_analiticas(id) ON DELETE CASCADE,
-	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
+	FOREIGN KEY(empleado_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );`
 
 //Solicitudes
 var SOLICITAR_HISTORIAL_TABLE string = `
 CREATE TABLE IF NOT EXISTS solicitar_historial (
 	paciente_id INT,
-	medico_id INT,
-	PRIMARY KEY (paciente_id, medico_id),
+	empleado_id INT,
+	PRIMARY KEY (paciente_id, empleado_id),
 	FOREIGN KEY(paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE
+	FOREIGN KEY(empleado_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );`
 
 var SOLICITAR_ENTRADAS_HISTORIAL_TABLE string = `
 CREATE TABLE IF NOT EXISTS solicitar_entradas_historial (
 	paciente_id INT,
-	medico_id INT,
+	empleado_id INT,
 	entrada_id INT,
-	PRIMARY KEY (paciente_id, medico_id, entrada_id),
+	PRIMARY KEY (paciente_id, empleado_id, entrada_id),
 	FOREIGN KEY(paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+	FOREIGN KEY(empleado_id) REFERENCES usuarios(id) ON DELETE CASCADE,
 	FOREIGN KEY(entrada_id) REFERENCES usuarios_entradas_historial(id) ON DELETE CASCADE
 );`
 
 var SOLICITAR_ANALITICAS_HISTORIAL_TABLE string = `
 CREATE TABLE IF NOT EXISTS solicitar_analiticas (
 	paciente_id INT,
-	medico_id INT,
+	empleado_id INT,
 	analitica_id INT,
-	PRIMARY KEY (paciente_id, medico_id, analitica_id),
+	PRIMARY KEY (paciente_id, empleado_id, analitica_id),
 	FOREIGN KEY(paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-	FOREIGN KEY(medico_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+	FOREIGN KEY(empleado_id) REFERENCES usuarios(id) ON DELETE CASCADE,
 	FOREIGN KEY(analitica_id) REFERENCES usuarios_analiticas(id) ON DELETE CASCADE
 );`

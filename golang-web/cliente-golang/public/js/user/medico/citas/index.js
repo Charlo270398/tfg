@@ -11,6 +11,12 @@ function restAddEntrada(motivoConsulta, juicioDiagnostico){
         .then( r => {
             if(!r.Error){
                 //Cerrar cita
+                console.log(r);
+                if(r.Result == "OK"){
+                    document.querySelector("#alert").textContent = "Entrada insertada correctamente";
+                    document.querySelector("#alert").classList.remove('invisible');
+                    document.querySelector("#formConsulta").classList.add('invisible');
+                }
             }
             else{
                 document.querySelector("#alert").textContent = r.Error;

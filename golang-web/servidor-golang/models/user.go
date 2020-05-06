@@ -45,7 +45,7 @@ func InsertUser(user util.User_JSON) (userId int, err error) {
 	//INSERT
 	createdAt := time.Now()
 	res, err := db.Exec(`INSERT INTO usuarios (dni, nombre, apellidos, email, password, created_at, clave) VALUES (?, ?, ?, ?, ?, ?, ?)`, user.Identificacion,
-		user.Nombre, user.Apellidos, user.Email, encodedHash, createdAt, user.Clave)
+		user.Nombre, user.Apellidos, user.Email, encodedHash, createdAt.Local(), user.Clave)
 	if err == nil {
 		userId, _ := res.LastInsertId()
 		return int(userId), nil
