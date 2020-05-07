@@ -198,14 +198,15 @@ type EspecialidadList_Page struct {
 //Historial
 
 type Historial_JSON struct {
-	Id             int       `json:"id"`
-	PacienteId     int       `json:"pacienteId"`
-	MedicoId       int       `json:"medicoId"`
-	Sexo           string    `json:"sexo"`
-	Alergias       string    `json:"alergias"`
-	NombrePaciente string    `json:"nombrePaciente"`
-	Clave          string    `json:"clave"`
-	UserToken      UserToken `json:"userToken"`
+	Id             int                     `json:"id"`
+	PacienteId     int                     `json:"pacienteId"`
+	MedicoId       int                     `json:"medicoId"`
+	Sexo           string                  `json:"sexo"`
+	Alergias       string                  `json:"alergias"`
+	NombrePaciente string                  `json:"nombrePaciente"`
+	Clave          string                  `json:"clave"`
+	Entradas       []EntradaHistorial_JSON `json:"entradas"`
+	UserToken      UserToken               `json:"userToken"`
 }
 
 type SolicitarHistorial_JSON struct {
@@ -215,11 +216,15 @@ type SolicitarHistorial_JSON struct {
 
 type EntradaHistorial_JSON struct {
 	Id                int       `json:"id"`
+	EmpleadoId        int       `json:"empleadoId"`
+	EmpleadoNombre    string    `json:"empleadoNombre"`
 	PacienteId        int       `json:"pacienteId"`
+	HistorialId       int       `json:"historialId"`
 	CitaId            int       `json:"citaId"`
 	MotivoConsulta    string    `json:"motivoConsulta"`
 	JuicioDiagnostico string    `json:"juicioDiagnostico"`
 	Tipo              string    `json:"tipo"`
+	CreatedAt         string    `json:"createdAt"`
 	Clave             string    `json:"clave"`
 	UserToken         UserToken `json:"userToken"`
 }

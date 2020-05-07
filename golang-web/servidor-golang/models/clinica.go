@@ -154,9 +154,9 @@ func GetEspecialidadesClinica(clinica_id string) (especialidadList []util.Especi
 
 func GetMedicosClinicaByEspecialidad(clinica_id string, especialidad_id string) (medicosList []util.User_JSON, err error) {
 	rolMedico := strconv.Itoa(Rol_medico.Id)
-	rows, err := db.Query("SELECT mn.usuario_id, mn.nombreDoctor FROM usuarios_clinicas uc, medicos_nombres mn, usuarios_especialidades ue " +
+	rows, err := db.Query("SELECT mn.usuario_id, mn.nombre FROM usuarios_clinicas uc, empleados_nombres mn, usuarios_especialidades ue " +
 		"WHERE uc.usuario_id = mn.usuario_id AND uc.clinica_id = " + clinica_id + " AND uc.rol_id = " + rolMedico + " AND ue.especialidad_id = " +
-		especialidad_id + " and ue.usuario_id = uc.usuario_id ORDER BY mn.nombreDoctor")
+		especialidad_id + " and ue.usuario_id = uc.usuario_id ORDER BY mn.nombre")
 	if err == nil {
 		defer rows.Close()
 		for rows.Next() {

@@ -3,6 +3,7 @@ package models
 import (
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	util "../utils"
@@ -129,4 +130,35 @@ func GetHistorialCompartidoByMedicoIdPacienteId(medicoId string, pacienteId stri
 		return historial, err
 	}
 	return historial, nil
+}
+
+func GetEntradasHistorialByHistorialId(historialId int) (entradas []util.EntradaHistorial_JSON, err error) {
+	historialPacienteIdString := strconv.Itoa(historialId)
+	rows, err := db.Query(`SELECT id, empleado_id, historial_id, motivo_consulta, juicio_diagnostico, clave, created_at FROM usuarios_entradas_historial where historial_id = ` + historialPacienteIdString) // check err
+	if err == nil {
+		var e util.EntradaHistorial_JSON
+		defer rows.Close()
+		for rows.Next() {
+			rows.Scan(&e.Id, &e.EmpleadoId, &e.HistorialId, &e.MotivoConsulta, &e.JuicioDiagnostico, &e.Clave, &e.CreatedAt)
+			//Cambio horario y formato
+			words := strings.Fields(e.CreatedAt)
+			day := words[0] + "T" + words[1] + "Z"
+			layout := "2006-01-02T15:04:05.000000Z"
+			t, err := time.Parse(layout, day)
+			if err != nil {
+				fmt.Println(err)
+			}
+			t = t.Local()
+			e.CreatedAt = fmt.Sprintf("%02d-%02d-%02d %02d:%02d:%02d",
+				t.Day(), t.Month(), t.Year(),
+				t.Hour(), t.Minute(), t.Second())
+			e.EmpleadoNombre, _ = GetNombreEmpleado(e.EmpleadoId)
+			entradas = append(entradas, e)
+		}
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return entradas, err
+	}
+	return entradas, nil
 }

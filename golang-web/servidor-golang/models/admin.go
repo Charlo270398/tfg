@@ -37,3 +37,18 @@ func VerifyAdmin(user_id string, clinica_id string, token string) (result bool, 
 		return false, err
 	}
 }
+
+func GetNombreEmpleado(empleadoId int) (nombre string, err error) {
+	empleadoIdString := strconv.Itoa(empleadoId)
+	rows, err := db.Query(`SELECT nombre FROM empleados_nombres where usuario_id = ` + empleadoIdString) // check err
+	if err == nil {
+		defer rows.Close()
+		rows.Next()
+		rows.Scan(&nombre)
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return nombre, err
+	}
+	return nombre, nil
+}

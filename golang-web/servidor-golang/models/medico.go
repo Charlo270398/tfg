@@ -20,9 +20,9 @@ func InsertEspecialidadMedico(user_id int, especialidad_id int) (result bool, er
 	}
 }
 
-func InsertNombresMedico(user util.User_JSON) (result bool, err error) {
+func InsertNombresEmpleado(user util.User_JSON) (result bool, err error) {
 	//INSERT
-	_, err = db.Exec(`INSERT INTO medicos_nombres (usuario_id, nombreDoctor) VALUES (?, ?)`, user.Id, user.NombreDoctor)
+	_, err = db.Exec(`INSERT INTO empleados_nombres (usuario_id, nombre) VALUES (?, ?)`, user.Id, user.NombreDoctor)
 	if err == nil {
 		return true, nil
 	} else {

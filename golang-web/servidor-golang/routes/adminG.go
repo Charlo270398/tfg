@@ -48,7 +48,7 @@ func addUserHandler(w http.ResponseWriter, req *http.Request) {
 						if clinicaId != -1 {
 							result, err := models.InsertarUserClinica(clinicaId, userId, models.Rol_medico.Id)
 							//Insertamos nombre medico
-							models.InsertNombresMedico(user)
+							models.InsertNombresEmpleado(user)
 							if err != nil || result == false {
 								jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
 							}

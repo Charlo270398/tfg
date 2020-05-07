@@ -69,10 +69,56 @@ func historialPatientHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	//Certificado
+	client := GetTLSClient()
+	var historial util.Historial_JSON
+
+	//Recuperamos datos de nuestro historial
+	locJson, err := json.Marshal(util.UserToken_JSON{UserId: prepareUserToken(req).UserId, Token: prepareUserToken(req).Token})
+	response, err := client.Post(SERVER_URL+"/user/patient/historial", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&historial)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	//Recuperamos nuestra clave privada cifrada
+	userId, _ := session.Values["userId"].(string)
+	userPairkeys := getUserPairKeys(userId)
+	userPrivateKeyHash, _ := session.Values["userPrivateKeyHash"].([]byte)
+
+	//Desciframos nuestra clave privada cifrada con AES
+	userPrivateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(userPairkeys.PrivateKey))
+	userPrivateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(userPrivateKeyString)))
+
+	//Desciframos la clave AES de los datos cifrados
+	claveAEShistorial := util.RSADecryptOAEP(historial.Clave, *userPrivateKey)
+	claveAEShistorialByte := util.Base64Decode([]byte(claveAEShistorial))
+
+	//Desciframos los datos del historial con AES
+	historial.Alergias, _ = util.AESdecrypt(claveAEShistorialByte, historial.Alergias)
+	historial.Sexo, _ = util.AESdecrypt(claveAEShistorialByte, historial.Sexo)
+
+	for index, entrada := range historial.Entradas {
+		//Desciframos la clave AES de los datos cifrados
+		claveAESentrada := util.RSADecryptOAEP(entrada.Clave, *userPrivateKey)
+		claveAESentradaByte := util.Base64Decode([]byte(claveAESentrada))
+		//Desciframos los datos de la entrada con AES
+		historial.Entradas[index].MotivoConsulta, _ = util.AESdecrypt(claveAESentradaByte, entrada.MotivoConsulta)
+		historial.Entradas[index].JuicioDiagnostico, _ = util.AESdecrypt(claveAESentradaByte, entrada.JuicioDiagnostico)
+	}
+
 	var tmp = template.Must(
 		template.New("").ParseFiles("public/templates/user/paciente/historial/index.html", "public/templates/layouts/menuPaciente.html", "public/templates/layouts/base.html"),
 	)
-	if err := tmp.ExecuteTemplate(w, "base", &Page{Title: "Mis datos", Body: "body"}); err != nil {
+	if err := tmp.ExecuteTemplate(w, "base", util.HistorialPage{Title: "Mi historia clínica", Body: "body", Historial: historial}); err != nil {
 		log.Printf("Error executing template: %v", err)
 		util.PrintErrorLog(err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)

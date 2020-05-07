@@ -50,7 +50,7 @@ func CreateDB() {
 	query(USERS_TOKENS_TABLE)
 	query(USERS_PAIRKEYS_TABLE)
 	query(USERS_DNIHASHES_TABLE)
-	query(MEDICOS_NOMBRES_TABLE)
+	query(EMPLEADOS_NOMBRES_TABLE)
 	query(CITAS_TABLE)
 	query(USERS_HISTORIAL_TABLE)
 	query(USERS_PERMISOS_HISTORIAL_TABLE)
@@ -202,10 +202,10 @@ CREATE TABLE IF NOT EXISTS usuarios_dnihashes(
 	PRIMARY KEY (usuario_id,dni_hash)
 );`
 
-var MEDICOS_NOMBRES_TABLE string = `
-CREATE TABLE IF NOT EXISTS medicos_nombres (
+var EMPLEADOS_NOMBRES_TABLE string = `
+CREATE TABLE IF NOT EXISTS empleados_nombres (
 	usuario_id INT,
-	nombreDoctor VARCHAR(150) NOT NULL,
+	nombre VARCHAR(150) NOT NULL,
 	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
 	PRIMARY KEY (usuario_id)
 );`

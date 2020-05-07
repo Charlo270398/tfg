@@ -96,7 +96,7 @@ func addMedicoAdminHandler(w http.ResponseWriter, req *http.Request) {
 		user.Id = userId
 		if err == nil {
 			//Insertamos nombres medico
-			models.InsertNombresMedico(user)
+			models.InsertNombresEmpleado(user)
 			//INSERTAMOS CLAVES RSA
 			_, err := models.InsertUserPairKeys(userId, user.PairKeys)
 			if err != nil {
@@ -111,7 +111,7 @@ func addMedicoAdminHandler(w http.ResponseWriter, req *http.Request) {
 					if clinicaId != -1 {
 						result, err := models.InsertarUserClinica(clinicaId, userId, models.Rol_medico.Id)
 						//Insertamos nombre medico
-						models.InsertNombresMedico(user)
+						models.InsertNombresEmpleado(user)
 						if err != nil || result == false {
 							jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
 						}

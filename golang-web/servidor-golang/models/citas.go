@@ -43,7 +43,7 @@ func ComprobarHoraDisponible(doctor_id string, anyo int, mes int, dia int, hora 
 		if horasNumber >= 1 {
 			return false
 		}
-		if time.Now().Hour() > hora-1 && time.Now().Day() == dia {
+		if time.Now().Local().Hour() > hora-1 && time.Now().Local().Day() == dia {
 			return false
 		}
 	} else {
@@ -60,7 +60,7 @@ func GetCitasFuturasPaciente(pacienteId string) (citasList []util.CitaJSON, err 
 			var c util.CitaJSON
 			var nombreDoctor string
 			rows.Scan(&c.Id, &c.MedicoId, &c.Tipo, &c.Anyo, &c.Mes, &c.Dia, &c.Hora)
-			rowNombreMedico, _ := db.Query("SELECT nombreDoctor FROM medicos_nombres WHERE usuario_id = " + c.MedicoId)
+			rowNombreMedico, _ := db.Query("SELECT nombre FROM empleados_nombres WHERE usuario_id = " + c.MedicoId)
 			rowNombreMedico.Next()
 			rowNombreMedico.Scan(&nombreDoctor)
 			c.MedicoNombre = nombreDoctor
@@ -69,7 +69,7 @@ func GetCitasFuturasPaciente(pacienteId string) (citasList []util.CitaJSON, err 
 			diaCompleto := strconv.Itoa(c.Anyo) + "-" + mesFormato + "-" + diaFormato + "T" + strconv.Itoa(c.Hora-2) //TODO hacer esto mejor
 			layout := "2006-01-02T15:04:05.000"
 			fechaCita, _ := time.Parse(layout, diaCompleto+":00:00.000")
-			if time.Now().Before(fechaCita) {
+			if time.Now().Local().Before(fechaCita) {
 				citasList = append(citasList, c)
 			}
 		}
@@ -94,7 +94,7 @@ func GetCitasFuturasMedico(medicoId string) (citasList []util.CitaJSON, err erro
 			layout := "2006-01-02T15:04:05.000"
 			fechaCita := time.Now().Local()
 			fechaCita, _ = time.Parse(layout, diaCompleto+":00:00.000")
-			if time.Now().Before(fechaCita) {
+			if time.Now().Local().Before(fechaCita) {
 				citasList = append(citasList, c)
 			}
 		}
@@ -107,7 +107,7 @@ func GetCitasFuturasMedico(medicoId string) (citasList []util.CitaJSON, err erro
 
 func GetCitaActualMedico(medicoId string) (citaId int, err error) {
 	citaId = -1
-	day := time.Now()
+	day := time.Now().Local()
 	anyoString := strconv.Itoa(day.Year())
 	mesString := strconv.Itoa(int(day.Month()))
 	diaString := strconv.Itoa(day.Day())
@@ -125,7 +125,7 @@ func GetCitaActualMedico(medicoId string) (citaId int, err error) {
 			layout := "2006-01-02T15:04:05.000"
 			fechaCita := time.Now().Local()
 			fechaCita, _ = time.Parse(layout, diaCompleto+":00:00.000")
-			if time.Now().YearDay() == fechaCita.YearDay() && time.Now().Year() == fechaCita.Year() {
+			if time.Now().Local().YearDay() == fechaCita.YearDay() && time.Now().Local().Year() == fechaCita.Year() {
 				//Es la misma hora
 				if day.Hour() == c.Hora {
 					return c.Id, nil
