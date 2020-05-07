@@ -45,7 +45,7 @@ function addRow(cita){
     cancelacion.append(deleteButton);
     cancelacion.append(pasarConsultaButton);
     fecha.textContent = cita.dia + "-" + cita.mes + "-" + cita.anyo + " a las " + cita.hora + ":00";
-    nombrePaciente.textContent = cita.Historial.nombrePaciente;
+    nombrePaciente.textContent = cita.Historial.nombrePaciente + " " + cita.Historial.apellidosPaciente;
     tipo.textContent = cita.tipo;
     tr.append(fecha);
     tr.append(nombrePaciente);

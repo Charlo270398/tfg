@@ -9,6 +9,21 @@ import (
 	util "../utils"
 )
 
+func GetHistorialById(historialId int) (historial util.Historial_JSON, err error) {
+	historialIdString := strconv.Itoa(historialId)
+	row, err := db.Query(`SELECT id, usuario_id, sexo, alergias, clave FROM usuarios_historial where id = ` + historialIdString) // check err
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&historial.Id, &historial.PacienteId, &historial.Sexo, &historial.Alergias, &historial.Clave)
+		return historial, err
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return historial, err
+	}
+}
+
 func GetHistorialByUserId(userId string) (historial util.Historial_JSON, err error) {
 	row, err := db.Query(`SELECT id, sexo, alergias, clave FROM usuarios_historial where usuario_id = ` + userId) // check err
 	if err == nil {
@@ -39,8 +54,8 @@ func InsertHistorial(user util.User_JSON) (result bool, err error) {
 
 func InsertShareHistorial(historial util.Historial_JSON) (result bool, err error) {
 	//INSERT
-	_, err = db.Exec(`INSERT IGNORE INTO usuarios_permisos_historial (historial_id, empleado_id,sexo,alergias, nombrePaciente, clave) VALUES (?, ?, ?, ?, ?, ?)`, historial.Id,
-		historial.MedicoId, historial.Sexo, historial.Alergias, historial.NombrePaciente, historial.Clave)
+	_, err = db.Exec(`INSERT IGNORE INTO usuarios_permisos_historial (historial_id, empleado_id, clave) VALUES (?, ?, ?)`, historial.Id,
+		historial.MedicoId, historial.Clave)
 	if err == nil {
 		return true, nil
 	} else {
@@ -82,30 +97,18 @@ func InsertEntradaCompartidaHistorial(entrada util.EntradaHistorial_JSON) (resul
 	}
 }
 
-func GetHistorialCompartidosByCita(medicoId string) (historiales []util.Historial_JSON, err error) {
-	rows, err := db.Query(`SELECT historial_id, sexo, alergias, nombrePaciente, clave FROM usuarios_permisos_historial where empleado_id = ` + medicoId) // check err
-	if err == nil {
-		var h util.Historial_JSON
-		defer rows.Close()
-		for rows.Next() {
-			rows.Scan(&h.Id, &h.Sexo, &h.Alergias, &h.NombrePaciente, &h.Clave)
-			historiales = append(historiales, h)
-		}
-	} else {
-		fmt.Println(err)
-		util.PrintErrorLog(err)
-		return historiales, err
-	}
-	return historiales, nil
-}
-
 func GetHistorialesCompartidosByMedicoId(medicoId string) (historiales []util.Historial_JSON, err error) {
-	rows, err := db.Query(`SELECT historial_id, sexo, alergias, nombrePaciente, clave FROM usuarios_permisos_historial where empleado_id = ` + medicoId) // check err
+	rows, err := db.Query(`SELECT historial_id, clave FROM usuarios_permisos_historial where empleado_id = ` + medicoId) // check err
 	if err == nil {
 		var h util.Historial_JSON
 		defer rows.Close()
 		for rows.Next() {
-			rows.Scan(&h.Id, &h.Sexo, &h.Alergias, &h.NombrePaciente, &h.Clave)
+			rows.Scan(&h.Id, &h.Clave)
+			historial, _ := GetHistorialById(h.Id)
+			h.Sexo = historial.Sexo
+			userData, _ := GetUserById(historial.PacienteId)
+			h.NombrePaciente = userData.Nombre
+			h.ApellidosPaciente = userData.Apellidos
 			historiales = append(historiales, h)
 		}
 	} else {
@@ -118,12 +121,18 @@ func GetHistorialesCompartidosByMedicoId(medicoId string) (historiales []util.Hi
 
 func GetHistorialCompartidoByMedicoIdPacienteId(medicoId string, pacienteId string) (historial util.Historial_JSON, err error) {
 	historialPaciente, _ := GetHistorialByUserId(pacienteId)
+	pacienteIdInt, _ := strconv.Atoi(pacienteId)
+	userData, _ := GetUserById(pacienteIdInt)
 	historialPacienteIdString := strconv.Itoa(historialPaciente.Id)
-	rows, err := db.Query(`SELECT historial_id, sexo, alergias, nombrePaciente, clave FROM usuarios_permisos_historial where empleado_id = ` + medicoId + ` and historial_id = ` + historialPacienteIdString) // check err
+	rows, err := db.Query(`SELECT historial_id, clave FROM usuarios_permisos_historial where empleado_id = ` + medicoId + ` and historial_id = ` + historialPacienteIdString) // check err
 	if err == nil {
 		defer rows.Close()
 		rows.Next()
-		rows.Scan(&historial.Id, &historial.Sexo, &historial.Alergias, &historial.NombrePaciente, &historial.Clave)
+		rows.Scan(&historial.Id, &historial.Clave)
+		historial.Alergias = historialPaciente.Alergias
+		historial.Sexo = historialPaciente.Sexo
+		historial.NombrePaciente = userData.Nombre
+		historial.ApellidosPaciente = userData.Apellidos
 	} else {
 		fmt.Println(err)
 		util.PrintErrorLog(err)

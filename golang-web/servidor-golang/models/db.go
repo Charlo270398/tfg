@@ -296,9 +296,6 @@ var USERS_PERMISOS_HISTORIAL_TABLE string = `
 CREATE TABLE IF NOT EXISTS usuarios_permisos_historial (
 	historial_id INT,
 	empleado_id INT,
-	sexo varchar(100), 
-	alergias varchar(500),
-	nombrePaciente varchar(500),
 	clave VARCHAR(344) NOT NULL,
 	PRIMARY KEY (historial_id, empleado_id),
 	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE,

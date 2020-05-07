@@ -29,7 +29,7 @@ function addRow(historial){
     consultaButton.textContent = "Consultar historial";
     consultaButton.addEventListener("click", consultarHistorial, false);
     consulta.append(consultaButton);
-    nombre.textContent = historial.nombrePaciente;
+    nombre.textContent = historial.nombrePaciente + " " + historial.apellidosPaciente;
     sexo.textContent = historial.sexo;
     tr.append(nombre);
     tr.append(sexo);

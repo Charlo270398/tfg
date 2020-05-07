@@ -263,44 +263,24 @@ func addCitaPacienteHandler(w http.ResponseWriter, req *http.Request) {
 	userPrivateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(userPairkeys.PrivateKey))
 	userPrivateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(userPrivateKeyString)))
 
-	//Desciframos la clave AES de los datos cifrados
-	claveAEShistorial := util.RSADecryptOAEP(historial.Clave, *userPrivateKey)
-	claveAEShistorialByte := util.Base64Decode([]byte(claveAEShistorial))
-
-	//Desciframos los datos del historial con AES
-	historial.Alergias, _ = util.AESdecrypt(claveAEShistorialByte, historial.Alergias)
-	historial.Sexo, _ = util.AESdecrypt(claveAEShistorialByte, historial.Sexo)
-
 	//Desciframos la clave AES de los datos del usuario
 	userDataKey, _ := session.Values["userDataKey"].(string)
 	claveAESuserData := util.RSADecryptOAEP(userDataKey, *userPrivateKey)
 	claveAESuserDataByte := util.Base64Decode([]byte(claveAESuserData))
 
-	//Desciframos los datos del usuario con AES
-	userNameCifrado, _ := session.Values["userName"].(string)
-	userSurnameCifrado, _ := session.Values["userSurname"].(string)
-	userName, _ := util.AESdecrypt(claveAESuserDataByte, userNameCifrado)
-	userSurname, _ := util.AESdecrypt(claveAESuserDataByte, userSurnameCifrado)
-
 	//Recuperamos la clave publica del medico
 	medicoPairkeys := getUserPairKeys(cita.MedicoId)
 	medicoPublicKey := *util.RSABytesToPublicKey(medicoPairkeys.PublicKey)
 
-	//Generamos una clave AES aleatoria de 256 bits para cifrar los datos sensibles
-	AESkeyDatos := util.AEScreateKey()
-
 	//Ciframos los datos del historial con AES y terminamos de rellenar el historial
 	var historialCompartido util.Historial_JSON
-	historialCompartido.Alergias, _ = util.AESencrypt(AESkeyDatos, historial.Alergias)
-	historialCompartido.Sexo, _ = util.AESencrypt(AESkeyDatos, historial.Sexo)
-	historialCompartido.NombrePaciente, _ = util.AESencrypt(AESkeyDatos, userName+" "+userSurname)
 	historialCompartido.Id = historial.Id
 	historialCompartido.MedicoId, _ = strconv.Atoi(cita.MedicoId)
 	historialCompartido.PacienteId, _ = strconv.Atoi(prepareUserToken(req).UserId)
 	historialCompartido.UserToken = prepareUserToken(req)
 
 	//Ciframos la clave AES con la clave publica del Medico
-	historialCompartido.Clave = util.RSAEncryptOAEP(string(util.Base64Encode(AESkeyDatos)), medicoPublicKey)
+	historialCompartido.Clave = util.RSAEncryptOAEP(string(util.Base64Encode(claveAESuserDataByte)), medicoPublicKey)
 
 	//Enviamos historial compartido al servidor
 	locJson, err = json.Marshal(historialCompartido)

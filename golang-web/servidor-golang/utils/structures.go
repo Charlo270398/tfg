@@ -198,15 +198,16 @@ type EspecialidadList_Page struct {
 //Historial
 
 type Historial_JSON struct {
-	Id             int                     `json:"id"`
-	PacienteId     int                     `json:"pacienteId"`
-	MedicoId       int                     `json:"medicoId"`
-	Sexo           string                  `json:"sexo"`
-	Alergias       string                  `json:"alergias"`
-	NombrePaciente string                  `json:"nombrePaciente"`
-	Clave          string                  `json:"clave"`
-	Entradas       []EntradaHistorial_JSON `json:"entradas"`
-	UserToken      UserToken               `json:"userToken"`
+	Id                int                     `json:"id"`
+	PacienteId        int                     `json:"pacienteId"`
+	MedicoId          int                     `json:"medicoId"`
+	Sexo              string                  `json:"sexo"`
+	Alergias          string                  `json:"alergias"`
+	NombrePaciente    string                  `json:"nombrePaciente"`
+	ApellidosPaciente string                  `json:"apellidosPaciente"`
+	Clave             string                  `json:"clave"`
+	Entradas          []EntradaHistorial_JSON `json:"entradas"`
+	UserToken         UserToken               `json:"userToken"`
 }
 
 type SolicitarHistorial_JSON struct {
@@ -362,4 +363,10 @@ type CambiarDatosPage struct {
 	Apellido1 string
 	Apellido2 string
 	Email     string
+}
+
+type HistorialPage struct {
+	Title     string
+	Body      string
+	Historial Historial_JSON
 }

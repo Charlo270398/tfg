@@ -245,6 +245,7 @@ func medicoCitaListHandler(w http.ResponseWriter, req *http.Request) {
 		claveAEShistorialByte := util.Base64Decode([]byte(claveAEShistorial))
 		//Desciframos los datos del historial con AES
 		citasList[index].Historial.NombrePaciente, _ = util.AESdecrypt(claveAEShistorialByte, cita.Historial.NombrePaciente)
+		citasList[index].Historial.ApellidosPaciente, _ = util.AESdecrypt(claveAEShistorialByte, cita.Historial.ApellidosPaciente)
 	}
 
 	var tmp = template.Must(
@@ -310,6 +311,7 @@ func getCitaFormMedicoHandler(w http.ResponseWriter, req *http.Request) {
 	claveAEShistorialByte := util.Base64Decode([]byte(claveAEShistorial))
 	//Desciframos los datos del historial con AES
 	cita.Historial.NombrePaciente, _ = util.AESdecrypt(claveAEShistorialByte, cita.Historial.NombrePaciente)
+	cita.Historial.ApellidosPaciente, _ = util.AESdecrypt(claveAEShistorialByte, cita.Historial.ApellidosPaciente)
 	cita.Historial.Sexo, _ = util.AESdecrypt(claveAEShistorialByte, cita.Historial.Sexo)
 	cita.Historial.Alergias, _ = util.AESdecrypt(claveAEShistorialByte, cita.Historial.Alergias)
 
@@ -373,6 +375,7 @@ func getListHistorialMedicoHandler(w http.ResponseWriter, req *http.Request) {
 		claveAEShistorialByte := util.Base64Decode([]byte(claveAEShistorial))
 		//Desciframos los datos del historial con AES
 		historialList[index].NombrePaciente, _ = util.AESdecrypt(claveAEShistorialByte, historial.NombrePaciente)
+		historialList[index].ApellidosPaciente, _ = util.AESdecrypt(claveAEShistorialByte, historial.ApellidosPaciente)
 		historialList[index].Sexo, _ = util.AESdecrypt(claveAEShistorialByte, historial.Sexo)
 	}
 	var tmp = template.Must(
