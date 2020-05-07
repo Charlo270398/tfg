@@ -263,6 +263,7 @@ CREATE TABLE IF NOT EXISTS usuarios_entradas_historial (
 	id INT AUTO_INCREMENT,
 	empleado_id INT,
 	historial_id INT,
+	tipo varchar(100), 
 	motivo_consulta varchar(500), 
 	juicio_diagnostico varchar(500),
 	clave VARCHAR(344) NOT NULL,

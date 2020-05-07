@@ -56,3 +56,25 @@
 2020/05/07 21:30:36 Servicio iniciado
 2020/05/07 21:34:35 Servicio iniciado
 2020/05/07 21:40:52 Intentando iniciar sesión...
+2020/05/07 23:44:52 Servicio iniciado
+2020/05/07 23:45:02 Intentando iniciar sesión...
+2020/05/07 23:45:12 Intentando iniciar sesión...
+2020/05/07 23:48:19 Servicio iniciado
+2020/05/07 23:48:33 Servicio iniciado
+2020/05/07 23:48:34 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc created_at' at line 1)}
+2020/05/07 23:48:35 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc created_at' at line 1)}
+2020/05/07 23:48:50 Servicio iniciado
+2020/05/07 23:52:44 Servicio iniciado
+2020/05/07 23:54:21 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios_tokens' doesn't exist)}
+2020/05/07 23:54:21 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios_tokens' doesn't exist)}
+2020/05/07 23:54:34 Insertando usuario iqNoHymL3CQPCFovTO0TkE8Ld5adfB6BSGE03H7Zj-sq8Tkvhw==
+2020/05/07 23:54:34 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios' doesn't exist)}
+2020/05/07 23:54:34 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios' doesn't exist)}
+2020/05/07 23:54:34 ERROR: &{%!g(string=Atoi) %!g(string=) %!g(*errors.errorString=&{invalid syntax})}
+2020/05/07 23:55:49 Servicio iniciado
+2020/05/07 23:56:11 Insertando usuario HxLdkryk1E6G10il3nLjx0KcAl3V8K3HojLCoX0cmXcClkJs5g==
+2020/05/07 23:56:36 Insertando usuario medico1@gmail.com
+2020/05/07 23:57:01 Insertando usuario l_Tn40kmmKHi_y4CDwfdX9s5pkzBVomRBnYxsX4WqhXtPUc=
+2020/05/07 23:57:21 Intentando iniciar sesión...
+2020/05/07 23:57:53 Intentando iniciar sesión...
+2020/05/08 00:05:28 Insertando usuario Ajb0iXhEb2IEsVT7kGht8DZ1YyFUSl6NRiy07h7TXqFkWQE=

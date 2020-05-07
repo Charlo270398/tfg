@@ -113,6 +113,7 @@ func historialPatientHandler(w http.ResponseWriter, req *http.Request) {
 		//Desciframos los datos de la entrada con AES
 		historial.Entradas[index].MotivoConsulta, _ = util.AESdecrypt(claveAESentradaByte, entrada.MotivoConsulta)
 		historial.Entradas[index].JuicioDiagnostico, _ = util.AESdecrypt(claveAESentradaByte, entrada.JuicioDiagnostico)
+		historial.Entradas[index].Tipo, _ = util.AESdecrypt(claveAESentradaByte, entrada.Tipo)
 	}
 
 	var tmp = template.Must(

@@ -97,6 +97,7 @@ func addEntradaHistorialConsultaMedicoHandler(w http.ResponseWriter, req *http.R
 	//Ciframos los datos sensibles con la clave
 	entradaHistorial.JuicioDiagnostico, _ = util.AESencrypt(AESkeyDatos, entradaHistorial.JuicioDiagnostico)
 	entradaHistorial.MotivoConsulta, _ = util.AESencrypt(AESkeyDatos, entradaHistorial.MotivoConsulta)
+	entradaHistorial.Tipo, _ = util.AESencrypt(AESkeyDatos, "Consulta")
 
 	//Pasamos la clave a base 64
 	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))

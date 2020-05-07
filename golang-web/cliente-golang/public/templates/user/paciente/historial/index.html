@@ -6,15 +6,21 @@
 {{end}}
 {{define "body"}}
 <main>
+  <div>
+    <h2><strong>Datos del paciente</strong></h2>
+    <p><strong>Sexo:</strong> {{.Historial.Sexo}}</p>
+    <p><strong>Alergias:</strong> {{.Historial.Alergias}}</p>
+  </div>
+  <br>
   <!-- Tabla historial -->
   <div>
+      <h2 id="historialTitulo"><strong>Entradas en el historial</strong></h2>
       <table id="historialTabla" class="table">
             <thead class="thead-dark">
                   <tr>
-                        <th scope="col">Entrada</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Especialista</th>
                         <th scope="col">Tipo</th>
+                        <th scope="col">Especialista</th>
+                        <th scope="col">Fecha</th>
                         <th scope="col">Ver informe</th>
                   </tr>
             </thead>

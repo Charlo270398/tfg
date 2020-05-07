@@ -56,8 +56,8 @@ func InsertEntradaHistorial(entrada util.EntradaHistorial_JSON) (inserted_id int
 	historialPaciente, _ := GetHistorialByUserId(pacienteIdString)
 	historialPacienteIdString := strconv.Itoa(historialPaciente.Id)
 	//INSERT
-	entradaId, err := db.Exec(`INSERT INTO usuarios_entradas_historial (empleado_id, historial_id, motivo_consulta, juicio_diagnostico, clave, created_at) VALUES (?, ?, ?, ?, ?, ?)`, entrada.UserToken.UserId,
-		historialPacienteIdString, entrada.MotivoConsulta, entrada.JuicioDiagnostico, entrada.Clave, createdAt.Local())
+	entradaId, err := db.Exec(`INSERT INTO usuarios_entradas_historial (empleado_id, historial_id, motivo_consulta, juicio_diagnostico, clave, created_at, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)`, entrada.UserToken.UserId,
+		historialPacienteIdString, entrada.MotivoConsulta, entrada.JuicioDiagnostico, entrada.Clave, createdAt.Local(), entrada.Tipo)
 	if err == nil {
 		id, _ := entradaId.LastInsertId()
 		inserted_id = int(id)
@@ -134,12 +134,12 @@ func GetHistorialCompartidoByMedicoIdPacienteId(medicoId string, pacienteId stri
 
 func GetEntradasHistorialByHistorialId(historialId int) (entradas []util.EntradaHistorial_JSON, err error) {
 	historialPacienteIdString := strconv.Itoa(historialId)
-	rows, err := db.Query(`SELECT id, empleado_id, historial_id, motivo_consulta, juicio_diagnostico, clave, created_at FROM usuarios_entradas_historial where historial_id = ` + historialPacienteIdString) // check err
+	rows, err := db.Query(`SELECT id, empleado_id, historial_id, motivo_consulta, juicio_diagnostico, clave, created_at, tipo FROM usuarios_entradas_historial where historial_id = ` + historialPacienteIdString + " order by created_at desc") // check err
 	if err == nil {
 		var e util.EntradaHistorial_JSON
 		defer rows.Close()
 		for rows.Next() {
-			rows.Scan(&e.Id, &e.EmpleadoId, &e.HistorialId, &e.MotivoConsulta, &e.JuicioDiagnostico, &e.Clave, &e.CreatedAt)
+			rows.Scan(&e.Id, &e.EmpleadoId, &e.HistorialId, &e.MotivoConsulta, &e.JuicioDiagnostico, &e.Clave, &e.CreatedAt, &e.Tipo)
 			//Cambio horario y formato
 			words := strings.Fields(e.CreatedAt)
 			day := words[0] + "T" + words[1] + "Z"

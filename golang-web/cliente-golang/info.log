@@ -165,3 +165,6 @@
 2020/05/07 21:29:21 Servicio iniciado
 2020/05/07 21:30:48 Servicio iniciado
 2020/05/07 21:31:45 Servicio iniciado
+2020/05/07 23:44:55 Servicio iniciado
+2020/05/07 23:54:19 Servicio iniciado
+2020/05/08 00:01:31 ERROR: {%!g(string=body) %!g(*errors.errorString=&{template: index.html:11:25: executing "body" at <.Historial.sexo>: can't evaluate field sexo in type utils.Historial_JSON})}
