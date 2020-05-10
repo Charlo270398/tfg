@@ -12,6 +12,7 @@ var Rol_enfermero util.Rol
 var Rol_medico util.Rol
 var Rol_administradorC util.Rol
 var Rol_administradorG util.Rol
+var Rol_emergencias util.Rol
 
 func LoadRoles() {
 	//Definimos los roles basicos
@@ -20,6 +21,7 @@ func LoadRoles() {
 	Rol_medico = util.Rol{Id: 3, Nombre: "medico", Descripcion: "Medico"}
 	Rol_administradorC = util.Rol{Id: 4, Nombre: "administradorC", Descripcion: "Administrador clinica"}
 	Rol_administradorG = util.Rol{Id: 5, Nombre: "administradorG", Descripcion: "Administrador global"}
+	Rol_emergencias = util.Rol{Id: 6, Nombre: "emergencias", Descripcion: "Emergencias"}
 }
 
 //GET

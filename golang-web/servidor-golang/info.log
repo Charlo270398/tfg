@@ -1,94 +1,32 @@
-2020/05/06 17:31:02 ERROR: %!g(<nil>)
-2020/05/06 17:31:06 ERROR: %!g(<nil>)
-2020/05/06 17:31:25 Insertando usuario 6ajAZ788v43Sa4WjvrNHsP6rYIez-oRvzcTSKYmPwjpwM1VVQQ==
-2020/05/06 17:31:53 Insertando usuario medico1@gmail.com
-2020/05/06 17:32:21 Insertando usuario Rxy1Dc8zFSO7BBgR8uCngj-yXEPnPFAIQCQmd3ZATcnWq_I=
-2020/05/06 17:32:31 Intentando iniciar sesión...
-2020/05/06 17:32:59 Intentando iniciar sesión...
-2020/05/06 17:41:31 Servicio iniciado
-2020/05/06 17:41:50 Insertando usuario wjANcsWZgLu1vcOokezopx7fbdezu9ru9AQ7p_qNUuuJ
-2020/05/06 17:44:14 Servicio iniciado
-2020/05/06 17:44:32 Insertando usuario AF6Tgp4PzTUGfxIUCWZcZ7NSSIsdChbpGb0-_wWMqigCqWiyC84MHJBDNg==
-2020/05/07 18:55:10 Servicio iniciado
-2020/05/07 18:55:29 Intentando iniciar sesión...
-2020/05/07 18:57:15 Intentando iniciar sesión...
-2020/05/07 18:57:24 Intentando iniciar sesión...
-2020/05/07 18:57:52 Intentando iniciar sesión...
-2020/05/07 19:05:02 Servicio iniciado
-2020/05/07 19:12:49 Servicio iniciado
-2020/05/07 19:12:57 ERROR: &{%!g(uint16=1054) %!g(string=Unknown column 'id' in 'field list')}
-2020/05/07 19:13:42 Servicio iniciado
-2020/05/07 19:28:59 Servicio iniciado
-2020/05/07 19:29:58 Insertando usuario iaNqV8VEHh04v9ZGGXInLFijtXGp_znNM0nHFRIUq41UDRMHVw==
-2020/05/07 19:30:44 Insertando usuario doctor1@gmail.com
-2020/05/07 19:31:22 Insertando usuario kBlQpz1XgqTQmFxMMmr9GeWGToESqs1NULUa-U3jtk-v5eY=
-2020/05/07 19:31:55 Intentando iniciar sesión...
-2020/05/07 19:32:19 Intentando iniciar sesión...
-2020/05/07 19:32:40 Intentando iniciar sesión...
-2020/05/07 19:35:47 Servicio iniciado
-2020/05/07 19:40:04 Servicio iniciado
-2020/05/07 19:42:17 Servicio iniciado
-2020/05/07 19:44:44 Servicio iniciado
-2020/05/07 19:45:02 Servicio iniciado
-2020/05/07 19:45:08 ERROR: %!g(<nil>)
-2020/05/07 19:45:24 Insertando usuario jEkyO2nZCUpZS3OstjD5QBbnIcT1XImreldB7f7PieE8G9_5PQ==
-2020/05/07 19:46:42 Servicio iniciado
-2020/05/07 19:47:09 Insertando usuario 6w6vExWkzwRnbav4e9kGzn--3pdxcQ3no775t3WruKvHKOw=
-2020/05/07 19:50:08 Servicio iniciado
-2020/05/07 19:50:21 Intentando iniciar sesión...
-2020/05/07 19:50:49 Insertando usuario medico1@gmail.com
-2020/05/07 19:51:08 Intentando iniciar sesión...
-2020/05/07 19:51:25 Intentando iniciar sesión...
-2020/05/07 19:51:39 Intentando iniciar sesión...
-2020/05/07 19:52:56 Servicio iniciado
-2020/05/07 19:54:12 Servicio iniciado
-2020/05/07 19:54:37 Servicio iniciado
-2020/05/07 19:55:11 Intentando iniciar sesión...
-2020/05/07 19:55:21 Intentando iniciar sesión...
-2020/05/07 19:55:51 Servicio iniciado
-2020/05/07 19:56:34 Servicio iniciado
-2020/05/07 19:57:15 Servicio iniciado
-2020/05/07 19:57:57 Servicio iniciado
-2020/05/07 21:10:43 Intentando iniciar sesión...
-2020/05/07 21:27:40 Servicio iniciado
-2020/05/07 21:28:26 Servicio iniciado
-2020/05/07 21:29:00 Servicio iniciado
-2020/05/07 21:30:36 Servicio iniciado
-2020/05/07 21:34:35 Servicio iniciado
-2020/05/07 21:40:52 Intentando iniciar sesión...
-2020/05/07 23:44:52 Servicio iniciado
-2020/05/07 23:45:02 Intentando iniciar sesión...
-2020/05/07 23:45:12 Intentando iniciar sesión...
-2020/05/07 23:48:19 Servicio iniciado
-2020/05/07 23:48:33 Servicio iniciado
-2020/05/07 23:48:34 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc created_at' at line 1)}
-2020/05/07 23:48:35 ERROR: &{%!g(uint16=1064) %!g(string=You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc created_at' at line 1)}
-2020/05/07 23:48:50 Servicio iniciado
-2020/05/07 23:52:44 Servicio iniciado
-2020/05/07 23:54:21 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios_tokens' doesn't exist)}
-2020/05/07 23:54:21 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios_tokens' doesn't exist)}
-2020/05/07 23:54:34 Insertando usuario iqNoHymL3CQPCFovTO0TkE8Ld5adfB6BSGE03H7Zj-sq8Tkvhw==
-2020/05/07 23:54:34 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios' doesn't exist)}
-2020/05/07 23:54:34 ERROR: &{%!g(uint16=1146) %!g(string=Table 'golang.usuarios' doesn't exist)}
-2020/05/07 23:54:34 ERROR: &{%!g(string=Atoi) %!g(string=) %!g(*errors.errorString=&{invalid syntax})}
-2020/05/07 23:55:49 Servicio iniciado
-2020/05/07 23:56:11 Insertando usuario HxLdkryk1E6G10il3nLjx0KcAl3V8K3HojLCoX0cmXcClkJs5g==
-2020/05/07 23:56:36 Insertando usuario medico1@gmail.com
-2020/05/07 23:57:01 Insertando usuario l_Tn40kmmKHi_y4CDwfdX9s5pkzBVomRBnYxsX4WqhXtPUc=
-2020/05/07 23:57:21 Intentando iniciar sesión...
-2020/05/07 23:57:53 Intentando iniciar sesión...
-2020/05/08 00:05:28 Insertando usuario Ajb0iXhEb2IEsVT7kGht8DZ1YyFUSl6NRiy07h7TXqFkWQE=
-2020/05/08 00:21:36 Servicio iniciado
-2020/05/08 00:22:14 Servicio iniciado
-2020/05/08 00:29:04 Servicio iniciado
-2020/05/08 00:29:06 ERROR: %!g(<nil>)
-2020/05/08 00:29:17 Insertando usuario 6jPTWsUxC9l2fC9SDSLQvehqBxR47vtrZsimhf4RN4BJILvo3Q==
-2020/05/08 00:29:40 Insertando usuario medico@gmail.com
-2020/05/08 00:29:58 Insertando usuario dGkc5ThS7cRbYSmPetFsI6AFzcgZKE4Rwk2tJKh2bjhtCg==
-2020/05/08 00:30:34 ERROR: &{%!g(uint16=1054) %!g(string=Unknown column 'sexo' in 'field list')}
-2020/05/08 00:31:34 Servicio iniciado
-2020/05/08 00:31:57 Intentando iniciar sesión...
-2020/05/08 00:35:39 Servicio iniciado
-2020/05/08 00:37:58 Servicio iniciado
-2020/05/08 00:42:14 Servicio iniciado
-2020/05/08 00:47:03 Intentando iniciar sesión...
+2020/05/10 12:25:22 Servicio iniciado
+2020/05/10 12:25:28 ERROR: %!g(<nil>)
+2020/05/10 12:25:42 Insertando usuario nXnAkR0uEkW0iL1sz-BPhOTHoPK7ufJePBLehfETZ-29lz4mGf6dmV905cw=
+2020/05/10 12:25:55 Insertando usuario qjf2PMudvPdYiyzEKQ62gKgn6jYY2XipqetKtUB2pbWV4p5gug==
+2020/05/10 12:25:55 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '013f2ece1bbe46b436e17519ee008cf2518efaca869a40162018a752e4da1544' for key 'dni_hash')}
+2020/05/10 12:26:53 Servicio iniciado
+2020/05/10 12:26:57 Insertando usuario 0Kr8z7VLs_iqx3WVmoP9TskEQXPVtK-BCw4TUkx96VZfeb8_Cw==
+2020/05/10 12:26:57 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '013f2ece1bbe46b436e17519ee008cf2518efaca869a40162018a752e4da1544' for key 'dni_hash')}
+2020/05/10 12:27:04 Insertando usuario RcKN2kdGWXRqVzyeyR1eY9TebjaQdKMexSmF7OzsszE6xpumOA==
+2020/05/10 12:27:04 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '013f2ece1bbe46b436e17519ee008cf2518efaca869a40162018a752e4da1544' for key 'dni_hash')}
+2020/05/10 12:27:04 Insertando usuario e08v-E9TGWjT9j2jqrqOOGGvVvjuBC4Anqi3q_g7laz1p3qswg==
+2020/05/10 12:27:04 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '013f2ece1bbe46b436e17519ee008cf2518efaca869a40162018a752e4da1544' for key 'dni_hash')}
+2020/05/10 12:27:04 Insertando usuario Vvtnh-EDxk4Z9tkTh9392coJETKJTOjLyE-76opCN_z6p5-_4w==
+2020/05/10 12:27:04 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '013f2ece1bbe46b436e17519ee008cf2518efaca869a40162018a752e4da1544' for key 'dni_hash')}
+2020/05/10 12:27:04 Insertando usuario MhG-1e9yFY6XZR8e7KuRTj9bl4VA7AR3os7w0SNDEd9T85s0lg==
+2020/05/10 12:27:05 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '013f2ece1bbe46b436e17519ee008cf2518efaca869a40162018a752e4da1544' for key 'dni_hash')}
+2020/05/10 12:27:05 Insertando usuario DzjKK7yxGhITM6FgM-FTFFcbyOovNRmtwWLk728bnFqTaxLjMQ==
+2020/05/10 12:27:05 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '013f2ece1bbe46b436e17519ee008cf2518efaca869a40162018a752e4da1544' for key 'dni_hash')}
+2020/05/10 12:27:40 Servicio iniciado
+2020/05/10 12:27:43 Insertando usuario EaYtrG2VJYQvM8BKHaUMKAwOBflFD2f6KyKf_7twINYE6Tbqtg==
+2020/05/10 12:27:43 ERROR: &{%!g(uint16=1062) %!g(string=Duplicate entry '013f2ece1bbe46b436e17519ee008cf2518efaca869a40162018a752e4da1544' for key 'dni_hash')}
+2020/05/10 12:28:19 Servicio iniciado
+2020/05/10 12:28:36 Insertando usuario _4rkNLWr_rw5thWNs1mA7uOkGJIMAmBtM57uQC4ZEwuXg_YD97B1cpx04xU=
+2020/05/10 12:30:14 Servicio iniciado
+2020/05/10 12:31:05 ERROR: %!g(<nil>)
+2020/05/10 12:31:15 Intentando iniciar sesión...
+2020/05/10 12:31:51 Insertando usuario BmYNaWsfveby6HC_zXE8GTOMk6RXSnOZ4IUxNAs=
+2020/05/10 12:33:46 Insertando usuario hXUP7C1zKF1rSFKTfVOMVhn1fkFJLvsD2s4OsiE=
+2020/05/10 12:34:12 Intentando iniciar sesión...
+2020/05/10 12:34:12 No hay contraseña
+2020/05/10 12:34:19 Intentando iniciar sesión...
+2020/05/10 12:35:52 Insertando usuario NHfZdSQ6atghDcy_iLeclYweMuegpVQZ89tH0FA=

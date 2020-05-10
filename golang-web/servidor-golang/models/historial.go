@@ -41,8 +41,8 @@ func GetHistorialByUserId(userId string) (historial util.Historial_JSON, err err
 func InsertHistorial(user util.User_JSON) (result bool, err error) {
 	//INSERT
 	createdAt := time.Now()
-	_, err = db.Exec(`INSERT INTO usuarios_historial (sexo,alergias,usuario_id,ultima_actualizacion, clave) VALUES (?, ?, ?, ?, ?)`, user.Sexo,
-		user.Alergias, user.Id, createdAt, user.Clave)
+	_, err = db.Exec(`INSERT INTO usuarios_historial (sexo,alergias,usuario_id,ultima_actualizacion, clave, clave_maestra) VALUES (?, ?, ?, ?, ?, ?)`, user.Sexo,
+		user.Alergias, user.Id, createdAt, user.Clave, user.ClaveMaestra)
 	if err == nil {
 		return true, nil
 	} else {

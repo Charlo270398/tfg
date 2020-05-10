@@ -162,18 +162,37 @@ func addEnfermeroAdminHandler(w http.ResponseWriter, req *http.Request) {
 
 	//Generamos par de claves RSA
 	privK := util.RSAGenerateKeys()
+	masterPairKeys := getPublicMasterKey() //Obtenemos la CLAVE MAESTRA PUBLICA si existe
+
 	//Pasamos las claves a []byte
 	var pairKeys util.PairKeys
 	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
 	pairKeys.PublicKey = util.RSAPublicKeyToBytes(&privK.PublicKey)
 	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
+
+	//Generamos una clave AES aleatoria de 256 bits para cifrar los datos sensibles
+	AESkeyDatos := util.AEScreateKey()
+
+	//Ciframos los datos sensibles con la clave
+	identificacionCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Identificacion)
+	nombreCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Nombre)
+	apellidosCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Apellidos)
+	emailCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Email)
+
+	//Pasamos la clave a base 64
+	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))
+
 	//Ciframos clave privada con AES
 	privKcifrada, _ := util.AESencrypt(privateKeyHash, string(util.Base64Encode(pairKeys.PrivateKey)))
 	pairKeys.PrivateKey = []byte(privKcifrada)
 
-	locJson, err := json.Marshal(util.User_JSON{Identificacion: creds.Identificacion, Nombre: creds.Nombre, Apellidos: creds.Apellidos,
-		Email: creds.Email, Password: loginHash, Roles: []int{Rol_enfermero.Id}, EnfermeroClinica: creds.EnfermeroClinica,
-		UserToken: prepareUserToken(req), PairKeys: pairKeys})
+	//Ciframos la clave AES usada con nuestra clave pública
+	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, privK.PublicKey)
+	claveMaestraAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(masterPairKeys.PublicKey))
+
+	locJson, err := json.Marshal(util.User_JSON{Identificacion: identificacionCifrado, Nombre: nombreCifrado, Apellidos: apellidosCifrado,
+		Email: emailCifrado, Password: loginHash, Roles: []int{Rol_enfermero.Id}, EnfermeroClinica: creds.EnfermeroClinica,
+		Clave: claveAEScifrada, ClaveMaestra: claveMaestraAEScifrada, UserToken: prepareUserToken(req), PairKeys: pairKeys})
 
 	//Certificado
 	client := GetTLSClient()
@@ -236,6 +255,8 @@ func addMedicoAdminHandler(w http.ResponseWriter, req *http.Request) {
 
 	//Generamos par de claves RSA
 	privK := util.RSAGenerateKeys()
+	masterPairKeys := getPublicMasterKey() //Obtenemos la CLAVE MAESTRA PUBLICA si existe
+
 	//Pasamos las claves a []byte
 	var pairKeys util.PairKeys
 	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
@@ -252,6 +273,7 @@ func addMedicoAdminHandler(w http.ResponseWriter, req *http.Request) {
 	identificacionCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Identificacion)
 	nombreCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Nombre)
 	apellidosCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Apellidos)
+	emailCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Email)
 
 	//Hacemos HASH del DNI para poder hacer busquedas despues
 	sha_256 := sha256.New()
@@ -261,14 +283,16 @@ func addMedicoAdminHandler(w http.ResponseWriter, req *http.Request) {
 
 	//Pasamos la clave a base 64
 	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))
+
 	//Ciframos la clave AES usada con nuestra clave pública
 	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, privK.PublicKey)
+	claveMaestraAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(masterPairKeys.PublicKey))
 
 	nombreDoctor := creds.Nombre + " " + creds.Apellidos
 	locJson, err := json.Marshal(util.User_JSON{Identificacion: identificacionCifrado, Nombre: nombreCifrado, Apellidos: apellidosCifrado,
-		Email: creds.Email, Password: loginHash, Roles: []int{Rol_medico.Id}, MedicoClinica: creds.MedicoClinica,
+		Email: emailCifrado, Password: loginHash, Roles: []int{Rol_medico.Id}, MedicoClinica: creds.MedicoClinica,
 		MedicoEspecialidad: creds.MedicoEspecialidad, UserToken: prepareUserToken(req), PairKeys: pairKeys,
-		IdentificacionHash: identificacionHash, Clave: claveAEScifrada, NombreDoctor: nombreDoctor})
+		IdentificacionHash: identificacionHash, Clave: claveAEScifrada, ClaveMaestra: claveMaestraAEScifrada, NombreDoctor: nombreDoctor})
 
 	//Certificado
 	client := GetTLSClient()

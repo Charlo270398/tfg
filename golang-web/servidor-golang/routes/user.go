@@ -14,7 +14,7 @@ import (
 func getUsersPaginationHandler(w http.ResponseWriter, req *http.Request) {
 	page, ok := req.URL.Query()["page"]
 	var usersListReturn util.UserList_JSON_Pagination
-	var usersList []util.User
+	var usersList []util.User_JSON
 	if !ok || len(page[0]) < 1 {
 		usersList = models.GetUsersPagination(0) //Devolvemos primera pagina
 	} else {
@@ -29,7 +29,6 @@ func getUsersPaginationHandler(w http.ResponseWriter, req *http.Request) {
 		}
 	}
 	usersListReturn.UserList = usersList
-
 	js, err := json.Marshal(usersListReturn)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -112,6 +111,48 @@ func getUserPairKeysHandler(w http.ResponseWriter, req *http.Request) {
 		userReturn.PairKeys = pairKeys
 	}
 	js, err := json.Marshal(userReturn)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
+
+func getUserMasterPairKeysHandler(w http.ResponseWriter, req *http.Request) {
+	userIdURL, ok := req.URL.Query()["userId"]
+	var userReturn util.User_JSON
+	if !ok || len(userIdURL[0]) < 1 {
+		http.Error(w, "No hay parámetros", http.StatusInternalServerError)
+		return
+	} else {
+		masterPairKeys, err := models.GetUserMasterPairKeys(userIdURL[0])
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		userId, err := strconv.Atoi(userIdURL[0])
+		userReturn.Id = userId
+		userReturn.MasterPairKeys = masterPairKeys
+	}
+	js, err := json.Marshal(userReturn)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
+
+func getPublicMasterKeyHandler(w http.ResponseWriter, req *http.Request) {
+	masterPairKeys, err := models.GetPublicMasterKey()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var user util.User_JSON
+	user.MasterPairKeys = masterPairKeys
+	js, err := json.Marshal(user)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

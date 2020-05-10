@@ -149,14 +149,27 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 
 	//Generamos par de claves RSA
 	privK := util.RSAGenerateKeys()
+	var masterPairKeys util.PairKeys
+	masterPairKeys = getPublicMasterKey() //Obtenemos la CLAVE MAESTRA PUBLICA si existe
+	if masterPairKeys.PublicKey == nil {
+		//si no existe es que somos el primer usuario, entonces generamos nosotros la clave
+		generatedMK := util.RSAGenerateKeys()
+		masterPairKeys.PrivateKey = util.RSAPrivateKeyToBytes(generatedMK)
+		masterPairKeys.PublicKey = util.RSAPublicKeyToBytes(&generatedMK.PublicKey)
+		masterPairKeys.PrivateKey = util.RSAPrivateKeyToBytes(generatedMK)
+	}
+
 	//Pasamos las claves a []byte
 	var pairKeys util.PairKeys
 	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
 	pairKeys.PublicKey = util.RSAPublicKeyToBytes(&privK.PublicKey)
 	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
+
 	//Ciframos clave privada con AES
 	privKcifrada, _ := util.AESencrypt(privateKeyHash, string(util.Base64Encode(pairKeys.PrivateKey)))
+	privKcifradaMaster, _ := util.AESencrypt(privateKeyHash, string(util.Base64Encode(masterPairKeys.PrivateKey)))
 	pairKeys.PrivateKey = []byte(privKcifrada)
+	masterPairKeys.PrivateKey = []byte(privKcifradaMaster)
 
 	//Generamos una clave AES aleatoria de 256 bits para cifrar los datos sensibles
 	AESkeyDatos := util.AEScreateKey()
@@ -179,9 +192,10 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))
 	//Ciframos la clave AES usada con nuestra clave pública
 	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, privK.PublicKey)
+	claveMaestraAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(masterPairKeys.PublicKey))
 
 	locJson, err := json.Marshal(util.User_JSON{Identificacion: identificacionCifrado, IdentificacionHash: identificacionHash, Nombre: nombreCifrado, Apellidos: apellidosCifrado,
-		Email: emailCifrado, Password: loginHash, PairKeys: pairKeys, Clave: claveAEScifrada, Sexo: sexoCifrado, Alergias: alergiasCifrado})
+		Email: emailCifrado, Password: loginHash, PairKeys: pairKeys, MasterPairKeys: masterPairKeys, Clave: claveAEScifrada, Sexo: sexoCifrado, Alergias: alergiasCifrado, ClaveMaestra: claveMaestraAEScifrada})
 
 	//Certificado
 	client := GetTLSClient()

@@ -85,42 +85,53 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 		if len(userlist) == 1 {
 			//SI ES EL PRIMER USUARIO DE LA BD LE DAMOS PERMISO DE ADMINISTRADOR GLOBAL
 			rolesList = []int{models.Rol_administradorG.Id}
+			//INSERTAMOS CLAVES RSA MAESTRAS
+			_, err = models.InsertUserMasterPairKeys(userId, user.MasterPairKeys)
+			if err != nil {
+				util.PrintErrorLog(err)
+				jsonReturn = util.JSON_Login_Return{Error: "Las claves no se han podido insertar"}
+			}
 		} else {
 			rolesList = []int{models.Rol_paciente.Id}
 		}
+		user.Id = userId
 		//Insertamos DNI hasheado
 		_, err = models.InsertUserDniHash(userId, user.IdentificacionHash)
 		if err != nil {
 			util.PrintErrorLog(err)
-			jsonReturn = util.JSON_Login_Return{Error: "El DNI no se ha podido insertar"}
-		}
-		//Insertamos Historial
-		user.Id = userId
-		_, err = models.InsertHistorial(user)
-		if err != nil {
-			util.PrintErrorLog(err)
-			jsonReturn = util.JSON_Login_Return{Error: "El historial no se ha podido insertar"}
-		}
-		//INSERTAMOS CLAVES RSA
-		_, err = models.InsertUserPairKeys(userId, user.PairKeys)
-		if err != nil {
-			util.PrintErrorLog(err)
-			jsonReturn = util.JSON_Login_Return{Error: "Las claves no se han podido insertar"}
-		}
-		//INSERTAMOS ROLES DEL USUARIO
-		inserted, err := models.InsertUserAndRole(userId, rolesList)
-		if err == nil && inserted == true {
-			//INSERTAMOS EL TOKEN DE LA SESION DEL USUARIO
-			token, err := models.InsertUserToken(userId)
+			jsonReturn = util.JSON_Login_Return{Error: "El documento de identificación ya existe en la base de datos"}
+			models.DeleteUser(user.Id)
+		} else {
+			//INSERTAMOS HISTORIAL
+			if len(userlist) != 1 {
+				//Insertamos Historial
+				_, err = models.InsertHistorial(user)
+				if err != nil {
+					util.PrintErrorLog(err)
+					jsonReturn = util.JSON_Login_Return{Error: "El historial no se ha podido insertar"}
+				}
+			}
+			//INSERTAMOS CLAVES RSA
+			_, err = models.InsertUserPairKeys(userId, user.PairKeys)
 			if err != nil {
 				util.PrintErrorLog(err)
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
+				jsonReturn = util.JSON_Login_Return{Error: "Las claves no se han podido insertar"}
 			}
-			//RECUPERAMOS CLAVE PUBLICA Y PRIVADA DEL USUARIO
-			jsonReturn = util.JSON_Login_Return{UserId: strconv.Itoa(user.Id), Nombre: user.Nombre, Apellidos: user.Apellidos, Email: user.Email, Token: token, PairKeys: user.PairKeys, Clave: user.Clave}
-		} else {
-			jsonReturn = util.JSON_Login_Return{Error: "Los roles no se han podido registrar"}
+			//INSERTAMOS ROLES DEL USUARIO
+			inserted, err := models.InsertUserAndRole(userId, rolesList)
+			if err == nil && inserted == true {
+				//INSERTAMOS EL TOKEN DE LA SESION DEL USUARIO
+				token, err := models.InsertUserToken(userId)
+				if err != nil {
+					util.PrintErrorLog(err)
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+				//RECUPERAMOS CLAVE PUBLICA Y PRIVADA DEL USUARIO
+				jsonReturn = util.JSON_Login_Return{UserId: strconv.Itoa(user.Id), Nombre: user.Nombre, Apellidos: user.Apellidos, Email: user.Email, Token: token, PairKeys: user.PairKeys, Clave: user.Clave}
+			} else {
+				jsonReturn = util.JSON_Login_Return{Error: "Los roles no se han podido registrar"}
+			}
 		}
 	} else {
 		jsonReturn = util.JSON_Login_Return{Error: "El usuario no se ha podido registrar"}

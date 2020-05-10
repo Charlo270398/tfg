@@ -44,8 +44,8 @@ func InsertUser(user util.User_JSON) (userId int, err error) {
 	}
 	//INSERT
 	createdAt := time.Now()
-	res, err := db.Exec(`INSERT INTO usuarios (dni, nombre, apellidos, email, password, created_at, clave) VALUES (?, ?, ?, ?, ?, ?, ?)`, user.Identificacion,
-		user.Nombre, user.Apellidos, user.Email, encodedHash, createdAt.Local(), user.Clave)
+	res, err := db.Exec(`INSERT INTO usuarios (dni, nombre, apellidos, email, password, created_at, clave, clave_maestra) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, user.Identificacion,
+		user.Nombre, user.Apellidos, user.Email, encodedHash, createdAt.Local(), user.Clave, user.ClaveMaestra)
 	if err == nil {
 		userId, _ := res.LastInsertId()
 		return int(userId), nil
@@ -65,7 +65,7 @@ func InsertUserDniHash(user_id int, user_dni string) (inserted bool, err error) 
 		fmt.Println(err)
 		util.PrintErrorLog(err)
 	}
-	return false, nil
+	return false, err
 }
 
 func CheckUserDniHash(user_id string, user_dni string) (usuarioId int, err error) {
@@ -177,16 +177,16 @@ func GetUserByEmail(email string) (user util.User_JSON, err error) {
 	}
 }
 
-func GetUsersPagination(page int) []util.User {
+func GetUsersPagination(page int) []util.User_JSON {
 	firstRow := strconv.Itoa(page * 10)
 	lastRow := strconv.Itoa((page * 10) + 10)
-	rows, err := db.Query("SELECT id, dni, nombre, apellidos, email, created_at FROM usuarios LIMIT " + firstRow + "," + lastRow)
+	rows, err := db.Query("SELECT id, dni, nombre, apellidos, email, created_at, clave, clave_maestra FROM usuarios LIMIT " + firstRow + "," + lastRow)
 	if err == nil {
 		defer rows.Close()
-		var users []util.User
+		var users []util.User_JSON
 		for rows.Next() {
-			var u util.User
-			rows.Scan(&u.Id, &u.Identificacion, &u.Nombre, &u.Apellidos, &u.Email, &u.CreatedAt)
+			var u util.User_JSON
+			rows.Scan(&u.Id, &u.Identificacion, &u.Nombre, &u.Apellidos, &u.Email, &u.CreatedAt, &u.Clave, &u.ClaveMaestra)
 			users = append(users, u)
 		}
 		return users
@@ -268,6 +268,19 @@ func InsertUserPairKeys(user_id int, pairKeys util.PairKeys) (result bool, err e
 	return false, nil
 }
 
+func InsertUserMasterPairKeys(user_id int, pairKeys util.PairKeys) (result bool, err error) {
+	//INSERT
+	_, err = db.Exec(`INSERT INTO usuarios_master_pairkeys (usuario_id, public_key, private_key) VALUES (?, ?, ?)`, user_id,
+		pairKeys.PublicKey, pairKeys.PrivateKey)
+	if err == nil {
+		return true, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+	}
+	return false, nil
+}
+
 func GetUserPairKeys(user_id string) (result util.PairKeys, err error) {
 	//GET
 	row, err := db.Query(`SELECT public_key, private_key FROM usuarios_pairkeys WHERE usuario_id = ` + user_id)
@@ -275,6 +288,36 @@ func GetUserPairKeys(user_id string) (result util.PairKeys, err error) {
 		defer row.Close()
 		row.Next()
 		row.Scan(&result.PublicKey, &result.PrivateKey)
+		return result, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+	}
+	return result, nil
+}
+
+func GetUserMasterPairKeys(user_id string) (result util.PairKeys, err error) {
+	//GET
+	row, err := db.Query(`SELECT public_key, private_key FROM usuarios_master_pairkeys WHERE usuario_id = ` + user_id)
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&result.PublicKey, &result.PrivateKey)
+		return result, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+	}
+	return result, nil
+}
+
+func GetPublicMasterKey() (result util.PairKeys, err error) {
+	//GET
+	row, err := db.Query(`SELECT public_key FROM usuarios_master_pairkeys`)
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&result.PublicKey)
 		return result, nil
 	} else {
 		fmt.Println(err)

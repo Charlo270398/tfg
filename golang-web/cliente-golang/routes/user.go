@@ -57,16 +57,18 @@ func menuUserHandler(w http.ResponseWriter, req *http.Request) {
 	//Si solo hay un rol redirigimos a la pagina de ese rol
 	if len(rolesList) == 1 {
 		switch rolesList[0] {
-		case 1: //Paciente
+		case Rol_paciente.Id: //Paciente
 			http.Redirect(w, req, "/user/patient", http.StatusSeeOther)
-		case 2: //Enfermero
+		case Rol_enfermero.Id: //Enfermero
 			http.Redirect(w, req, "/user/nurse", http.StatusSeeOther)
-		case 3: //Medico
+		case Rol_medico.Id: //Medico
 			http.Redirect(w, req, "/user/doctor", http.StatusSeeOther)
-		case 4: //AdminC
+		case Rol_administradorC.Id: //AdminC
 			http.Redirect(w, req, "/user/admin", http.StatusSeeOther)
-		case 5: //AdminG
+		case Rol_administradorG.Id: //AdminG
 			http.Redirect(w, req, "/user/adminG", http.StatusSeeOther)
+		case Rol_emergencias.Id: //Emergencias
+			http.Redirect(w, req, "/user/emergency", http.StatusSeeOther)
 		default:
 			http.Error(w, "Internal server error", http.StatusInternalServerError)
 		}

@@ -102,6 +102,40 @@ func getUserPairKeys(userId string) util.PairKeys {
 	return user.PairKeys
 }
 
+func getUserMasterPairKeys(userId string) util.PairKeys {
+	//Certificado
+	client := GetTLSClient()
+	var user util.User_JSON
+	//Recuperamos la clave publica del medico
+	response, _ := client.Get(SERVER_URL + "/user/masterPairkeys?userId=" + userId)
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&user)
+		if err != nil {
+			return user.MasterPairKeys
+		}
+	} else {
+		return user.MasterPairKeys
+	}
+	return user.MasterPairKeys
+}
+
+func getPublicMasterKey() util.PairKeys {
+	//Certificado
+	client := GetTLSClient()
+	var user util.User_JSON
+	//Recuperamos la clave publica del medico
+	response, _ := client.Get(SERVER_URL + "/user/publicMasterKey")
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&user)
+		if err != nil {
+			return user.MasterPairKeys
+		}
+	} else {
+		return user.MasterPairKeys
+	}
+	return user.MasterPairKeys
+}
+
 //URL DEL SERVIDOR AL QUE NOS CONECTAMOS
 const SERVER_URL = "https://localhost:5001"
 
@@ -184,6 +218,9 @@ func LoadRouter() {
 	router.HandleFunc("/user/admin/nurse/add", addEnfermeroAdminHandler).Methods("POST")
 	router.HandleFunc("/user/admin/doctor/add", adminAddMedicoFormHandler).Methods("GET")
 	router.HandleFunc("/user/admin/doctor/add", addMedicoAdminHandler).Methods("POST")
+
+	//USER(EMERGENCIAS)
+	router.HandleFunc("/user/emergency", menuEmergenciasHandler).Methods("GET")
 
 	//USER(ADMIN-GLOBAL)
 	router.HandleFunc("/user/adminG", menuAdminGHandler).Methods("GET")

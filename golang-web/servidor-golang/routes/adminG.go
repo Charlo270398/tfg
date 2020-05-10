@@ -27,10 +27,19 @@ func addUserHandler(w http.ResponseWriter, req *http.Request) {
 			if err != nil {
 				jsonReturn = util.JSON_Return{"", "Error insertando las claves del usuario en la base de datos"}
 			} else {
+				//INSERTAMOS LA CLAVE MAESTRA SI TIENE
+				if user.MasterPairKeys.PrivateKey != nil {
+					_, err = models.InsertUserMasterPairKeys(userId, user.MasterPairKeys)
+					if err != nil {
+						util.PrintErrorLog(err)
+						jsonReturn = util.JSON_Return{Error: "Las claves maestras no se han podido insertar"}
+					}
+				}
 				//Insertamos DNI hasheado
 				_, err := models.InsertUserDniHash(userId, user.IdentificacionHash)
 				if err != nil {
-					jsonReturn = util.JSON_Return{"", "Error insertando el hash del documento de identificación"}
+					jsonReturn = util.JSON_Return{"", "El documento de identificación ya existe en la base de datos"}
+					models.DeleteUser(user.Id)
 				} else {
 					//INSERTAMOS LOS ROLES DEL USUARIO
 					inserted, err := models.InsertUserAndRole(userId, user.Roles)

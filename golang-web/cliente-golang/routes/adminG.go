@@ -70,6 +70,28 @@ func getUserListAdminGHandler(w http.ResponseWriter, req *http.Request) {
 		//Request al servidor para comprobar usuario/pass
 		var serverReq util.UserList_JSON_Pagination
 		json.NewDecoder(response.Body).Decode(&serverReq)
+
+		//DESCIFRADO MASTER KEY
+		//Recuperamos nuestra clave privada cifrada
+		userId, _ := session.Values["userId"].(string)
+		userMasterPairkeys := getUserMasterPairKeys(userId)
+		userPrivateKeyHash, _ := session.Values["userPrivateKeyHash"].([]byte)
+
+		//Desciframos nuestra clave privada cifrada con AES
+		userPrivateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(userMasterPairkeys.PrivateKey))
+		userPrivateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(userPrivateKeyString)))
+
+		//DESCIFRADO DE DATOS
+		for index, user := range serverReq.UserList {
+			//Desciframos la clave AES de los datos cifrados
+			claveAESuser := util.RSADecryptOAEP(user.ClaveMaestra, *userPrivateKey)
+			claveAESuserByte := util.Base64Decode([]byte(claveAESuser))
+			//Desciframos los datos del historial con AES
+			serverReq.UserList[index].Nombre, _ = util.AESdecrypt(claveAESuserByte, user.Nombre)
+			serverReq.UserList[index].Apellidos, _ = util.AESdecrypt(claveAESuserByte, user.Apellidos)
+			serverReq.UserList[index].Email, _ = util.AESdecrypt(claveAESuserByte, user.Email)
+		}
+
 		if err := tmp.ExecuteTemplate(w, "base", &util.UserList_Page{Title: "Listado de usuarios", Body: "body", Page: serverReq.Page,
 			NextPage: serverReq.NextPage, BeforePage: serverReq.BeforePage, UserList: serverReq.UserList}); err != nil {
 			log.Printf("Error executing template: %v", err)
@@ -164,6 +186,31 @@ func addUserGadminHandler(w http.ResponseWriter, req *http.Request) {
 
 	//Generamos par de claves RSA
 	privK := util.RSAGenerateKeys()
+
+	//Recuperamos la CLAVE MAESTRA
+	userId, _ := session.Values["userId"].(string)
+	masterPairKeys := getUserMasterPairKeys(userId)
+
+	//Si es usuario de emergencias o administrador global le damos la CLAVE MAESTRA
+	tieneCM := false
+	for _, role := range creds.Roles {
+		if role == Rol_emergencias.Id || role == Rol_administradorG.Id {
+			//Desciframos la clave privada CLAVE MAESTRA cifrada con AES
+			userPrivateKeyHash, _ := session.Values["userPrivateKeyHash"].([]byte)
+			masterPrivateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(masterPairKeys.PrivateKey))
+
+			//La ciframos con el hash del usuario
+			newUserMasterPrivateKeyString, _ := util.AESencrypt(privateKeyHash, masterPrivateKeyString)
+			masterPairKeys.PrivateKey = util.Base64Encode([]byte(newUserMasterPrivateKeyString))
+			tieneCM = true
+		}
+	}
+
+	//Si no tiene esos roles borramos la CLAVE MAESTRA PRIVADA
+	if !tieneCM {
+		masterPairKeys.PrivateKey = nil
+	}
+
 	//Pasamos las claves a []byte
 	var pairKeys util.PairKeys
 	pairKeys.PrivateKey = util.RSAPrivateKeyToBytes(privK)
@@ -178,6 +225,7 @@ func addUserGadminHandler(w http.ResponseWriter, req *http.Request) {
 
 	//Ciframos los datos sensibles con la clave
 	identificacionCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Identificacion)
+	emailCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Email)
 	nombreCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Nombre)
 	apellidosCifrado, _ := util.AESencrypt(AESkeyDatos, creds.Apellidos)
 
@@ -191,12 +239,13 @@ func addUserGadminHandler(w http.ResponseWriter, req *http.Request) {
 	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))
 	//Ciframos la clave AES usada con nuestra clave pública
 	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, privK.PublicKey)
+	claveAEScifradaMaestra := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(masterPairKeys.PublicKey)) //Ciframos con la clave maestra
 
 	nombreDoctor := creds.Nombre + " " + creds.Apellidos
 	locJson, err := json.Marshal(util.User_JSON{Identificacion: identificacionCifrado, Nombre: nombreCifrado, Apellidos: apellidosCifrado,
-		Email: creds.Email, Password: loginHash, Roles: creds.Roles, EnfermeroClinica: creds.EnfermeroClinica, MedicoClinica: creds.MedicoClinica,
+		Email: emailCifrado, Password: loginHash, Roles: creds.Roles, EnfermeroClinica: creds.EnfermeroClinica, MedicoClinica: creds.MedicoClinica,
 		AdminClinica: creds.AdminClinica, MedicoEspecialidad: creds.MedicoEspecialidad, UserToken: prepareUserToken(req), PairKeys: pairKeys,
-		IdentificacionHash: identificacionHash, NombreDoctor: nombreDoctor, Clave: claveAEScifrada})
+		IdentificacionHash: identificacionHash, NombreDoctor: nombreDoctor, Clave: claveAEScifrada, ClaveMaestra: claveAEScifradaMaestra, MasterPairKeys: masterPairKeys})
 
 	//Certificado
 	client := GetTLSClient()
@@ -239,7 +288,6 @@ func deleteUserHandler(w http.ResponseWriter, req *http.Request) {
 	//Cargamos el ID del usuario en la url
 	vars := mux.Vars(req)
 	userId_int, _ := strconv.Atoi(vars["userId"])
-
 	locJson, err := json.Marshal(util.User_id_JSON{Id: userId_int, UserToken: prepareUserToken(req)})
 
 	//Certificado

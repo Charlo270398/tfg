@@ -62,6 +62,7 @@ function register(nombre, apellido1, apellido2, email, identificacion, password,
                 document.querySelector("#alert").classList.replace("alert-danger", "alert-success");
                 document.querySelector("#alert").textContent = "Usuario añadido correctamente";
                 document.querySelector("#alert").classList.remove('invisible');
+                document.querySelector("#submit").classList.add('invisible');
                 //window.location.href="/user/menu";
             }
             else{

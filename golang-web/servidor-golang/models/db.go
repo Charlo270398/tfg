@@ -49,6 +49,7 @@ func CreateDB() {
 	query(USERS_ROLES_TABLE)
 	query(USERS_TOKENS_TABLE)
 	query(USERS_PAIRKEYS_TABLE)
+	query(USERS_MASTER_PAIRKEYS_TABLE)
 	query(USERS_DNIHASHES_TABLE)
 	query(EMPLEADOS_NOMBRES_TABLE)
 	query(CITAS_TABLE)
@@ -125,6 +126,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
 	password VARCHAR(100) NOT NULL,
 	created_at DATETIME,
 	clave VARCHAR(344) NOT NULL,
+	clave_maestra VARCHAR(344) NOT NULL,
 	PRIMARY KEY (id)
 );`
 
@@ -194,12 +196,23 @@ CREATE TABLE IF NOT EXISTS usuarios_pairkeys (
 	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );`
 
+var USERS_MASTER_PAIRKEYS_TABLE string = `
+CREATE TABLE IF NOT EXISTS usuarios_master_pairkeys (
+	id INT AUTO_INCREMENT,
+	usuario_id INT UNIQUE,
+	public_key BLOB,
+	private_key BLOB,
+	PRIMARY KEY (id),
+	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
 var USERS_DNIHASHES_TABLE string = `
 CREATE TABLE IF NOT EXISTS usuarios_dnihashes(
 	usuario_id INT,
 	dni_hash VARCHAR(64),
 	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
-	PRIMARY KEY (usuario_id,dni_hash)
+	UNIQUE (dni_hash),
+	PRIMARY KEY (usuario_id)
 );`
 
 var EMPLEADOS_NOMBRES_TABLE string = `
@@ -254,6 +267,7 @@ CREATE TABLE IF NOT EXISTS usuarios_historial (
 	usuario_id INT,
 	ultima_actualizacion VARCHAR(200),
 	clave VARCHAR(344) NOT NULL,
+	clave_maestra VARCHAR(344) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY(usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );`
@@ -267,6 +281,7 @@ CREATE TABLE IF NOT EXISTS usuarios_entradas_historial (
 	motivo_consulta varchar(500), 
 	juicio_diagnostico varchar(500),
 	clave VARCHAR(344) NOT NULL,
+	clave_maestra VARCHAR(344) NOT NULL,
 	created_at VARCHAR(200),
 	PRIMARY KEY (id),
 	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE,
@@ -285,6 +300,7 @@ CREATE TABLE IF NOT EXISTS usuarios_analiticas (
 	hierro VARCHAR(100),
 	created_at VARCHAR(200),
 	clave VARCHAR(344) NOT NULL,
+	clave_maestra VARCHAR(344) NOT NULL,
 	PRIMARY KEY (id),
 	FOREIGN KEY(historial_id) REFERENCES usuarios_historial(id) ON DELETE CASCADE,
 	FOREIGN KEY(empleado_id) REFERENCES usuarios(id) ON DELETE CASCADE

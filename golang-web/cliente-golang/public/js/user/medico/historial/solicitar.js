@@ -14,6 +14,7 @@ function busquedaDNI(event){
 }
 
 function cargarTablaHistorial(historial){
+    console.log(historial);
     document.querySelector("#alert").classList.add('invisible');
     document.querySelector("#historialTabla").classList.remove('invisible');
 }
@@ -31,8 +32,8 @@ function restBuscarDNI(DNI){
         .then( r => {
             if(!r.Error){
                 //PROCESAR HISTORIAL
-                cargarTablaHistorial(r);
                 document.querySelector("#buttonsForm").classList.remove('invisible');
+                document.querySelector("#alertBusqueda").classList.remove('invisible');
             }
             else{
                 document.querySelector("#alert").textContent = r.Error;
@@ -64,7 +65,7 @@ function init () {
     deleteBreadcrumb();
     addLinkBreadcrumb('Usuario', '/user/menu');
     addLinkBreadcrumb('Medico', '/user/doctor');
-    addLinkBreadcrumb('Solicitar historial', '/user/historial/solicitar');
+    addLinkBreadcrumb('Solicitar historial', '/user/doctor/historial/solicitar');
     document.querySelector("#searchButton").addEventListener('click',busquedaDNI,false);
     document.querySelector("#accesoTotalButton").addEventListener('click',solicitarAccesoTotal,false);
     document.querySelector("#addEntradaButton").addEventListener('click',addEntrada,false);

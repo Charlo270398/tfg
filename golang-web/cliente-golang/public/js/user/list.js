@@ -34,18 +34,18 @@ function addRow(user){
     deleteButton.textContent = "Eliminar usuario";
     deleteButton.addEventListener("click", selectDeleteUser, false);
     actions.append(deleteButton);
-    id.textContent = user.Id;
-    name.textContent = user.Nombre;
-    surname.textContent = user.Apellidos;
-    email.textContent = user.Email;
-    date.textContent = user.CreatedAt.replace('T',' ').replace('Z','');
+    id.textContent = user.id;
+    name.textContent = user.nombre;
+    surname.textContent = user.apellidos;
+    email.textContent = user.email;
+    date.textContent = user.createdAt.replace('T',' ').replace('Z','');
     tr.append(id);
     tr.append(name);
     tr.append(surname);
     tr.append(email);
     tr.append(date);
     tr.append(actions);
-    tr.setAttribute("id", user.Id);
+    tr.setAttribute("id", user.id);
     //Añadimos fila a la tabla
     document.querySelector(`#tablaUsuarios`).querySelector('tbody').append(tr);
 }

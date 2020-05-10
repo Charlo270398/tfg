@@ -10,8 +10,19 @@
       <div id="alert" class="alert alert-success invisible" role="alert">
         This is a success alert—check it out!
       </div>
+      <!--Tipo-->
       <div class="form-group">
-        <label for="motivoConsulta">Motivo de la consulta</label>
+        <label for="tipoSelector">Tipo de entrada</label>
+        <select class="browser-default custom-select" id="tipoSelector" searchable="">
+          <option value="-1" disabled selected>Selecciona un tipo</option>
+          <option value="Consulta">Consulta</option>
+          <option value="Informe urgencias">Informe urgencias</option>
+          <option value="Prueba diagnóstica">Prueba diagnóstica</option>
+          <option value="Intervención">Intervención</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="motivoConsulta">Motivo</label>
         <textarea class="form-control" id="motivoConsulta" rows="3"></textarea>
       </div>
       <div class="form-group">

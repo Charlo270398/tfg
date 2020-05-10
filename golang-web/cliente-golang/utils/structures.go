@@ -54,10 +54,12 @@ type User_JSON struct {
 	MedicoEspecialidad string    `json:"medicoEspecialidad"`
 	UserToken          UserToken `json:"userToken"`
 	PairKeys           PairKeys  `json:"pairKeys"`
+	MasterPairKeys     PairKeys  `json:"masterPairKeys"`
 	Sexo               string    `json:"sexo"`
 	Alergias           string    `json:"alergias"`
 	Clave              string    `json:"clave"`
-	NombreDoctor       string    `json:nombreDoctor`
+	ClaveMaestra       string    `json:"claveMaestra"`
+	NombreDoctor       string    `json:"nombreDoctor"`
 }
 
 type JSON_Credentials_CLIENTE struct {
@@ -97,10 +99,10 @@ type PaginationPage_JSON struct {
 }
 
 type UserList_JSON_Pagination struct {
-	Page       int    `json:"Page"`
-	NextPage   int    `json:"NextPage"`
-	BeforePage int    `json:"BeforePage"`
-	UserList   []User `json:"UserList"`
+	Page       int         `json:"Page"`
+	NextPage   int         `json:"NextPage"`
+	BeforePage int         `json:"BeforePage"`
+	UserList   []User_JSON `json:"UserList"`
 }
 
 type UserList_Page struct {
@@ -109,7 +111,7 @@ type UserList_Page struct {
 	Page       int
 	NextPage   int
 	BeforePage int
-	UserList   []User
+	UserList   []User_JSON
 }
 
 //Rol
