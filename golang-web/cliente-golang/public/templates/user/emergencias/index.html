@@ -19,29 +19,32 @@
         <button class="btn btn-primary" id="searchButton">Buscar</button>
       </div>
       <br>
-      <div id="alertBusqueda" class="alert alert-warning invisible" role="alert">
-        No dispones de permisos para consultar ese historial. Puedes solicitar el acceso más abajo.
-      </div>
-      <div id="buttonsForm" class="form-group invisible">
-        <button class="btn btn-primary" id="accesoTotalButton">Solicitar acceso total al historial</button>
-        <button class="btn btn-primary" id="addEntradaButton">Añadir entrada</button>
-        <button class="btn btn-primary" id="addAnaliticaButton">Añadir analítica</button>
-      </div>
-      <table id="historialTabla" class="table invisible">
-            <thead class="thead-dark">
-                  <tr>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Especialista</th>
-                        <th scope="col">Tipo</th>
-                        <th scope="col">Solicitar acceso</th>
-                  </tr>
-            </thead>
-            <tbody>
-            
-            </tbody>
-      </table>
-      <div id="alertTablaHistorial" class="alert alert-warning invisible" role="alert">
-        No hay ningun resultado.
+      <div id="historialDiv" class="invisible">
+        <div>
+          <h2>Datos básicos</h2>
+          <p><strong>Paciente: </strong><span id="spanNombre"></span></p>
+          <p><strong>Sexo: </strong><span id="spanSexo"></span></p>
+          <p><strong>Alergias: </strong><span id="spanAlergias"></span></p>
+        </div>
+        <div id="buttonsForm" class="form-group">
+          <button class="btn btn-primary" id="addEntradaButton">Añadir entrada</button>
+          <button class="btn btn-primary" id="addAnaliticaButton">Añadir analítica</button>
+        </div>
+        <table id="historialTabla" class="table invisible">
+              <thead class="thead-dark">
+                    <tr>
+                          <th scope="col">Fecha</th>
+                          <th scope="col">Especialista</th>
+                          <th scope="col">Tipo</th>
+                          <th scope="col">Solicitar acceso</th>
+                    </tr>
+              </thead>
+              <tbody>
+              </tbody>
+        </table>
+        <div id="alertTablaHistorial" class="alert alert-warning invisible" role="alert">
+          No hay ninguna entrada.
+        </div>
       </div>
   </div>
 </main>

@@ -76,6 +76,9 @@ func LoadRouter(port string) {
 	http.HandleFunc("/user/adminG/userList/add", addUserHandler)
 	http.HandleFunc("/user/adminG/userList", getUsersPaginationHandler)
 
+	//USER(EMERGENCIAS)
+	http.HandleFunc("/user/emergency/historial", GetHistorialEmergencias)
+
 	if port == "" {
 		port = "5001"
 	}

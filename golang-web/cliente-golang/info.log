@@ -252,3 +252,16 @@
 2020/05/10 12:14:27 ERROR: &{%!g(string=crypto/rsa: decryption error)}
 2020/05/10 12:14:29 ERROR: &{%!g(string=crypto/rsa: decryption error)}
 2020/05/10 12:23:56 Servicio iniciado
+2020/05/10 12:59:01 Servicio iniciado
+2020/05/10 12:59:40 Servicio iniciado
+2020/05/10 13:25:46 Servicio iniciado
+2020/05/10 13:36:24 Servicio iniciado
+2020/05/10 13:36:47 Servicio iniciado
+2020/05/10 13:37:20 Servicio iniciado
+2020/05/10 13:37:50 Servicio iniciado
+2020/05/10 13:38:13 Servicio iniciado
+2020/05/10 13:38:40 Servicio iniciado
+2020/05/10 13:40:46 Servicio iniciado
+2020/05/10 13:41:39 Servicio iniciado
+2020/05/10 13:47:10 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/10 13:50:44 ERROR: &{%!g(string=crypto/rsa: decryption error)}

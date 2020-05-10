@@ -221,6 +221,7 @@ func LoadRouter() {
 
 	//USER(EMERGENCIAS)
 	router.HandleFunc("/user/emergency", menuEmergenciasHandler).Methods("GET")
+	router.HandleFunc("/user/emergency/historial", GetHistorialEmergenciasHandler).Methods("POST")
 
 	//USER(ADMIN-GLOBAL)
 	router.HandleFunc("/user/adminG", menuAdminGHandler).Methods("GET")

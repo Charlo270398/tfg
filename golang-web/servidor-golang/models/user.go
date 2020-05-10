@@ -68,7 +68,7 @@ func InsertUserDniHash(user_id int, user_dni string) (inserted bool, err error) 
 	return false, err
 }
 
-func CheckUserDniHash(user_id string, user_dni string) (usuarioId int, err error) {
+func CheckUserDniHash(user_dni string) (usuarioId int, err error) {
 	//SHA 256, cogemos la primera mitad
 	sha_256 := sha256.New()
 	sha_256.Write([]byte(user_dni))

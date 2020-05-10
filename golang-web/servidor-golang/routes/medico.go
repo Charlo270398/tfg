@@ -17,7 +17,7 @@ func MedicoSolicitarHistorialHandler(w http.ResponseWriter, req *http.Request) {
 	//Comprobamos que el usuario esta autorizado y el token es correcto
 	authorized, _ := models.GetAuthorizationbyUserId(solicitarHistorial.UserToken.UserId, solicitarHistorial.UserToken.Token, models.Rol_medico.Id)
 	if authorized == true {
-		checkDNI, _ := models.CheckUserDniHash(solicitarHistorial.UserToken.UserId, solicitarHistorial.UserDNI)
+		checkDNI, _ := models.CheckUserDniHash(solicitarHistorial.UserDNI)
 		if checkDNI != -1 {
 			jsonReturn = util.JSON_Return{Result: "OK"}
 		} else {

@@ -208,6 +208,7 @@ type Historial_JSON struct {
 	NombrePaciente    string                  `json:"nombrePaciente"`
 	ApellidosPaciente string                  `json:"apellidosPaciente"`
 	Clave             string                  `json:"clave"`
+	ClaveMaestra      string                  `json:"claveMaestra"`
 	Entradas          []EntradaHistorial_JSON `json:"entradas"`
 	UserToken         UserToken               `json:"userToken"`
 }
@@ -229,6 +230,7 @@ type EntradaHistorial_JSON struct {
 	Tipo              string    `json:"tipo"`
 	CreatedAt         string    `json:"createdAt"`
 	Clave             string    `json:"clave"`
+	ClaveMaestra      string    `json:"claveMaestra"`
 	UserToken         UserToken `json:"userToken"`
 }
 

@@ -11,11 +11,11 @@ import (
 
 func GetHistorialById(historialId int) (historial util.Historial_JSON, err error) {
 	historialIdString := strconv.Itoa(historialId)
-	row, err := db.Query(`SELECT id, usuario_id, sexo, alergias, clave FROM usuarios_historial where id = ` + historialIdString) // check err
+	row, err := db.Query(`SELECT id, usuario_id, sexo, alergias, clave_maestra FROM usuarios_historial where id = ` + historialIdString) // check err
 	if err == nil {
 		defer row.Close()
 		row.Next()
-		row.Scan(&historial.Id, &historial.PacienteId, &historial.Sexo, &historial.Alergias, &historial.Clave)
+		row.Scan(&historial.Id, &historial.PacienteId, &historial.Sexo, &historial.Alergias, &historial.Clave, &historial.ClaveMaestra)
 		return historial, err
 	} else {
 		fmt.Println(err)
@@ -25,11 +25,11 @@ func GetHistorialById(historialId int) (historial util.Historial_JSON, err error
 }
 
 func GetHistorialByUserId(userId string) (historial util.Historial_JSON, err error) {
-	row, err := db.Query(`SELECT id, sexo, alergias, clave FROM usuarios_historial where usuario_id = ` + userId) // check err
+	row, err := db.Query(`SELECT id, sexo, alergias, clave, clave_maestra FROM usuarios_historial where usuario_id = ` + userId) // check err
 	if err == nil {
 		defer row.Close()
 		row.Next()
-		row.Scan(&historial.Id, &historial.Sexo, &historial.Alergias, &historial.Clave)
+		row.Scan(&historial.Id, &historial.Sexo, &historial.Alergias, &historial.Clave, &historial.ClaveMaestra)
 		return historial, err
 	} else {
 		fmt.Println(err)

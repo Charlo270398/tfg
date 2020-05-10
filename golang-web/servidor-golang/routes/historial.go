@@ -29,8 +29,6 @@ func GetHistorialPaciente(w http.ResponseWriter, req *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(js)
 		return
-	} else {
-
 	}
 	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
 	return
