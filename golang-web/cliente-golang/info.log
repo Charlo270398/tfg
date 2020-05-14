@@ -265,3 +265,75 @@
 2020/05/10 13:41:39 Servicio iniciado
 2020/05/10 13:47:10 ERROR: &{%!g(string=crypto/rsa: decryption error)}
 2020/05/10 13:50:44 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/10 14:12:36 Servicio iniciado
+2020/05/10 14:13:22 Servicio iniciado
+2020/05/10 14:23:37 Servicio iniciado
+2020/05/10 14:31:28 Servicio iniciado
+2020/05/10 14:33:12 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/10 16:48:31 Servicio iniciado
+2020/05/10 16:49:04 Servicio iniciado
+2020/05/10 16:49:44 Servicio iniciado
+2020/05/10 16:51:03 Servicio iniciado
+2020/05/10 16:54:18 Servicio iniciado
+2020/05/10 16:58:00 Servicio iniciado
+2020/05/10 16:59:38 Servicio iniciado
+2020/05/10 17:00:27 Servicio iniciado
+2020/05/10 17:01:16 Servicio iniciado
+2020/05/10 17:02:28 Servicio iniciado
+2020/05/10 17:02:45 Servicio iniciado
+2020/05/10 17:03:05 Servicio iniciado
+2020/05/10 17:06:17 Servicio iniciado
+2020/05/10 17:12:34 Servicio iniciado
+2020/05/10 17:13:12 Servicio iniciado
+2020/05/10 17:13:28 Servicio iniciado
+2020/05/10 17:13:53 Servicio iniciado
+2020/05/10 17:14:43 Servicio iniciado
+2020/05/10 17:21:05 Servicio iniciado
+2020/05/10 17:22:44 Servicio iniciado
+2020/05/10 17:25:22 Servicio iniciado
+2020/05/10 17:27:28 Servicio iniciado
+2020/05/10 17:28:40 Servicio iniciado
+2020/05/10 17:29:50 Servicio iniciado
+2020/05/10 17:31:13 Servicio iniciado
+2020/05/10 17:32:19 Servicio iniciado
+2020/05/10 17:35:36 Servicio iniciado
+2020/05/10 17:46:09 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/10 17:46:13 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/10 17:49:15 Servicio iniciado
+2020/05/10 17:51:17 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/10 18:06:48 Servicio iniciado
+2020/05/10 18:07:25 Servicio iniciado
+2020/05/10 18:07:55 Servicio iniciado
+2020/05/12 18:55:12 Servicio iniciado
+2020/05/12 19:55:02 Servicio iniciado
+2020/05/12 19:55:19 ERROR: &{%!g(string=Post) %!g(string=https://localhost:5001/user/emergency/historial/entrada) %!g(*errors.errorString=&{EOF})}
+2020/05/12 19:56:28 Servicio iniciado
+2020/05/12 19:56:30 ERROR: &{%!g(string=Post) %!g(string=https://localhost:5001/user/emergency/historial/entrada) %!g(*errors.errorString=&{EOF})}
+2020/05/12 19:56:55 Servicio iniciado
+2020/05/12 19:56:57 ERROR: &{%!g(string=Post) %!g(string=https://localhost:5001/user/emergency/historial/entrada) %!g(*errors.errorString=&{EOF})}
+2020/05/12 19:57:19 ERROR: &{%!g(string=Post) %!g(string=https://localhost:5001/user/emergency/historial/entrada) %!g(*errors.errorString=&{EOF})}
+2020/05/12 19:57:50 ERROR: &{%!g(string=Post) %!g(string=https://localhost:5001/user/emergency/historial/entrada) %!g(*errors.errorString=&{EOF})}
+2020/05/12 19:58:06 ERROR: &{%!g(string=Post) %!g(string=https://localhost:5001/user/emergency/historial/entrada) %!g(*errors.errorString=&{EOF})}
+2020/05/12 19:58:39 ERROR: &{%!g(string=Post) %!g(string=https://localhost:5001/user/emergency/historial/entrada) %!g(*errors.errorString=&{EOF})}
+2020/05/12 20:07:58 Servicio iniciado
+2020/05/12 20:08:56 Servicio iniciado
+2020/05/12 20:10:35 Servicio iniciado
+2020/05/12 21:00:59 Servicio iniciado
+2020/05/12 21:03:35 Servicio iniciado
+2020/05/12 21:07:42 ERROR: &{%!g(string=invalid character 'N' looking for beginning of value) %!g(int64=1)}
+2020/05/12 21:12:18 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/12 21:22:52 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/14 13:23:15 Servicio iniciado
+2020/05/14 13:40:55 Servicio iniciado
+2020/05/14 13:41:35 Servicio iniciado
+2020/05/14 15:25:14 Servicio iniciado
+2020/05/14 15:27:27 Servicio iniciado
+2020/05/14 15:27:30 Servicio iniciado
+2020/05/14 15:29:54 Servicio iniciado
+2020/05/14 15:44:26 Servicio iniciado
+2020/05/14 15:53:38 Servicio iniciado
+2020/05/14 15:59:41 Servicio iniciado
+2020/05/14 16:04:48 Servicio iniciado
+2020/05/14 16:07:31 Servicio iniciado
+2020/05/14 16:08:52 ERROR: &{%!g(string=invalid character 'N' looking for beginning of value) %!g(int64=1)}
+2020/05/14 16:09:34 Servicio iniciado

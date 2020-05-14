@@ -48,6 +48,7 @@ func LoadRouter(port string) {
 	http.HandleFunc("/user/pairkeys", getUserPairKeysHandler)
 	http.HandleFunc("/user/masterPairkeys", getUserMasterPairKeysHandler)
 	http.HandleFunc("/user/publicMasterKey", getPublicMasterKeyHandler)
+	http.HandleFunc("/user/pairkeysByHistorialId", getUserPairKeysByHistorialIdHandler)
 
 	//USER(PACIENTE)
 	http.HandleFunc("/user/patient/citas/add", PacienteInsertCita)
@@ -78,6 +79,8 @@ func LoadRouter(port string) {
 
 	//USER(EMERGENCIAS)
 	http.HandleFunc("/user/emergency/historial", GetHistorialEmergencias)
+	http.HandleFunc("/user/emergency/historial/entrada", GetEntradaEmergenciasHandler)
+	http.HandleFunc("/user/emergency/addEntrada", AddEntradaEmergenciasHandler)
 
 	if port == "" {
 		port = "5001"

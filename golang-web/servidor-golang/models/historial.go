@@ -11,7 +11,7 @@ import (
 
 func GetHistorialById(historialId int) (historial util.Historial_JSON, err error) {
 	historialIdString := strconv.Itoa(historialId)
-	row, err := db.Query(`SELECT id, usuario_id, sexo, alergias, clave_maestra FROM usuarios_historial where id = ` + historialIdString) // check err
+	row, err := db.Query(`SELECT id, usuario_id, sexo, alergias, clave, clave_maestra FROM usuarios_historial where id = ` + historialIdString) // check err
 	if err == nil {
 		defer row.Close()
 		row.Next()
@@ -65,14 +65,32 @@ func InsertShareHistorial(historial util.Historial_JSON) (result bool, err error
 	}
 }
 
-func InsertEntradaHistorial(entrada util.EntradaHistorial_JSON) (inserted_id int, err error) {
+func InsertEntradaHistoria(entrada util.EntradaHistorial_JSON) (inserted_id int, err error) {
+	createdAt := time.Now()
+	historialPacienteIdString := strconv.Itoa(entrada.HistorialId)
+	//INSERT
+	entradaId, err := db.Exec(`INSERT INTO usuarios_entradas_historial (empleado_id, historial_id, motivo_consulta, juicio_diagnostico, clave, clave_maestra, created_at, tipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, entrada.UserToken.UserId,
+		historialPacienteIdString, entrada.MotivoConsulta, entrada.JuicioDiagnostico, entrada.Clave, entrada.ClaveMaestra, createdAt.Local(), entrada.Tipo)
+	if err == nil {
+		id, _ := entradaId.LastInsertId()
+		inserted_id = int(id)
+		return inserted_id, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return -1, err
+	}
+}
+
+func InsertEntradaHistorialPacienteId(entrada util.EntradaHistorial_JSON) (inserted_id int, err error) {
 	createdAt := time.Now()
 	pacienteIdString := strconv.Itoa(entrada.PacienteId)
 	historialPaciente, _ := GetHistorialByUserId(pacienteIdString)
 	historialPacienteIdString := strconv.Itoa(historialPaciente.Id)
+	fmt.Println(historialPacienteIdString)
 	//INSERT
-	entradaId, err := db.Exec(`INSERT INTO usuarios_entradas_historial (empleado_id, historial_id, motivo_consulta, juicio_diagnostico, clave, created_at, tipo) VALUES (?, ?, ?, ?, ?, ?, ?)`, entrada.UserToken.UserId,
-		historialPacienteIdString, entrada.MotivoConsulta, entrada.JuicioDiagnostico, entrada.Clave, createdAt.Local(), entrada.Tipo)
+	entradaId, err := db.Exec(`INSERT INTO usuarios_entradas_historial (empleado_id, historial_id, motivo_consulta, juicio_diagnostico, clave, clave_maestra, created_at, tipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, entrada.UserToken.UserId,
+		historialPacienteIdString, entrada.MotivoConsulta, entrada.JuicioDiagnostico, entrada.Clave, entrada.ClaveMaestra, createdAt.Local(), entrada.Tipo)
 	if err == nil {
 		id, _ := entradaId.LastInsertId()
 		inserted_id = int(id)
@@ -143,19 +161,20 @@ func GetHistorialCompartidoByMedicoIdPacienteId(medicoId string, pacienteId stri
 
 func GetEntradasHistorialByHistorialId(historialId int) (entradas []util.EntradaHistorial_JSON, err error) {
 	historialPacienteIdString := strconv.Itoa(historialId)
-	rows, err := db.Query(`SELECT id, empleado_id, historial_id, motivo_consulta, juicio_diagnostico, clave, created_at, tipo FROM usuarios_entradas_historial where historial_id = ` + historialPacienteIdString + " order by created_at desc") // check err
+	rows, err := db.Query(`SELECT id, empleado_id, historial_id, motivo_consulta, juicio_diagnostico, clave, clave_maestra, created_at, tipo FROM usuarios_entradas_historial where historial_id = ` + historialPacienteIdString + " order by created_at desc") // check err
 	if err == nil {
 		var e util.EntradaHistorial_JSON
 		defer rows.Close()
 		for rows.Next() {
-			rows.Scan(&e.Id, &e.EmpleadoId, &e.HistorialId, &e.MotivoConsulta, &e.JuicioDiagnostico, &e.Clave, &e.CreatedAt, &e.Tipo)
+			rows.Scan(&e.Id, &e.EmpleadoId, &e.HistorialId, &e.MotivoConsulta, &e.JuicioDiagnostico, &e.Clave, &e.ClaveMaestra, &e.CreatedAt, &e.Tipo)
 			//Cambio horario y formato
 			words := strings.Fields(e.CreatedAt)
 			day := words[0] + "T" + words[1] + "Z"
 			layout := "2006-01-02T15:04:05.000000Z"
 			t, err := time.Parse(layout, day)
 			if err != nil {
-				fmt.Println(err)
+				layout = "2006-01-02T15:04:05.00000Z"
+				t, err = time.Parse(layout, day)
 			}
 			t = t.Local()
 			e.CreatedAt = fmt.Sprintf("%02d-%02d-%02d %02d:%02d:%02d",
@@ -170,4 +189,33 @@ func GetEntradasHistorialByHistorialId(historialId int) (entradas []util.Entrada
 		return entradas, err
 	}
 	return entradas, nil
+}
+
+func GetEntradaById(entradaId int) (entrada util.EntradaHistorial_JSON, err error) {
+	entradaIdString := strconv.Itoa(entradaId)
+	row, err := db.Query(`SELECT id, empleado_id, historial_id, motivo_consulta, juicio_diagnostico, clave, clave_maestra, created_at, tipo FROM usuarios_entradas_historial where id = ` + entradaIdString) // check err
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&entrada.Id, &entrada.EmpleadoId, &entrada.HistorialId, &entrada.MotivoConsulta, &entrada.JuicioDiagnostico, &entrada.Clave, &entrada.ClaveMaestra, &entrada.CreatedAt, &entrada.Tipo)
+		//Cambio horario y formato
+		words := strings.Fields(entrada.CreatedAt)
+		day := words[0] + "T" + words[1] + "Z"
+		layout := "2006-01-02T15:04:05.000000Z"
+		t, err := time.Parse(layout, day)
+		if err != nil {
+			layout = "2006-01-02T15:04:05.00000Z"
+			t, err = time.Parse(layout, day)
+		}
+		t = t.Local()
+		entrada.CreatedAt = fmt.Sprintf("%02d-%02d-%02d %02d:%02d:%02d",
+			t.Day(), t.Month(), t.Year(),
+			t.Hour(), t.Minute(), t.Second())
+		entrada.EmpleadoNombre, _ = GetNombreEmpleado(entrada.EmpleadoId)
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return entrada, err
+	}
+	return entrada, nil
 }

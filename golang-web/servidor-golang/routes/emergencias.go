@@ -38,3 +38,55 @@ func GetHistorialEmergencias(w http.ResponseWriter, req *http.Request) {
 	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
 	return
 }
+
+func GetEntradaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
+	var entrada util.EntradaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&entrada)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(entrada.UserToken.UserId, entrada.UserToken.Token, models.Rol_emergencias.Id)
+	if authorized == true {
+		entradaJSON, _ := models.GetEntradaById(entrada.Id)
+		js, err := json.Marshal(entradaJSON)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}
+
+func AddEntradaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
+	var entradaHistorial util.EntradaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&entradaHistorial)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(entradaHistorial.UserToken.UserId, entradaHistorial.UserToken.Token, models.Rol_emergencias.Id)
+	if authorized == true {
+		var returnJSON util.JSON_Return
+		//Insertamos la entrada
+		result, err := models.InsertEntradaHistoria(entradaHistorial)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		if result != -1 {
+			returnJSON.Result = strconv.Itoa(result)
+		} else {
+			returnJSON.Error = "Error insertando la entrada"
+		}
+
+		js, err := json.Marshal(returnJSON)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}

@@ -159,7 +159,7 @@ function GETfacultativos(clinica_id, especialidad_id, selector){
                 result.forEach(f => {
                     var option = document.createElement("option");
                     option.value = f.id;
-                    option.textContent = f.NombreDoctor;
+                    option.textContent = f.nombreDoctor;
                     selector.append(option);
                 });
             }

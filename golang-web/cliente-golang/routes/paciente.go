@@ -110,6 +110,7 @@ func historialPatientHandler(w http.ResponseWriter, req *http.Request) {
 		//Desciframos la clave AES de los datos cifrados
 		claveAESentrada := util.RSADecryptOAEP(entrada.Clave, *userPrivateKey)
 		claveAESentradaByte := util.Base64Decode([]byte(claveAESentrada))
+
 		//Desciframos los datos de la entrada con AES
 		historial.Entradas[index].MotivoConsulta, _ = util.AESdecrypt(claveAESentradaByte, entrada.MotivoConsulta)
 		historial.Entradas[index].JuicioDiagnostico, _ = util.AESdecrypt(claveAESentradaByte, entrada.JuicioDiagnostico)

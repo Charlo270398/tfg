@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strconv"
 
 	util "../utils"
 )
@@ -81,6 +82,15 @@ func GetHistorialEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 		result.Sexo, _ = util.AESdecrypt(claveAEShistorialByte, result.Sexo)
 		result.Alergias, _ = util.AESdecrypt(claveAEShistorialByte, result.Alergias)
 
+		//Desciframos el Tipo de las entradas del Historial
+		for index, _ := range result.Entradas {
+			//Desciframos la clave AES maestra
+			claveAESentrada := util.RSADecryptOAEP(result.Entradas[index].ClaveMaestra, *masterPrivateKey)
+			claveAESentradaByte := util.Base64Decode([]byte(claveAESentrada))
+			//Desciframos los datos
+			result.Entradas[index].Tipo, _ = util.AESdecrypt(claveAESentradaByte, result.Entradas[index].Tipo)
+		}
+
 		js, err := json.Marshal(result)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -93,4 +103,200 @@ func GetHistorialEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+//GET
+func GetEntradaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	//Certificado
+	client := GetTLSClient()
+
+	//Preparamos datos de la request
+	entradaId, _ := req.URL.Query()["entradaId"]
+	entradaIdInt, _ := strconv.Atoi(entradaId[0])
+	entradaJSON := util.EntradaHistorial_JSON{Id: entradaIdInt, UserToken: prepareUserToken(req)}
+	locJson, err := json.Marshal(entradaJSON)
+
+	//Request para obtener historial si existe
+	response, err := client.Post(SERVER_URL+"/user/emergency/historial/entrada", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&entradaJSON)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		//DESCIFRAMOS DATOS CON CLAVE MAESTRA
+		//Recuperamos la CLAVE MAESTRA
+		userId, _ := session.Values["userId"].(string)
+		masterPairKeys := getUserMasterPairKeys(userId)
+
+		//Desciframos la clave privada CLAVE MAESTRA cifrada con AES
+		userPrivateKeyHash, _ := session.Values["userPrivateKeyHash"].([]byte)
+		masterPrivateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(util.Base64Decode(masterPairKeys.PrivateKey)))
+		masterPrivateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(masterPrivateKeyString)))
+
+		//Desciframos la clave AES maestra
+		claveAESentrada := util.RSADecryptOAEP(entradaJSON.ClaveMaestra, *masterPrivateKey)
+		claveAESentradaByte := util.Base64Decode([]byte(claveAESentrada))
+
+		//Desciframos los datos del historial con AES
+		entradaJSON.JuicioDiagnostico, _ = util.AESdecrypt(claveAESentradaByte, entradaJSON.JuicioDiagnostico)
+		entradaJSON.MotivoConsulta, _ = util.AESdecrypt(claveAESentradaByte, entradaJSON.MotivoConsulta)
+		entradaJSON.Tipo, _ = util.AESdecrypt(claveAESentradaByte, entradaJSON.Tipo)
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var tmp = template.Must(
+		template.New("").ParseFiles("public/templates/user/emergencias/entrada.html", "public/templates/layouts/base.html"),
+	)
+	if err := tmp.ExecuteTemplate(w, "base", &util.EntradaPage{Title: "Consultar entrada", Body: "body", Entrada: entradaJSON}); err != nil {
+		log.Printf("Error executing template: %v", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	}
+}
+
+func AddEntradaEmergenciasFormHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	var tmp = template.Must(
+		template.New("").ParseFiles("public/templates/user/emergencias/addEntrada.html", "public/templates/layouts/base.html"),
+	)
+	if err := tmp.ExecuteTemplate(w, "base", &Page{Title: "Añadir entrada", Body: "body"}); err != nil {
+		log.Printf("Error executing template: %v", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	}
+}
+
+func AddAnaliticaEmergenciasFormHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	var tmp = template.Must(
+		template.New("").ParseFiles("public/templates/user/emergencias/addAnalitica.html", "public/templates/layouts/base.html"),
+	)
+	if err := tmp.ExecuteTemplate(w, "base", &Page{Title: "Añadir analítica", Body: "body"}); err != nil {
+		log.Printf("Error executing template: %v", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	}
+}
+
+//POST
+
+func AddEntradaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	//Preparamos datos request
+	var entrada util.EntradaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&entrada)
+
+	//Generamos una clave AES aleatoria de 256 bits para cifrar los datos sensibles
+	AESkeyDatos := util.AEScreateKey()
+
+	//Ciframos los datos sensibles con la clave
+	entrada.JuicioDiagnostico, _ = util.AESencrypt(AESkeyDatos, entrada.JuicioDiagnostico)
+	entrada.MotivoConsulta, _ = util.AESencrypt(AESkeyDatos, entrada.MotivoConsulta)
+	entrada.Tipo, _ = util.AESencrypt(AESkeyDatos, entrada.Tipo)
+
+	//Pasamos la clave a base 64
+	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))
+
+	//CIFRAMOS LA CLAVE AES CON LA CLAVE PUBLICA DEL PACIENTE
+	pacienteIdString := strconv.Itoa(entrada.HistorialId)
+	pacientePublicKey := getUserPublicKeyByHistorialId(pacienteIdString)
+
+	//Ciframos la clave AES usada con nuestra clave pública
+	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(pacientePublicKey.PublicKey))
+
+	//CIFRAMOS LOS DATOS CON LA CLAVE MAESTRA
+	//Recuperamos CLAVE PUBLICA MAESTRA
+	masterPairKeys := getPublicMasterKey()
+	claveMaestraAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(masterPairKeys.PublicKey))
+
+	//Preparamos los datos para enviar
+	entrada.UserToken = prepareUserToken(req)
+	entrada.Clave = claveAEScifrada
+	entrada.ClaveMaestra = claveMaestraAEScifrada
+	locJson, err := json.Marshal(entrada)
+
+	//Certificado
+	client := GetTLSClient()
+
+	//Request al servidor para añadir entrada paciente
+	response, err := client.Post(SERVER_URL+"/user/emergency/addEntrada", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		var result util.JSON_Return
+		err := json.NewDecoder(response.Body).Decode(&result)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		} else {
+			result = util.JSON_Return{Result: "OK"}
+		}
+		js, err := json.Marshal(result)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func AddAnaliticaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
 }

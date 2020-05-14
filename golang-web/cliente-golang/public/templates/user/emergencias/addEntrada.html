@@ -1,0 +1,37 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/emergencias/addEntrada.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/emergencias/addEntrada.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div>
+      <div id="alert" class="alert alert-success invisible" role="alert">
+        This is a success alert—check it out!
+      </div>
+      <div id="formConsulta">
+        <div class="form-group">
+          <label for="tipoSelector">Tipo de entrada</label>
+          <select class="browser-default custom-select" id="tipoSelector" searchable="">
+            <option value="-1" disabled selected>Selecciona un tipo</option>
+            <option value="Informe urgencias">Informe urgencias</option>
+            <option value="Prueba diagnóstica">Prueba diagnóstica</option>
+            <option value="Intervención">Intervención</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="motivoConsulta">Motivo</label>
+          <textarea class="form-control" id="motivoConsulta" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label for="juicioDiagnostico">Juicio diagnostico</label>
+          <textarea class="form-control" id="juicioDiagnostico" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" id="searchButton">Añadir entrada al historial</button>
+        </div>
+      </div>
+  </div>
+</main>
+{{end}} 

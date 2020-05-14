@@ -34,6 +34,8 @@ func addUserHandler(w http.ResponseWriter, req *http.Request) {
 						util.PrintErrorLog(err)
 						jsonReturn = util.JSON_Return{Error: "Las claves maestras no se han podido insertar"}
 					}
+					//Insertamos nombre medico
+					models.InsertNombresEmpleado(user)
 				}
 				//Insertamos DNI hasheado
 				_, err := models.InsertUserDniHash(userId, user.IdentificacionHash)
@@ -52,15 +54,17 @@ func addUserHandler(w http.ResponseWriter, req *http.Request) {
 							if err != nil || result == false {
 								jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
 							}
+							//Insertamos nombre medico
+							models.InsertNombresEmpleado(user)
 						}
 						clinicaId, _ = strconv.Atoi(user.MedicoClinica)
 						if clinicaId != -1 {
 							result, err := models.InsertarUserClinica(clinicaId, userId, models.Rol_medico.Id)
-							//Insertamos nombre medico
-							models.InsertNombresEmpleado(user)
 							if err != nil || result == false {
 								jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
 							}
+							//Insertamos nombre medico
+							models.InsertNombresEmpleado(user)
 						}
 						clinicaId, _ = strconv.Atoi(user.AdminClinica)
 						if clinicaId != -1 {
@@ -68,6 +72,8 @@ func addUserHandler(w http.ResponseWriter, req *http.Request) {
 							if err != nil || result == false {
 								jsonReturn = util.JSON_Return{"", "Error insertando el usuario en la clínica"}
 							}
+							//Insertamos nombre medico
+							models.InsertNombresEmpleado(user)
 						}
 						especialidadId, _ := strconv.Atoi(user.MedicoEspecialidad)
 						if especialidadId != -1 {

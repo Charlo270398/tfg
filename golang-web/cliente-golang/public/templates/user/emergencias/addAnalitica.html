@@ -1,0 +1,42 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/emergencias/addAnalitica.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/emergencias/addAnalitica.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div>
+      <div id="alert" class="alert alert-success invisible" role="alert">
+        This is a success alert—check it out!
+      </div>
+      <div>
+        <h3>Datos de la analítica</h3>
+        <br>
+        <div class="form-group" name="Leucocitos">
+          <label>Leucocitos</label>
+          <input type="number" value="0" min="0" max="20" step="0.1" id="numberLeucocitos"/>
+        </div>
+        <div class="form-group">
+          <label>Hematies</label>
+          <input type="number" value="0" min="0" max="20" step="0.1" id="numberHematies"/>
+        </div>
+        <div class="form-group">
+          <label>Plaquetas</label>
+          <input type="number" value="0" min="0" max="20" step="0.1" id="numberPlaquetas"/>
+        </div>
+        <div class="form-group">
+          <label>Glucosa</label>
+          <input type="number" value="0" min="0" max="20" step="0.1" id="numberGlucosa"/>
+        </div>
+        <div class="form-group">
+          <label>Hierro</label>
+          <input type="number" value="0" min="0" max="20" step="0.1" id="numberHierro"/>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" id="submit">Añadir analítica al historial</button>
+        </div>
+      </div>
+  </div>
+</main>
+{{end}} 

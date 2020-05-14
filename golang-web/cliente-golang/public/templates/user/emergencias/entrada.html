@@ -1,0 +1,24 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/emergencias/entrada.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/emergencias/entrada.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div>
+      <div id="alert" class="alert alert-success invisible" role="alert">
+        This is a success alert—check it out!
+      </div>
+      <h2>Consultando entrada</h2>
+      <br>
+      <div>
+        <p><strong>Realizada por: </strong>{{.Entrada.EmpleadoNombre}}</p>
+        <p><strong>Tipo: </strong>{{.Entrada.Tipo}}</p>
+        <p><strong>Fecha de realización: </strong>{{.Entrada.CreatedAt}}</p>
+        <p><strong>Motivo: </strong>{{.Entrada.MotivoConsulta}}</p>
+        <p><strong>Juicio diagnóstico: </strong>{{.Entrada.JuicioDiagnostico}}</p>
+      </div>
+  </div>
+</main>
+{{end}} 

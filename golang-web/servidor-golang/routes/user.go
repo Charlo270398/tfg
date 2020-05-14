@@ -160,3 +160,44 @@ func getPublicMasterKeyHandler(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(js)
 }
+
+func getUserByHistorialIdHandler(w http.ResponseWriter, req *http.Request) {
+	masterPairKeys, err := models.GetPublicMasterKey()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	var user util.User_JSON
+	user.MasterPairKeys = masterPairKeys
+	js, err := json.Marshal(user)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}
+
+func getUserPairKeysByHistorialIdHandler(w http.ResponseWriter, req *http.Request) {
+	historialIdURL, ok := req.URL.Query()["historialId"]
+	var userReturn util.User_JSON
+	if !ok || len(historialIdURL[0]) < 1 {
+		http.Error(w, "No hay parámetros", http.StatusInternalServerError)
+		return
+	} else {
+		pairKeys, err := models.GetUserPairKeysByHistorialId(historialIdURL[0])
+		pairKeys.PrivateKey = nil
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		userReturn.PairKeys = pairKeys
+	}
+	js, err := json.Marshal(userReturn)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(js)
+}

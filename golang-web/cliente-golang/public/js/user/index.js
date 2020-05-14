@@ -8,7 +8,6 @@ function añadirTarjeta(rol_id){
 }
 
 function init () {
-    console.log(userRoles);
     deleteBreadcrumb();
     addLinkBreadcrumb('Usuario', '/user/menu');
     if(userRoles){

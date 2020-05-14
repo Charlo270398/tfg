@@ -296,6 +296,23 @@ func GetUserPairKeys(user_id string) (result util.PairKeys, err error) {
 	return result, nil
 }
 
+func GetUserPairKeysByHistorialId(historial_id string) (result util.PairKeys, err error) {
+	historial_idString, _ := strconv.Atoi(historial_id)
+	historial, _ := GetHistorialById(historial_idString)
+	user_id := strconv.Itoa(historial.PacienteId)
+	row, err := db.Query(`SELECT public_key, private_key FROM usuarios_pairkeys WHERE usuario_id = ` + user_id)
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&result.PublicKey, &result.PrivateKey)
+		return result, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+	}
+	return result, nil
+}
+
 func GetUserMasterPairKeys(user_id string) (result util.PairKeys, err error) {
 	//GET
 	row, err := db.Query(`SELECT public_key, private_key FROM usuarios_master_pairkeys WHERE usuario_id = ` + user_id)

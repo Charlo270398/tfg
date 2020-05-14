@@ -374,3 +374,9 @@ type HistorialPage struct {
 	Body      string
 	Historial Historial_JSON
 }
+
+type EntradaPage struct {
+	Title   string
+	Body    string
+	Entrada EntradaHistorial_JSON
+}

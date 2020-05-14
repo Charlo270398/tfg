@@ -156,7 +156,7 @@ func MedicoAddEntradaHistorialConsulta(w http.ResponseWriter, req *http.Request)
 	if authorized == true {
 		var returnJSON util.JSON_Return
 		//Insertamos la entrada
-		result, err := models.InsertEntradaHistorial(entradaHistorial)
+		result, err := models.InsertEntradaHistorialPacienteId(entradaHistorial)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

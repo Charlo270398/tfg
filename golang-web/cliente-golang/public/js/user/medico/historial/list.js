@@ -7,8 +7,9 @@ function init () {
 }
 
 function loadTable(hList){
+    console.log(hList);
     if(!hList || hList.length < 1){
-        document.querySelector("#alert").textContent = "No hay ninguna cita pendiente";
+        document.querySelector("#alert").textContent = "No hay ningun historial disponible";
         document.querySelector("#alert").classList.replace("alert-success", "alert-danger");
         document.querySelector("#alert").classList.remove('invisible');
     }

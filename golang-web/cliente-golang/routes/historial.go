@@ -91,6 +91,10 @@ func addEntradaHistorialConsultaMedicoHandler(w http.ResponseWriter, req *http.R
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	//Recuperamos CLAVE PUBLICA MAESTRA
+	masterPairKeys := getPublicMasterKey()
+
 	//Generamos una clave AES aleatoria de 256 bits para cifrar los datos sensibles
 	AESkeyDatos := util.AEScreateKey()
 
@@ -106,12 +110,15 @@ func addEntradaHistorialConsultaMedicoHandler(w http.ResponseWriter, req *http.R
 	//Recuperamos nuestra clave publica del paciente
 	pacienteIdString := strconv.Itoa(entradaHistorial.PacienteId)
 	pacientePairkeys := getUserPairKeys(pacienteIdString)
+
 	//Ciframos la clave AES usada con nuestra clave pública
 	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(pacientePairkeys.PublicKey))
+	claveMaestraAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(masterPairKeys.PublicKey))
 
 	//Preparamos los datos para enviar
 	entradaHistorial.UserToken = prepareUserToken(req)
 	entradaHistorial.Clave = claveAEScifrada
+	entradaHistorial.ClaveMaestra = claveMaestraAEScifrada
 	locJson, err := json.Marshal(entradaHistorial)
 
 	//Request al servidor para añadir entrada paciente

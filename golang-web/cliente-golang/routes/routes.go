@@ -102,6 +102,23 @@ func getUserPairKeys(userId string) util.PairKeys {
 	return user.PairKeys
 }
 
+func getUserPublicKeyByHistorialId(historialId string) util.PairKeys {
+	//Certificado
+	client := GetTLSClient()
+	var user util.User_JSON
+	//Recuperamos la clave publica del usuario al que pertenece ese historial
+	response, _ := client.Get(SERVER_URL + "/user/pairkeysByHistorialId?historialId=" + historialId)
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&user)
+		if err != nil {
+			return user.PairKeys
+		}
+	} else {
+		return user.PairKeys
+	}
+	return user.PairKeys
+}
+
 func getUserMasterPairKeys(userId string) util.PairKeys {
 	//Certificado
 	client := GetTLSClient()
@@ -219,15 +236,20 @@ func LoadRouter() {
 	router.HandleFunc("/user/admin/doctor/add", adminAddMedicoFormHandler).Methods("GET")
 	router.HandleFunc("/user/admin/doctor/add", addMedicoAdminHandler).Methods("POST")
 
-	//USER(EMERGENCIAS)
-	router.HandleFunc("/user/emergency", menuEmergenciasHandler).Methods("GET")
-	router.HandleFunc("/user/emergency/historial", GetHistorialEmergenciasHandler).Methods("POST")
-
 	//USER(ADMIN-GLOBAL)
 	router.HandleFunc("/user/adminG", menuAdminGHandler).Methods("GET")
 	router.HandleFunc("/user/adminG/userList", getUserListAdminGHandler).Methods("GET")
 	router.HandleFunc("/user/adminG/userList/add", addUserFormGadminHandler).Methods("GET")
 	router.HandleFunc("/user/adminG/userList/add", addUserGadminHandler).Methods("POST")
+
+	//USER(EMERGENCIAS)
+	router.HandleFunc("/user/emergency", menuEmergenciasHandler).Methods("GET")
+	router.HandleFunc("/user/emergency/historial", GetHistorialEmergenciasHandler).Methods("POST")
+	router.HandleFunc("/user/emergency/historial/entrada", GetEntradaEmergenciasHandler).Methods("GET")
+	router.HandleFunc("/user/emergency/historial/addEntrada", AddEntradaEmergenciasFormHandler).Methods("GET")
+	router.HandleFunc("/user/emergency/historial/addEntrada", AddEntradaEmergenciasHandler).Methods("POST")
+	router.HandleFunc("/user/emergency/historial/addAnalitica", AddAnaliticaEmergenciasFormHandler).Methods("GET")
+	router.HandleFunc("/user/emergency/historial/addAnalitica", AddAnaliticaEmergenciasHandler).Methods("POST")
 
 	port := os.Getenv("PORT")
 	if port == "" {
