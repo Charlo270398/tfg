@@ -170,6 +170,9 @@ func LoadRouter() {
 	router.HandleFunc("/rol/list", rolesListHandler).Methods("GET")
 	router.HandleFunc("/rol/list/user", rolesListByUserHandler).Methods("GET")
 
+	//TAGS
+	router.HandleFunc("/tag/list", tagsListHandler).Methods("GET")
+
 	//CLINICA
 	router.HandleFunc("/clinica/add", addClinicaFormGadminHandler).Methods("GET")
 	router.HandleFunc("/clinica/add", addClinicaGadminHandler).Methods("POST")

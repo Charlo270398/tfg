@@ -60,8 +60,8 @@ func CreateDB() {
 	query(USERS_ANALITICAS_TABLE)
 	query(USERS_PERMISOS_ANALITICAS_TABLE)
 	query(TAGS_TABLE)
-	query(ANALITICAS_TAGS_TABLE)
 	query(ESTADISTICAS_ANALITICAS_TABLE)
+	query(ESTADISTICAS_ANALITICAS_TAGS_TABLE)
 	query(SOLICITAR_HISTORIAL_TABLE)
 	query(SOLICITAR_ENTRADAS_HISTORIAL_TABLE)
 	query(SOLICITAR_ANALITICAS_HISTORIAL_TABLE)
@@ -239,22 +239,24 @@ CREATE TABLE IF NOT EXISTS citas (
 	PRIMARY KEY (id)
 );`
 
-var ANALITICAS_TAGS_TABLE string = `
-CREATE TABLE IF NOT EXISTS analiticas_tags (
-	analitica_id INT,
-	tag_id INT,
-	PRIMARY KEY (analitica_id, tag_id),
-	FOREIGN KEY(tag_id) REFERENCES tags(id) ON DELETE CASCADE,
-	FOREIGN KEY(analitica_id) REFERENCES usuarios_analiticas(id) ON DELETE CASCADE
-);`
-
 var ESTADISTICAS_ANALITICAS_TABLE string = `
 CREATE TABLE IF NOT EXISTS estadisticas_analiticas (
+	id VARCHAR(36),
 	leucocitos FLOAT,
 	hematies FLOAT,
 	plaquetas FLOAT,
 	glucosa FLOAT,
-	hierro FLOAT
+	hierro FLOAT,
+	PRIMARY KEY (id)
+);`
+
+var ESTADISTICAS_ANALITICAS_TAGS_TABLE string = `
+CREATE TABLE IF NOT EXISTS estadisticas_analiticas_tags (
+	analitica_id VARCHAR(36),
+	tag_id INT,
+	PRIMARY KEY (analitica_id, tag_id),
+	FOREIGN KEY(tag_id) REFERENCES tags(id) ON DELETE CASCADE,
+	FOREIGN KEY(analitica_id) REFERENCES estadisticas_analiticas(id) ON DELETE CASCADE
 );`
 
 //HISTORIAL

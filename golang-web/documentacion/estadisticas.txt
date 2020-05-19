@@ -1,0 +1,2 @@
+GENERAR UIID DISTINTO A ID ORIGINAL: 
+https://blog.kowalczyk.info/article/JyRZ/generating-good-unique-ids-in-go.html

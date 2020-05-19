@@ -2,9 +2,12 @@ package models
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 	"strings"
 	"time"
+
+	uuid "github.com/satori/go.uuid"
 
 	util "../utils"
 )
@@ -65,7 +68,7 @@ func InsertShareHistorial(historial util.Historial_JSON) (result bool, err error
 	}
 }
 
-func InsertEntradaHistoria(entrada util.EntradaHistorial_JSON) (inserted_id int, err error) {
+func InsertEntradaHistorial(entrada util.EntradaHistorial_JSON) (inserted_id int, err error) {
 	createdAt := time.Now()
 	historialPacienteIdString := strconv.Itoa(entrada.HistorialId)
 	//INSERT
@@ -87,7 +90,6 @@ func InsertEntradaHistorialPacienteId(entrada util.EntradaHistorial_JSON) (inser
 	pacienteIdString := strconv.Itoa(entrada.PacienteId)
 	historialPaciente, _ := GetHistorialByUserId(pacienteIdString)
 	historialPacienteIdString := strconv.Itoa(historialPaciente.Id)
-	fmt.Println(historialPacienteIdString)
 	//INSERT
 	entradaId, err := db.Exec(`INSERT INTO usuarios_entradas_historial (empleado_id, historial_id, motivo_consulta, juicio_diagnostico, clave, clave_maestra, created_at, tipo) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, entrada.UserToken.UserId,
 		historialPacienteIdString, entrada.MotivoConsulta, entrada.JuicioDiagnostico, entrada.Clave, entrada.ClaveMaestra, createdAt.Local(), entrada.Tipo)
@@ -218,4 +220,59 @@ func GetEntradaById(entradaId int) (entrada util.EntradaHistorial_JSON, err erro
 		return entrada, err
 	}
 	return entrada, nil
+}
+
+//ANALITICAS
+
+func InsertAnaliticaHistorial(analitica util.AnaliticaHistorial_JSON) (inserted_id int, err error) {
+	createdAt := time.Now()
+	historialPacienteIdString := strconv.Itoa(analitica.HistorialId)
+	//INSERT
+	analiticaId, err := db.Exec(`INSERT INTO usuarios_analiticas (empleado_id, historial_id, leucocitos, hematies, plaquetas, glucosa, hierro, clave, clave_maestra, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, analitica.UserToken.UserId,
+		historialPacienteIdString, analitica.Leucocitos, analitica.Hematies, analitica.Plaquetas, analitica.Glucosa, analitica.Hierro, analitica.Clave, analitica.ClaveMaestra,
+		createdAt.Local())
+	if err == nil {
+		id, _ := analiticaId.LastInsertId()
+		inserted_id = int(id)
+		return inserted_id, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return -1, err
+	}
+}
+
+func InsertEstadisticaAnaliticaHistorial(analitica util.AnaliticaHistorial_JSON) (inserted bool, err error) {
+	fmt.Println(analitica)
+	hematies, _ := strconv.ParseFloat(analitica.Hematies, 32)
+	hierro, _ := strconv.ParseFloat(analitica.Hierro, 32)
+	leucocitos, _ := strconv.ParseFloat(analitica.Leucocitos, 32)
+	plaquetas, _ := strconv.ParseFloat(analitica.Plaquetas, 32)
+	glucosa, _ := strconv.ParseFloat(analitica.Glucosa, 32)
+
+	//ID ALEATORIO DISTINTO AL ID DE LA ANALITICA
+	id, err := uuid.NewV4()
+	if err != nil {
+		log.Fatalf("uuid.NewV4() failed with %s\n", err)
+	}
+	uid := fmt.Sprint(id)
+
+	//INSERT
+	_, err = db.Exec(`INSERT INTO estadisticas_analiticas (id, leucocitos, hematies, plaquetas, glucosa, hierro) VALUES (?, ?, ?, ?, ?, ?)`, uid, leucocitos,
+		hematies, plaquetas, glucosa, hierro)
+	if err == nil {
+		//AÑADIMOS TAGS DE LAS ANALITICAS
+		for _, tagId := range analitica.Tags {
+			_, err = db.Exec(`INSERT INTO estadisticas_analiticas_tags (analitica_id, tag_id) VALUES (?, ?)`, uid, tagId)
+			if err != nil {
+				return false, nil
+
+			}
+		}
+		return true, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return false, err
+	}
 }

@@ -41,6 +41,9 @@ func LoadRouter(port string) {
 	http.HandleFunc("/rol/list", getRolesListHandler)
 	http.HandleFunc("/rol/list/user", getRolesByUserHandler)
 
+	//TAGS
+	http.HandleFunc("/tag/list", getTagsListHandler)
+
 	//USER(GLOBAL)
 	http.HandleFunc("/user", getUserHandler)
 	http.HandleFunc("/user/menu/edit", menuUserEditHandler)
@@ -81,6 +84,8 @@ func LoadRouter(port string) {
 	http.HandleFunc("/user/emergency/historial", GetHistorialEmergencias)
 	http.HandleFunc("/user/emergency/historial/entrada", GetEntradaEmergenciasHandler)
 	http.HandleFunc("/user/emergency/addEntrada", AddEntradaEmergenciasHandler)
+	http.HandleFunc("/user/emergency/addAnalitica", AddAnaliticaEmergenciasHandler)
+	http.HandleFunc("/user/emergency/addEstadisticaAnalitica", AddEstadisticaAnaliticaEmergenciasHandler)
 
 	if port == "" {
 		port = "5001"

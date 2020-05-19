@@ -299,4 +299,78 @@ func AddAnaliticaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
+	//Preparamos datos request
+	var analitica util.AnaliticaHistorial_JSON
+	var analiticaEstadistica util.AnaliticaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&analitica)
+	analiticaEstadistica = analitica
+	analiticaEstadistica.HistorialId = -1
+
+	//Generamos una clave AES aleatoria de 256 bits para cifrar los datos sensibles
+	AESkeyDatos := util.AEScreateKey()
+
+	//Ciframos los datos sensibles con la clave
+	analitica.Hematies, _ = util.AESencrypt(AESkeyDatos, analitica.Hematies)
+	analitica.Glucosa, _ = util.AESencrypt(AESkeyDatos, analitica.Glucosa)
+	analitica.Hierro, _ = util.AESencrypt(AESkeyDatos, analitica.Hierro)
+	analitica.Leucocitos, _ = util.AESencrypt(AESkeyDatos, analitica.Leucocitos)
+	analitica.Plaquetas, _ = util.AESencrypt(AESkeyDatos, analitica.Plaquetas)
+
+	//Pasamos la clave a base 64
+	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))
+
+	//CIFRAMOS LA CLAVE AES CON LA CLAVE PUBLICA DEL PACIENTE
+	pacienteIdString := strconv.Itoa(analitica.HistorialId)
+	pacientePublicKey := getUserPublicKeyByHistorialId(pacienteIdString)
+
+	//Ciframos la clave AES usada con nuestra clave pública
+	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(pacientePublicKey.PublicKey))
+
+	//CIFRAMOS LOS DATOS CON LA CLAVE MAESTRA
+	//Recuperamos CLAVE PUBLICA MAESTRA
+	masterPairKeys := getPublicMasterKey()
+	claveMaestraAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(masterPairKeys.PublicKey))
+
+	//Preparamos los datos para enviar
+	analiticaEstadistica.UserToken = prepareUserToken(req)
+	analitica.UserToken = prepareUserToken(req)
+	analitica.Clave = claveAEScifrada
+	analitica.ClaveMaestra = claveMaestraAEScifrada
+	locJson, err := json.Marshal(analitica)
+
+	//Certificado
+	client := GetTLSClient()
+
+	//Request al servidor para añadir analitica paciente
+	response, err := client.Post(SERVER_URL+"/user/emergency/addAnalitica", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		var result util.JSON_Return
+		err := json.NewDecoder(response.Body).Decode(&result)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		} else {
+			locJson, err := json.Marshal(analiticaEstadistica)
+			//Request al servidor para añadir estadistica analitica
+			response, err = client.Post(SERVER_URL+"/user/emergency/addEstadisticaAnalitica", "application/json", bytes.NewBuffer(locJson))
+			if response != nil {
+				result = util.JSON_Return{Result: "OK"}
+				js, err := json.Marshal(result)
+				if err != nil {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+				w.Header().Set("Content-Type", "application/json")
+				w.Write(js)
+			} else {
+				util.PrintErrorLog(err)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+		}
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 }

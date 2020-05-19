@@ -132,6 +132,13 @@ type Roles_List_json struct {
 	Roles []Rol `json:"roles"`
 }
 
+//Tag
+
+type Tag_JSON struct {
+	Id     int    `json:"id"`
+	Nombre string `json:"nombre"`
+}
+
 //Clinica
 
 type Clinica struct {
@@ -232,6 +239,24 @@ type EntradaHistorial_JSON struct {
 	Clave             string    `json:"clave"`
 	ClaveMaestra      string    `json:"claveMaestra"`
 	UserToken         UserToken `json:"userToken"`
+}
+
+type AnaliticaHistorial_JSON struct {
+	Id             int       `json:"id"`
+	EmpleadoId     int       `json:"empleadoId"`
+	EmpleadoNombre string    `json:"empleadoNombre"`
+	PacienteId     int       `json:"pacienteId"`
+	HistorialId    int       `json:"historialId"`
+	Leucocitos     string    `json:"leucocitos"`
+	Hematies       string    `json:"hematies"`
+	Plaquetas      string    `json:"plaquetas"`
+	Glucosa        string    `json:"glucosa"`
+	Hierro         string    `json:"hierro"`
+	Tags           []int     `json:"tags"`
+	CreatedAt      string    `json:"createdAt"`
+	Clave          string    `json:"clave"`
+	ClaveMaestra   string    `json:"claveMaestra"`
+	UserToken      UserToken `json:"userToken"`
 }
 
 //Citas

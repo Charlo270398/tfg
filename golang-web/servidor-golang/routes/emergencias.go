@@ -67,15 +67,81 @@ func AddEntradaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 	if authorized == true {
 		var returnJSON util.JSON_Return
 		//Insertamos la entrada
-		result, err := models.InsertEntradaHistoria(entradaHistorial)
+		result, err := models.InsertEntradaHistorial(entradaHistorial)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		if result != -1 {
-			returnJSON.Result = strconv.Itoa(result)
+
 		} else {
 			returnJSON.Error = "Error insertando la entrada"
+		}
+
+		js, err := json.Marshal(returnJSON)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}
+
+func AddAnaliticaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
+	var analiticaHistorial util.AnaliticaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&analiticaHistorial)
+
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(analiticaHistorial.UserToken.UserId, analiticaHistorial.UserToken.Token, models.Rol_emergencias.Id)
+	if authorized == true {
+		var returnJSON util.JSON_Return
+		//Insertamos la analítica
+		result, err := models.InsertAnaliticaHistorial(analiticaHistorial)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		if result != -1 {
+
+		} else {
+			returnJSON.Error = "Error insertando la analítica"
+		}
+
+		js, err := json.Marshal(returnJSON)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}
+
+func AddEstadisticaAnaliticaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
+	var analiticaHistorial util.AnaliticaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&analiticaHistorial)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	//MEDICO,ENFERMERO Y EMERGENCIAS
+	authorized, _ := models.GetAuthorizationbyUserId(analiticaHistorial.UserToken.UserId, analiticaHistorial.UserToken.Token, models.Rol_emergencias.Id)
+	if authorized == true {
+		var returnJSON util.JSON_Return
+		//Insertamos la analítica
+		result, err := models.InsertEstadisticaAnaliticaHistorial(analiticaHistorial)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		if result == true {
+
+		} else {
+			returnJSON.Error = "Error insertando la analítica"
 		}
 
 		js, err := json.Marshal(returnJSON)
