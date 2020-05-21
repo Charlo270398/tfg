@@ -193,6 +193,38 @@ func GetEntradasHistorialByHistorialId(historialId int) (entradas []util.Entrada
 	return entradas, nil
 }
 
+func GetAnaliticasHistorialByHistorialId(historialId int) (analiticas []util.AnaliticaHistorial_JSON, err error) {
+	historialPacienteIdString := strconv.Itoa(historialId)
+	rows, err := db.Query(`SELECT id, empleado_id, historial_id, leucocitos, hematies, plaquetas, glucosa, hierro, created_at, clave, clave_maestra FROM usuarios_analiticas where historial_id = ` + historialPacienteIdString + " order by created_at desc") // check err
+	if err == nil {
+		var a util.AnaliticaHistorial_JSON
+		defer rows.Close()
+		for rows.Next() {
+			rows.Scan(&a.Id, &a.EmpleadoId, &a.HistorialId, &a.Leucocitos, &a.Hematies, &a.Plaquetas, &a.Glucosa, &a.Hierro, &a.CreatedAt, &a.Clave, &a.ClaveMaestra)
+			//Cambio horario y formato
+			words := strings.Fields(a.CreatedAt)
+			day := words[0] + "T" + words[1] + "Z"
+			layout := "2006-01-02T15:04:05.000000Z"
+			t, err := time.Parse(layout, day)
+			if err != nil {
+				layout = "2006-01-02T15:04:05.00000Z"
+				t, err = time.Parse(layout, day)
+			}
+			t = t.Local()
+			a.CreatedAt = fmt.Sprintf("%02d-%02d-%02d %02d:%02d:%02d",
+				t.Day(), t.Month(), t.Year(),
+				t.Hour(), t.Minute(), t.Second())
+			a.EmpleadoNombre, _ = GetNombreEmpleado(a.EmpleadoId)
+			analiticas = append(analiticas, a)
+		}
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return analiticas, err
+	}
+	return analiticas, nil
+}
+
 func GetEntradaById(entradaId int) (entrada util.EntradaHistorial_JSON, err error) {
 	entradaIdString := strconv.Itoa(entradaId)
 	row, err := db.Query(`SELECT id, empleado_id, historial_id, motivo_consulta, juicio_diagnostico, clave, clave_maestra, created_at, tipo FROM usuarios_entradas_historial where id = ` + entradaIdString) // check err

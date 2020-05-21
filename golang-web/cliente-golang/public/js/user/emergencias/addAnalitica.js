@@ -31,7 +31,11 @@ function restAddAnalitica(numberLeucocitos, numberHematies, numberPlaquetas, num
     .then( response => response.json() )
         .then( r => {
             if(!r.Error){
-                console.log("AA");
+                if(r.Result == "OK"){
+                    document.querySelector("#alert").textContent = "Analítica insertada correctamente";
+                    document.querySelector("#alert").classList.remove('invisible');
+                    document.querySelector("#formConsulta").classList.add('invisible');
+                }
             }
             else{
                 document.querySelector("#alert").textContent = r.Error;

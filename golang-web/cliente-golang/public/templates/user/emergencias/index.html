@@ -30,19 +30,41 @@
           <button class="btn btn-primary" id="addEntradaButton">Añadir entrada</button>
           <button class="btn btn-primary" id="addAnaliticaButton">Añadir analítica</button>
         </div>
-        <table id="historialTabla" class="table invisible">
-              <thead class="thead-dark">
-                    <tr>
-                          <th scope="col">Tipo</th>
-                          <th scope="col">Especialista</th>
-                          <th scope="col">Fecha</th>
-                          <th scope="col">Consultar</th>
-                    </tr>
-              </thead>
-              <tbody id="historialTablaBody">
-              </tbody>
-        </table>
+        <div id="historial">
+          <br>
+          <h4>Entradas historial</h4>
+          <table id="historialTabla" class="table invisible">
+                <thead class="thead-dark">
+                      <tr>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Especialista</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Consultar</th>
+                      </tr>
+                </thead>
+                <tbody id="historialTablaBody">
+                </tbody>
+          </table>
+        </div>
+        <div id="analiticas">
+          <h4>Analíticas historial</h4>
+          <table id="analiticasTabla" class="table invisible">
+                <thead class="thead-dark">
+                      <tr>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Especialista</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Consultar</th>
+                      </tr>
+                </thead>
+                <tbody id="analiticasTablaBody">
+                </tbody>
+          </table>
+        </div>
         <div id="alertTablaHistorial" class="alert alert-warning invisible" role="alert">
+          No hay ninguna entrada.
+        </div>
+        <div id="alertTablaAnaliticas" class="alert alert-warning invisible" role="alert">
           No hay ninguna entrada.
         </div>
       </div>

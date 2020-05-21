@@ -23,7 +23,6 @@ function restAddEntrada(motivoConsulta, juicioDiagnostico, tipo){
     .then( response => response.json() )
         .then( r => {
             if(!r.Error){
-                console.log(r);
                 if(r.Result == "OK"){
                     document.querySelector("#alert").textContent = "Entrada insertada correctamente";
                     document.querySelector("#alert").classList.remove('invisible');

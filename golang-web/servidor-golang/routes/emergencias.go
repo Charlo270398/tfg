@@ -26,6 +26,7 @@ func GetHistorialEmergencias(w http.ResponseWriter, req *http.Request) {
 		historialJSON.NombrePaciente = userData.Nombre
 		historialJSON.ApellidosPaciente = userData.Apellidos
 		historialJSON.Entradas, _ = models.GetEntradasHistorialByHistorialId(historialJSON.Id)
+		historialJSON.Analiticas, _ = models.GetAnaliticasHistorialByHistorialId(historialJSON.Id)
 		js, err := json.Marshal(historialJSON)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

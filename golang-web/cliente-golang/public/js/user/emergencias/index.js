@@ -40,7 +40,23 @@ function cargarTablaHistorial(eList){
         document.querySelector("#alert").classList.add('invisible');
         document.querySelector("#historialTabla").classList.remove('invisible');
         eList.forEach(entrada => {
-            addRow(entrada);
+            addRowHistorial(entrada);
+        });
+    }
+}
+
+function cargarTablaAnaliticas(aList){
+    //Eliminamos las filas de la tabla
+    while (document.querySelector("#analiticasTablaBody").lastElementChild) { 
+        document.querySelector("#analiticasTablaBody").removeChild(document.querySelector("#analiticasTablaBody").lastElementChild); 
+    } 
+    if(!aList || aList.length < 1){
+        document.querySelector("#analiticasTabla").classList.add('invisible');
+    }else{
+        document.querySelector("#alert").classList.add('invisible');
+        document.querySelector("#analiticasTabla").classList.remove('invisible');
+        aList.forEach(analitica => {
+            addRowAnaliticas(analitica);
         });
     }
 }
@@ -49,7 +65,11 @@ function consultarEntradaHistorial(event){
     window.location.href = "/user/emergency/historial/entrada?entradaId=" + event.target.closest("tr").getAttribute("id") + "&identificacion="+IDENTIFICACION;
 }
 
-function addRow(entrada){
+function consultarAnaliticaHistorial(event){
+    window.location.href = "/user/emergency/historial/analitica?analiticaId=" + event.target.closest("tr").getAttribute("id") + "&identificacion="+IDENTIFICACION;
+}
+
+function addRowHistorial(entrada){
     let tr = document.createElement('tr');
     let fecha = document.createElement('td');
     let especialista = document.createElement('td');
@@ -74,6 +94,31 @@ function addRow(entrada){
     document.querySelector(`#historialTabla`).querySelector('tbody').append(tr);
 }
 
+function addRowAnaliticas(entrada){
+    let tr = document.createElement('tr');
+    let fecha = document.createElement('td');
+    let especialista = document.createElement('td');
+    let tipo = document.createElement('td');
+    let acciones = document.createElement('td');
+
+    let accionesButton = document.createElement('button');
+    accionesButton.classList = "btn btn-primary";
+    accionesButton.type = "button";
+    accionesButton.textContent = "Consultar analítica";
+    accionesButton.addEventListener("click", consultarAnaliticaHistorial, false);
+    acciones.append(accionesButton);
+    fecha.textContent = entrada.createdAt;
+    especialista.textContent = entrada.empleadoNombre;
+    tipo.textContent = "Analítica";
+    tr.append(tipo);
+    tr.append(especialista);
+    tr.append(fecha);
+    tr.append(acciones);
+    tr.setAttribute("id", entrada.id);
+    //Añadimos fila a la tabla
+    document.querySelector(`#analiticasTabla`).querySelector('tbody').append(tr);
+}
+
 function restBuscarDNI(DNI){
     const url= `/user/emergency/historial`;
     const payload= {identificacion: DNI};
@@ -88,7 +133,6 @@ function restBuscarDNI(DNI){
             if(!r.Error){
                 if(r.id != 0){
                     //PROCESAR HISTORIAL
-                    console.log(r);
                     HISTORIAL_ID = r.id;
                     document.querySelector("#alert").classList.add('invisible');
                     document.querySelector("#historialDiv").classList.remove('invisible');
@@ -99,6 +143,7 @@ function restBuscarDNI(DNI){
                         document.querySelector("#alertTablaHistorial").classList.remove('invisible');
                     }
                     cargarTablaHistorial(r.entradas);
+                    cargarTablaAnaliticas(r.analiticas);
                     
                 }else{
                     document.querySelector("#historialDiv").classList.add('invisible');

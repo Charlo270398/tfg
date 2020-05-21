@@ -26,3 +26,13 @@
 2020/05/19 20:41:34 Servicio iniciado
 2020/05/19 20:41:37 ERROR: &{%!g(uint16=1406) %!g(string=Data too long for column 'id' at row 1)}
 2020/05/19 20:41:47 Servicio iniciado
+2020/05/19 20:48:01 Servicio iniciado
+2020/05/20 21:09:52 Servicio iniciado
+2020/05/20 21:10:51 Intentando iniciar sesión...
+2020/05/20 21:14:50 Intentando iniciar sesión...
+2020/05/20 21:30:18 Servicio iniciado
+2020/05/20 21:32:17 ERROR: &{%!g(uint16=1054) %!g(string=Unknown column 'leucocitos' in 'field list')}
+2020/05/20 21:32:44 ERROR: &{%!g(uint16=1054) %!g(string=Unknown column 'leucocitos' in 'field list')}
+2020/05/20 21:33:26 Servicio iniciado
+2020/05/21 12:46:33 Servicio iniciado
+2020/05/21 12:46:51 Intentando iniciar sesión...
