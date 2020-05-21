@@ -60,6 +60,26 @@ func GetEntradaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 	return
 }
 
+func GetAnaliticaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
+	var analitica util.AnaliticaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&analitica)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(analitica.UserToken.UserId, analitica.UserToken.Token, models.Rol_emergencias.Id)
+	if authorized == true {
+		analiticaJSON, _ := models.GetAnaliticaById(analitica.Id)
+		js, err := json.Marshal(analiticaJSON)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}
+
 func AddEntradaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 	var entradaHistorial util.EntradaHistorial_JSON
 	json.NewDecoder(req.Body).Decode(&entradaHistorial)

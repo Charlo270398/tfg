@@ -275,7 +275,6 @@ func InsertAnaliticaHistorial(analitica util.AnaliticaHistorial_JSON) (inserted_
 }
 
 func InsertEstadisticaAnaliticaHistorial(analitica util.AnaliticaHistorial_JSON) (inserted bool, err error) {
-	fmt.Println(analitica)
 	hematies, _ := strconv.ParseFloat(analitica.Hematies, 32)
 	hierro, _ := strconv.ParseFloat(analitica.Hierro, 32)
 	leucocitos, _ := strconv.ParseFloat(analitica.Leucocitos, 32)
@@ -297,7 +296,6 @@ func InsertEstadisticaAnaliticaHistorial(analitica util.AnaliticaHistorial_JSON)
 		for _, tagId := range analitica.Tags {
 			_, err = db.Exec(`INSERT INTO estadisticas_analiticas_tags (analitica_id, tag_id) VALUES (?, ?)`, uid, tagId)
 			if err != nil {
-				return false, nil
 
 			}
 		}
@@ -307,4 +305,33 @@ func InsertEstadisticaAnaliticaHistorial(analitica util.AnaliticaHistorial_JSON)
 		util.PrintErrorLog(err)
 		return false, err
 	}
+}
+
+func GetAnaliticaById(analiticaId int) (analitica util.AnaliticaHistorial_JSON, err error) {
+	analiticaIdString := strconv.Itoa(analiticaId)
+	row, err := db.Query(`SELECT id, empleado_id, historial_id, leucocitos, hematies, plaquetas, glucosa, hierro, clave, clave_maestra, created_at FROM usuarios_analiticas where id = ` + analiticaIdString) // check err
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&analitica.Id, &analitica.EmpleadoId, &analitica.HistorialId, &analitica.Leucocitos, &analitica.Hematies, &analitica.Plaquetas, &analitica.Glucosa, &analitica.Hierro, &analitica.Clave, &analitica.ClaveMaestra, &analitica.CreatedAt)
+		//Cambio horario y formato
+		words := strings.Fields(analitica.CreatedAt)
+		day := words[0] + "T" + words[1] + "Z"
+		layout := "2006-01-02T15:04:05.000000Z"
+		t, err := time.Parse(layout, day)
+		if err != nil {
+			layout = "2006-01-02T15:04:05.00000Z"
+			t, err = time.Parse(layout, day)
+		}
+		t = t.Local()
+		analitica.CreatedAt = fmt.Sprintf("%02d-%02d-%02d %02d:%02d:%02d",
+			t.Day(), t.Month(), t.Year(),
+			t.Hour(), t.Minute(), t.Second())
+		analitica.EmpleadoNombre, _ = GetNombreEmpleado(analitica.EmpleadoId)
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return analitica, err
+	}
+	return analitica, nil
 }

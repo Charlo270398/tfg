@@ -1,0 +1,28 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/emergencias/analitica.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/emergencias/analitica.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div>
+      <div id="alert" class="alert alert-success invisible" role="alert">
+        This is a success alert—check it out!
+      </div>
+      <h2>Consultando analítica</h2>
+      <br>
+      <div>
+        <p><strong>Realizada por: </strong>{{.Analitica.EmpleadoNombre}}</p>
+        <p><strong>Fecha de realización: </strong>{{.Analitica.CreatedAt}}</p>
+        <br>
+        <h5><strong>Datos de la analítica</strong></h5>
+        <p>Hematies: {{.Analitica.Hematies}}</p>
+        <p>Hierro: {{.Analitica.Hierro}}</p>
+        <p>Leucocitos: {{.Analitica.Leucocitos}}</p>
+        <p>Plaquetas: {{.Analitica.Plaquetas}}</p>
+        <p>Glucosa: {{.Analitica.Glucosa}}</p>
+      </div>
+  </div>
+</main>
+{{end}} 

@@ -249,6 +249,7 @@ func LoadRouter() {
 	router.HandleFunc("/user/emergency", menuEmergenciasHandler).Methods("GET")
 	router.HandleFunc("/user/emergency/historial", GetHistorialEmergenciasHandler).Methods("POST")
 	router.HandleFunc("/user/emergency/historial/entrada", GetEntradaEmergenciasHandler).Methods("GET")
+	router.HandleFunc("/user/emergency/historial/analitica", GetAnaliticaEmergenciasHandler).Methods("GET")
 	router.HandleFunc("/user/emergency/historial/addEntrada", AddEntradaEmergenciasFormHandler).Methods("GET")
 	router.HandleFunc("/user/emergency/historial/addEntrada", AddEntradaEmergenciasHandler).Methods("POST")
 	router.HandleFunc("/user/emergency/historial/addAnalitica", AddAnaliticaEmergenciasFormHandler).Methods("GET")

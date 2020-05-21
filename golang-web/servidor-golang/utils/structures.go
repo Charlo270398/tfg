@@ -406,3 +406,9 @@ type EntradaPage struct {
 	Body    string
 	Entrada EntradaHistorial_JSON
 }
+
+type AnaliticaPage struct {
+	Title     string
+	Body      string
+	Analitica AnaliticaHistorial_JSON
+}
