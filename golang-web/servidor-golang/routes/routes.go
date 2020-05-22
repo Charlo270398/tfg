@@ -58,6 +58,8 @@ func LoadRouter(port string) {
 	http.HandleFunc("/user/patient/citas/list", PacienteGetCitasFuturasList)
 	http.HandleFunc("/user/patient/historial", GetHistorialPaciente)
 	http.HandleFunc("/user/patient/historial/share", ShareHistorialPaciente)
+	http.HandleFunc("/user/patient/historial/entrada", PacienteGetEntradaHandler)
+	http.HandleFunc("/user/patient/historial/analitica", PacienteGetAnaliticaHandler)
 
 	//USER(MEDICO)
 	http.HandleFunc("/user/doctor/historial", GetHistorialCompartido)

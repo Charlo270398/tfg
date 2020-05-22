@@ -230,7 +230,7 @@ func GetAnaliticaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 	var tmp = template.Must(
 		template.New("").ParseFiles("public/templates/user/emergencias/analitica.html", "public/templates/layouts/base.html"),
 	)
-	if err := tmp.ExecuteTemplate(w, "base", &util.AnaliticaPage{Title: "Consultar entrada", Body: "body", Analitica: analiticaJSON}); err != nil {
+	if err := tmp.ExecuteTemplate(w, "base", &util.AnaliticaPage{Title: "Consultar analítica", Body: "body", Analitica: analiticaJSON}); err != nil {
 		log.Printf("Error executing template: %v", err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 	}

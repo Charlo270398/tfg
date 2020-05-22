@@ -14,7 +14,7 @@
   <br>
   <!-- Tabla historial -->
   <div>
-      <h2 id="historialTitulo"><strong>Entradas en el historial</strong></h2>
+      <h4 id="historialTitulo"><strong>Entradas en el historial</strong></h4>
       <table id="historialTabla" class="table">
             <thead class="thead-dark">
                   <tr>
@@ -30,6 +30,24 @@
       </table>
       <div id="alert" class="alert alert-warning invisible" role="alert">
         No hay ninguna entrada.
+      </div>
+      <div id="analiticas">
+          <h4 id="analiticasTitulo"><strong>Analíticas en el historial</strong></h4>
+          <table id="analiticasTabla" class="table invisible">
+                <thead class="thead-dark">
+                      <tr>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Especialista</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">Consultar</th>
+                      </tr>
+                </thead>
+                <tbody id="analiticasTablaBody">
+                </tbody>
+          </table>
+      </div>
+      <div id="alertTablaAnaliticas" class="alert alert-warning invisible" role="alert">
+        No hay ninguna analítica.
       </div>
   </div>
 </main>

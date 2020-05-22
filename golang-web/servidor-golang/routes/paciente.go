@@ -56,3 +56,43 @@ func PacienteGetCitasFuturasList(w http.ResponseWriter, req *http.Request) {
 	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
 	return
 }
+
+func PacienteGetEntradaHandler(w http.ResponseWriter, req *http.Request) {
+	var entrada util.EntradaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&entrada)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(entrada.UserToken.UserId, entrada.UserToken.Token, models.Rol_paciente.Id)
+	if authorized == true {
+		entradaJSON, _ := models.GetEntradaById(entrada.Id)
+		js, err := json.Marshal(entradaJSON)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}
+
+func PacienteGetAnaliticaHandler(w http.ResponseWriter, req *http.Request) {
+	var analitica util.AnaliticaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&analitica)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(analitica.UserToken.UserId, analitica.UserToken.Token, models.Rol_paciente.Id)
+	if authorized == true {
+		analiticaJSON, _ := models.GetAnaliticaById(analitica.Id)
+		js, err := json.Marshal(analiticaJSON)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}

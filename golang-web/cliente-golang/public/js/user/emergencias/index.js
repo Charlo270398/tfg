@@ -141,6 +141,13 @@ function restBuscarDNI(DNI){
                     document.querySelector("#spanAlergias").textContent = r.alergias
                     if(r.entradas == null){
                         document.querySelector("#alertTablaHistorial").classList.remove('invisible');
+                    }else{
+                        document.querySelector("#alertTablaHistorial").classList.add('invisible');
+                    }
+                    if(r.analiticas == null){
+                        document.querySelector("#alertTablaAnaliticas").classList.remove('invisible');
+                    }else{
+                        document.querySelector("#alertTablaAnaliticas").classList.add('invisible');
                     }
                     cargarTablaHistorial(r.entradas);
                     cargarTablaAnaliticas(r.analiticas);

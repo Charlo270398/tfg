@@ -51,6 +51,9 @@ function changeNumber(event){
     if(event.target.value >= event.target.max){
         event.target.value = event.target.max;
     }
+    if(event.target.value < event.target.min){
+        event.target.value = 0;
+    }
 }
 
 function init () {

@@ -21,6 +21,7 @@ func GetHistorialPaciente(w http.ResponseWriter, req *http.Request) {
 	if authorized == true {
 		historialJSON, _ := models.GetHistorialByUserId(userToken.UserId)
 		historialJSON.Entradas, _ = models.GetEntradasHistorialByHistorialId(historialJSON.Id)
+		historialJSON.Analiticas, _ = models.GetAnaliticasHistorialByHistorialId(historialJSON.Id)
 		js, err := json.Marshal(historialJSON)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)

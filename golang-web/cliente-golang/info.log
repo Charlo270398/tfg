@@ -380,3 +380,30 @@
 2020/05/21 13:36:28 Servicio iniciado
 2020/05/21 13:37:24 Servicio iniciado
 2020/05/21 13:38:19 Servicio iniciado
+2020/05/21 14:22:23 Servicio iniciado
+2020/05/21 14:22:41 ERROR: &{%!g(string=number) %!g(*reflect.rtype=&{184 176 1438016938 7 8 8 25 0x74e5b0 0x92a14e 117376 155424}) %!g(int64=3) %!g(string=) %!g(string=)}
+2020/05/21 14:24:26 Servicio iniciado
+2020/05/21 14:25:38 Servicio iniciado
+2020/05/21 14:26:49 Servicio iniciado
+2020/05/21 14:27:22 Servicio iniciado
+2020/05/21 14:27:57 Servicio iniciado
+2020/05/21 14:28:12 Servicio iniciado
+2020/05/21 14:28:32 Servicio iniciado
+2020/05/21 14:28:47 Servicio iniciado
+2020/05/22 11:06:48 Servicio iniciado
+2020/05/22 11:07:10 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/22 11:07:15 ERROR: &{%!g(string=crypto/rsa: decryption error)}
+2020/05/22 11:34:16 Servicio iniciado
+2020/05/22 11:47:17 Servicio iniciado
+2020/05/22 12:03:45 Servicio iniciado
+2020/05/22 12:05:12 Servicio iniciado
+2020/05/22 12:05:50 Servicio iniciado
+2020/05/22 12:06:44 Servicio iniciado
+2020/05/22 12:07:14 Servicio iniciado
+2020/05/22 12:07:35 Servicio iniciado
+2020/05/22 12:07:53 Servicio iniciado
+2020/05/22 12:08:31 Servicio iniciado
+2020/05/22 12:08:58 Servicio iniciado
+2020/05/22 12:09:20 Servicio iniciado
+2020/05/22 12:09:43 Servicio iniciado
+2020/05/22 12:10:01 Servicio iniciado
