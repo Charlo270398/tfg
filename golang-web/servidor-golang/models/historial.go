@@ -149,10 +149,18 @@ func GetHistorialCompartidoByMedicoIdPacienteId(medicoId string, pacienteId stri
 		defer rows.Close()
 		rows.Next()
 		rows.Scan(&historial.Id, &historial.Clave)
-		historial.Alergias = historialPaciente.Alergias
-		historial.Sexo = historialPaciente.Sexo
-		historial.NombrePaciente = userData.Nombre
-		historial.ApellidosPaciente = userData.Apellidos
+		if historial.Id != 0 {
+			historial.Alergias = historialPaciente.Alergias
+			historial.Sexo = historialPaciente.Sexo
+			historial.NombrePaciente = userData.Nombre
+			historial.ApellidosPaciente = userData.Apellidos
+			historial.Entradas, _ = GetEntradasHistorialByHistorialId(historial.Id)
+			for index, entrada := range historial.Entradas {
+				medicoIdInt, _ := strconv.Atoi(medicoId)
+				historial.Entradas[index].Clave, _ = GetClaveCompartidaEntradaHistorialByEntradaIdEmpleadoId(entrada.Id, medicoIdInt)
+			}
+			historial.Analiticas, _ = GetAnaliticasHistorialByHistorialId(historial.Id)
+		}
 	} else {
 		fmt.Println(err)
 		util.PrintErrorLog(err)
@@ -191,6 +199,22 @@ func GetEntradasHistorialByHistorialId(historialId int) (entradas []util.Entrada
 		return entradas, err
 	}
 	return entradas, nil
+}
+
+func GetClaveCompartidaEntradaHistorialByEntradaIdEmpleadoId(entradaId int, empleadoId int) (clave string, err error) {
+	entradaIdString := strconv.Itoa(entradaId)
+	empleadoIdString := strconv.Itoa(empleadoId)
+	row, err := db.Query(`SELECT clave FROM usuarios_permisos_entradas_historial WHERE entrada_id = ` + entradaIdString + " AND empleado_id = " + empleadoIdString) // check err
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&clave)
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return clave, err
+	}
+	return clave, nil
 }
 
 func GetAnaliticasHistorialByHistorialId(historialId int) (analiticas []util.AnaliticaHistorial_JSON, err error) {

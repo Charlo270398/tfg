@@ -1,3 +1,7 @@
 main div.row {
     margin-bottom: 20px;
 }
+
+button.btn-secondary{
+    margin-left: 10px;
+}

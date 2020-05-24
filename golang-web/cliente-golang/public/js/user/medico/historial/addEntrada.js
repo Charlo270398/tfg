@@ -1,3 +1,5 @@
+var HISTORIAL_ID = -1;
+
 function submit(event){
     if(document.querySelector("#motivoConsulta").value != "" && document.querySelector("#juicioDiagnostico").value != ""){
         console.log("AA");
@@ -41,10 +43,19 @@ function restAddEntrada(motivoConsulta, juicioDiagnostico){
 function init () {
     deleteBreadcrumb();
     addLinkBreadcrumb('Usuario', '/user/menu');
-    addLinkBreadcrumb('Medico', '/user/doctor');
+    addLinkBreadcrumb('Médico', '/user/doctor');
     addLinkBreadcrumb('Solicitar historial', '/user/doctor/historial/solicitar');
+    //Si se pasa por parametro el DNI se busca auto
+    var url = new URL(window.location.href);
+    var paramIdentificacion = url.searchParams.get("identificacion");
+    if(paramIdentificacion){
+        addLinkBreadcrumb('Historial', '/user/doctor/historial/solicitar?identificacion='+paramIdentificacion);
+    }
     addLinkBreadcrumb('Añadir entrada', '');
-    document.querySelector("#searchButton").addEventListener('click',submit,false);
+    var paramHistorialId = url.searchParams.get("historialId");
+    if(paramHistorialId){
+        HISTORIAL_ID = parseInt(paramHistorialId);
+    }
 }
 
 document.addEventListener('DOMContentLoaded',init,false);

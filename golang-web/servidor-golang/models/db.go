@@ -63,6 +63,7 @@ func CreateDB() {
 	query(ESTADISTICAS_ANALITICAS_TABLE)
 	query(ESTADISTICAS_ANALITICAS_TAGS_TABLE)
 	query(SOLICITAR_HISTORIAL_TABLE)
+	query(SOLICITAR_HISTORIAL_TOTAL_TABLE)
 	query(SOLICITAR_ENTRADAS_HISTORIAL_TABLE)
 	query(SOLICITAR_ANALITICAS_HISTORIAL_TABLE)
 
@@ -344,6 +345,15 @@ CREATE TABLE IF NOT EXISTS usuarios_permisos_analiticas (
 //Solicitudes
 var SOLICITAR_HISTORIAL_TABLE string = `
 CREATE TABLE IF NOT EXISTS solicitar_historial (
+	paciente_id INT,
+	empleado_id INT,
+	PRIMARY KEY (paciente_id, empleado_id),
+	FOREIGN KEY(paciente_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+	FOREIGN KEY(empleado_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);`
+
+var SOLICITAR_HISTORIAL_TOTAL_TABLE string = `
+CREATE TABLE IF NOT EXISTS solicitar_historial_total (
 	paciente_id INT,
 	empleado_id INT,
 	PRIMARY KEY (paciente_id, empleado_id),

@@ -24,10 +24,77 @@ func menuPatientHandler(w http.ResponseWriter, req *http.Request) {
 		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
 		return
 	}
+
+	//VER SOLICITUDES
+	//Certificado
+	client := GetTLSClient()
+	permisos := false
+	//Recuperamos datos de nuestro historial
+	locJson, err := json.Marshal(util.UserToken_JSON{UserId: prepareUserToken(req).UserId, Token: prepareUserToken(req).Token})
+	response, err := client.Post(SERVER_URL+"/permisos/solicitudes/comprobar", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		var result util.JSON_Return
+		err := json.NewDecoder(response.Body).Decode(&result)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		if result.Result == "OK" {
+			permisos = true
+		}
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 	var tmp = template.Must(
 		template.New("").ParseFiles("public/templates/user/paciente/index.html", "public/templates/layouts/base.html"),
 	)
-	if err := tmp.ExecuteTemplate(w, "base", &Page{Title: "Menú paciente", Body: "body"}); err != nil {
+	if err := tmp.ExecuteTemplate(w, "base", util.PacientePage{Title: "Menú paciente", Body: "body", Permisos: permisos}); err != nil {
+		log.Printf("Error executing template: %v", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	}
+}
+
+func patientAutorizationsHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	//LISTAR SOLICITUDES
+	//Certificado
+	client := GetTLSClient()
+	//Recuperamos datos de las solicitudes
+	var solicitudes []util.Solicitud_JSON
+	locJson, err := json.Marshal(util.UserToken_JSON{UserId: prepareUserToken(req).UserId, Token: prepareUserToken(req).Token})
+	response, err := client.Post(SERVER_URL+"/permisos/solicitudes/listar", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&solicitudes)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var tmp = template.Must(
+		template.New("").ParseFiles("public/templates/user/paciente/historial/autorizar.html", "public/templates/layouts/base.html"),
+	)
+	if err := tmp.ExecuteTemplate(w, "base", util.PermisosPage{Title: "Gestión de permisos", Body: "body", Solicitudes: solicitudes}); err != nil {
 		log.Printf("Error executing template: %v", err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 	}

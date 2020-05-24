@@ -3,7 +3,6 @@ function init () {
     addLinkBreadcrumb('Usuario', '/user/menu');
     addLinkBreadcrumb('Paciente', '/user/patient');
     addLinkBreadcrumb('Historia clínica', '/user/patient/historial');
-    console.log(historial.analiticas);
     loadTable(historial.entradas);
     cargarTablaAnaliticas(historial.analiticas);
 }
@@ -38,6 +37,7 @@ function cargarTablaAnaliticas(aList){
 
 function addRow(entrada){
     let tr = document.createElement('tr');
+    let id = document.createElement('td');
     let fecha = document.createElement('td');
     let especialista = document.createElement('td');
     let tipo = document.createElement('td');
@@ -52,6 +52,8 @@ function addRow(entrada){
     fecha.textContent = entrada.createdAt;
     especialista.textContent = entrada.empleadoNombre;
     tipo.textContent = entrada.tipo;
+    id.textContent = entrada.id;
+    tr.append(id);
     tr.append(tipo);
     tr.append(especialista);
     tr.append(fecha);
@@ -63,6 +65,7 @@ function addRow(entrada){
 
 function addRowAnaliticas(entrada){
     let tr = document.createElement('tr');
+    let id = document.createElement('td');
     let fecha = document.createElement('td');
     let especialista = document.createElement('td');
     let tipo = document.createElement('td');
@@ -77,6 +80,8 @@ function addRowAnaliticas(entrada){
     fecha.textContent = entrada.createdAt;
     especialista.textContent = entrada.empleadoNombre;
     tipo.textContent = "Analítica";
+    id.textContent = entrada.id;
+    tr.append(id);
     tr.append(tipo);
     tr.append(especialista);
     tr.append(fecha);

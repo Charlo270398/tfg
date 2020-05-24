@@ -19,29 +19,57 @@
       </div>
       <br>
       <div id="alertBusqueda" class="alert alert-warning invisible" role="alert">
-        No dispones de permisos para consultar ese historial. Puedes solicitar el acceso más abajo.
+        No dispones de permisos para consultar los datos de este historial. Puedes solicitar el acceso más abajo.
       </div>
-      <div id="buttonsForm" class="form-group invisible">
-        <button class="btn btn-primary" id="accesoTotalButton">Solicitar acceso total al historial</button>
-        <button class="btn btn-primary" id="addEntradaButton">Añadir entrada</button>
-        <button class="btn btn-primary" id="addAnaliticaButton">Añadir analítica</button>
+      <div id="datosBasicos" class="invisible">
+          <h4>Datos básicos</h4>
+          <p><strong>Paciente: </strong><span id="spanNombre"></span></p>
+          <p><strong>Sexo: </strong><span id="spanSexo"></span></p>
+          <p><strong>Alergias: </strong><span id="spanAlergias"></span></p>
       </div>
+      <br>
+      <div id="buttonsForm" class="form-group">
+
+      </div>
+      <br>
+      <!-- ENTRADAS HISTORIAL -->
+      <h4 id="historialTablaTitulo" class="invisible">Entradas historial</h4>
       <table id="historialTabla" class="table invisible">
             <thead class="thead-dark">
                   <tr>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Especialista</th>
                         <th scope="col">Tipo</th>
-                        <th scope="col">Solicitar acceso</th>
+                        <th scope="col">Especialista</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Acciones</th>
                   </tr>
             </thead>
-            <tbody>
+            <tbody id="historialTablaBody">
             
             </tbody>
       </table>
       <div id="alertTablaHistorial" class="alert alert-warning invisible" role="alert">
         No hay ningun resultado.
       </div>
+
+      <!-- ANALITICAS HISTORIAL -->
+      <h4 id="analiticasTablaTitulo" class="invisible">Analíticas historial</h4>
+      <table id="analiticasTabla" class="table invisible">
+            <thead class="thead-dark">
+                  <tr>
+                        <th scope="col">Tipo</th>
+                        <th scope="col">Especialista</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Acciones</th>
+                  </tr>
+            </thead>
+            <tbody id="analiticasTablaBody">
+            
+            </tbody>
+      </table>
+      <div id="alertAnaliticasTabla" class="alert alert-warning invisible" role="alert">
+        No hay ningun resultado.
+      </div>
+
   </div>
 </main>
 {{end}} 

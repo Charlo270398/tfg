@@ -222,8 +222,19 @@ type Historial_JSON struct {
 }
 
 type SolicitarHistorial_JSON struct {
-	UserDNI   string    `json:"userDNI"`
-	UserToken UserToken `json:"userToken"`
+	UserDNI            string         `json:"userDNI"`
+	UserToken          UserToken      `json:"userToken"`
+	HistorialPermitido Historial_JSON `json:"historialPermitido"`
+	Historial          Historial_JSON `json:"historial"`
+}
+
+type Solicitud_JSON struct {
+	EmpleadoId     int    `json:"empleadoId"`
+	NombreEmpleado string `json:"nombreEmpleado"`
+	HistorialId    int    `json:"historialId"`
+	TipoHistorial  string `json:"tipoHistorial"`
+	EntradaId      int    `json:"entradaId"`
+	AnaliticaId    int    `json:"analiticaId"`
 }
 
 type EntradaHistorial_JSON struct {
@@ -411,4 +422,16 @@ type AnaliticaPage struct {
 	Title     string
 	Body      string
 	Analitica AnaliticaHistorial_JSON
+}
+
+type PacientePage struct {
+	Title    string
+	Body     string
+	Permisos bool
+}
+
+type PermisosPage struct {
+	Title       string
+	Body        string
+	Solicitudes []Solicitud_JSON
 }

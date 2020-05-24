@@ -205,6 +205,12 @@ func LoadRouter() {
 	router.HandleFunc("/user/menu/edit", menuEditUserFormHandler).Methods("GET")
 	router.HandleFunc("/user/menu/edit", menuEditUserHandler).Methods("POST")
 
+	//SOLICITAR PERMISOS
+	router.HandleFunc("/permisos/historial/total/solicitar", solicitarPermisoTotal).Methods("POST")
+	router.HandleFunc("/permisos/historial/basico/solicitar", solicitarPermisoBasico).Methods("POST")
+	router.HandleFunc("/permisos/entrada/solicitar", solicitarPermisoEntrada).Methods("POST")
+	router.HandleFunc("/permisos/analitica/solicitar", solicitarPermisoAnalitica).Methods("POST")
+
 	//USER(PACIENTE)
 	router.HandleFunc("/user/patient", menuPatientHandler).Methods("GET")
 	router.HandleFunc("/user/patient/edit", editUserPatientHandler).Methods("GET")
@@ -214,6 +220,7 @@ func LoadRouter() {
 	router.HandleFunc("/user/patient/citas", patientCitaListHandler).Methods("GET")
 	router.HandleFunc("/user/patient/citas/add", addPatientCitaFormHandler).Methods("GET")
 	router.HandleFunc("/user/patient/citas/add", addCitaPacienteHandler).Methods("POST")
+	router.HandleFunc("/user/patient/historial/share", patientAutorizationsHandler).Methods("GET")
 
 	//USER(ENFERMERO)
 	router.HandleFunc("/user/nurse", menuEnfermeroHandler).Methods("GET")

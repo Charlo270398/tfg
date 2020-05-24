@@ -1,0 +1,31 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/patient/historial/autorizar.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/patient/historial/autorizar.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div id="alert" class="alert alert-warning invisible" role="alert">
+    No hay ninguna solicitud.
+  </div>
+  <div id="solicitudes">
+    <h4><strong>Solicitudes pendientes</strong></h4>
+    <table id="analiticasTabla" class="table">
+      <thead class="thead-dark">
+            <tr>  
+                  <th scope="col">Solicitante</th>
+                  <th scope="col">Tipo de permiso</th>
+                  <th scope="col">ID entrada/analítica</th>
+                  <th scope="col">Acciones</th>
+            </tr>
+      </thead>
+      <tbody id="solicitudesTablaBody">
+      </tbody>
+    </table>
+  </div>
+</main>
+<script>
+    var solicitudes = {{.Solicitudes}};
+</script>
+{{end}} 

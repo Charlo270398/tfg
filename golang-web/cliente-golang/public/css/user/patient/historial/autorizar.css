@@ -1,0 +1,11 @@
+main div.row {
+    margin-bottom: 20px;
+}
+
+main div.form-group input{
+    margin-left: 20px;
+}
+
+button.btn-danger{
+    margin-left: 10px;
+}

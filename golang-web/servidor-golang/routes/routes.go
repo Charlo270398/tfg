@@ -53,6 +53,14 @@ func LoadRouter(port string) {
 	http.HandleFunc("/user/publicMasterKey", getPublicMasterKeyHandler)
 	http.HandleFunc("/user/pairkeysByHistorialId", getUserPairKeysByHistorialIdHandler)
 
+	//SOLICITAR PERMISOS
+	http.HandleFunc("/permisos/historial/total/solicitar", solicitarPermisoTotal)
+	http.HandleFunc("/permisos/historial/basico/solicitar", solicitarPermisoBasico)
+	http.HandleFunc("/permisos/entrada/solicitar", solicitarPermisoEntrada)
+	http.HandleFunc("/permisos/analitica/solicitar", solicitarPermisoAnalitica)
+	http.HandleFunc("/permisos/solicitudes/listar", listarSolicitudesPermiso)
+	http.HandleFunc("/permisos/solicitudes/comprobar", comprobarSolicitudesPermiso)
+
 	//USER(PACIENTE)
 	http.HandleFunc("/user/patient/citas/add", PacienteInsertCita)
 	http.HandleFunc("/user/patient/citas/list", PacienteGetCitasFuturasList)

@@ -38,7 +38,6 @@ function addEntrada(event){
 }
 
 function init () {
-    console.log(cita.id);
     deleteBreadcrumb();
     addLinkBreadcrumb('Usuario', '/user/menu');
     addLinkBreadcrumb('Medico', '/user/doctor');

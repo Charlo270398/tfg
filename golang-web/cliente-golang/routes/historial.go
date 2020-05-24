@@ -169,3 +169,171 @@ func addEntradaHistorialConsultaMedicoHandler(w http.ResponseWriter, req *http.R
 		return
 	}
 }
+
+func solicitarPermisoTotal(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	//Recuperamos datos del form
+	var historial util.Historial_JSON
+	json.NewDecoder(req.Body).Decode(&historial)
+	historial.UserToken = prepareUserToken(req)
+
+	//Certificado
+	client := GetTLSClient()
+
+	locJson, err := json.Marshal(historial)
+	response, err := client.Post(SERVER_URL+"/permisos/historial/total/solicitar", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		var result util.JSON_Return
+		json.NewDecoder(response.Body).Decode(&result)
+		js, err := json.Marshal(result)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func solicitarPermisoBasico(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	//Recuperamos datos del form
+	var historial util.Historial_JSON
+	json.NewDecoder(req.Body).Decode(&historial)
+	historial.UserToken = prepareUserToken(req)
+
+	//Certificado
+	client := GetTLSClient()
+
+	locJson, err := json.Marshal(historial)
+	response, err := client.Post(SERVER_URL+"/permisos/historial/basico/solicitar", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		var result util.JSON_Return
+		json.NewDecoder(response.Body).Decode(&result)
+		js, err := json.Marshal(result)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func solicitarPermisoEntrada(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	//Recuperamos datos del form
+	var entrada util.EntradaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&entrada)
+	entrada.UserToken = prepareUserToken(req)
+
+	//Certificado
+	client := GetTLSClient()
+	locJson, err := json.Marshal(entrada)
+	response, err := client.Post(SERVER_URL+"/permisos/entrada/solicitar", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		var result util.JSON_Return
+		json.NewDecoder(response.Body).Decode(&result)
+		js, err := json.Marshal(result)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func solicitarPermisoAnalitica(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	//Recuperamos datos del form
+	var analitica util.AnaliticaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&analitica)
+	analitica.UserToken = prepareUserToken(req)
+
+	//Certificado
+	client := GetTLSClient()
+
+	//Recuperamos clave publica del paciente
+	locJson, err := json.Marshal(analitica)
+	response, err := client.Post(SERVER_URL+"/permisos/analitica/solicitar", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		var result util.JSON_Return
+		json.NewDecoder(response.Body).Decode(&result)
+		js, err := json.Marshal(result)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
