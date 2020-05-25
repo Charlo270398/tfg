@@ -231,7 +231,7 @@ function procesarHistorial(solicitud){
         document.querySelector("#spanAlergias").textContent = solicitud.historialPermitido.alergias;
         //Cargamos tablas 
         cargarTablaHistorial(solicitud.historialPermitido.entradas);
-        cargarTablaAnaliticas(solicitud.historial.analiticas);
+        cargarTablaAnaliticas(solicitud.historialPermitido.analiticas);
     }
 }
 
@@ -279,28 +279,37 @@ function addRowHistorial(entrada){
     document.querySelector(`#historialTabla`).querySelector('tbody').append(tr);
 }
 
-function addRowAnaliticas(entrada){
+function addRowAnaliticas(analitica){
     let tr = document.createElement('tr');
     let fecha = document.createElement('td');
     let especialista = document.createElement('td');
     let tipo = document.createElement('td');
     let acciones = document.createElement('td');
 
-    let solicitarButton = document.createElement('button');
-    solicitarButton.classList = "btn btn-success";
-    solicitarButton.type = "button";
-    solicitarButton.textContent = "Solicitar acceso";
-    solicitarButton.addEventListener("click", solicitarAccesoAnalítica, false);
-    acciones.append(solicitarButton);
-
-    fecha.textContent = entrada.createdAt;
-    especialista.textContent = entrada.empleadoNombre;
+    fecha.textContent = analitica.createdAt;
+    especialista.textContent = analitica.empleadoNombre;
     tipo.textContent = "Analítica";
+    if(analitica.clave != ""){
+        let consultarAnaliticaButton = document.createElement('button');
+        consultarAnaliticaButton.classList = "btn btn-primary";
+        consultarAnaliticaButton.type = "button";
+        consultarAnaliticaButton.textContent = "Consultar entrada";
+        consultarAnaliticaButton.addEventListener("click", consultarAnaliticaHistorial, false);
+        acciones.append(consultarAnaliticaButton);
+    }
+    else{
+        let solicitarButton = document.createElement('button');
+        solicitarButton.classList = "btn btn-success";
+        solicitarButton.type = "button";
+        solicitarButton.textContent = "Solicitar acceso";
+        solicitarButton.addEventListener("click", solicitarAccesoAnalítica, false);
+        acciones.append(solicitarButton);
+    }
     tr.append(tipo);
     tr.append(especialista);
     tr.append(fecha);
     tr.append(acciones);
-    tr.setAttribute("id", entrada.id);
+    tr.setAttribute("id", analitica.id);
     //Añadimos fila a la tabla
     document.querySelector(`#analiticasTabla`).querySelector('tbody').append(tr);
 }

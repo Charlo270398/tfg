@@ -336,7 +336,6 @@ CREATE TABLE IF NOT EXISTS usuarios_permisos_analiticas (
 	analitica_id INT,
 	empleado_id INT,
 	clave VARCHAR(344) NOT NULL,
-	fecha_expiracion DATETIME,
 	PRIMARY KEY (analitica_id, empleado_id),
 	FOREIGN KEY(analitica_id) REFERENCES usuarios_analiticas(id) ON DELETE CASCADE,
 	FOREIGN KEY(empleado_id) REFERENCES usuarios(id) ON DELETE CASCADE

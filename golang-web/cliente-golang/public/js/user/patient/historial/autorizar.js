@@ -26,6 +26,7 @@ function addRow(solicitud){
     denegarButton.textContent = "Denegar";
 
     solicitante.textContent = solicitud.nombreEmpleado;
+    tr.setAttribute("empleadoId", solicitud.empleadoId);
     if(solicitud.tipoHistorial == "TOTAL"){
         tipo.textContent = "Acceso total al historial";
         idEntrada.textContent = "";
@@ -63,7 +64,7 @@ function addRow(solicitud){
 }
 
 function autorizarSolicitudHistorial(event){
-    console.log(event.target.closest("tr").getAttribute("tipo"));
+    permitir(event.target.closest("tr").getAttribute("empleadoId"),event.target.closest("tr").getAttribute("tipo"), null, null, event.target);
 }
 
 function autorizarSolicitudEntrada(event){
@@ -75,7 +76,7 @@ function autorizarSolicitudAnalitica(event){
 }
 
 function denegarSolicitudHistorial(event){
-    console.log(event.target.closest("tr").getAttribute("tipo"));
+    denegar(event.target.closest("tr").getAttribute("empleadoId"),event.target.closest("tr").getAttribute("tipo"), null, null, event.target);
 }
 
 function denegarSolicitudEntrada(event){
@@ -84,6 +85,64 @@ function denegarSolicitudEntrada(event){
 
 function denegarSolicitudAnalitica(event){
     console.log(event.target.closest("tr").getAttribute("id"));
+}
+
+function denegar(empleadoId, tipo, entradaId, analiticaId, button){
+    //Enviamos peticion
+    const url= `/permisos/solicitudes/denegar`;
+    const payload= {empleadoId: parseInt(empleadoId), tipoHistorial: tipo, entradaId: parseInt(entradaId), analiticaId: parseInt(analiticaId)};
+    const request = {
+        method: 'POST', 
+        headers: cabeceras,
+        body: JSON.stringify(payload),
+    };
+    fetch(url,request)
+    .then( response => response.json() )
+        .then( r => {
+            if(!r.Error){
+                if(r.Result == "OK"){
+                    acciones = button.closest("td");
+                    console.log("SOLICITUD BORRADA");
+                    //Eliminamos datos anteriores
+                    while (acciones.lastElementChild) { 
+                        acciones.removeChild(acciones.lastElementChild); 
+                    } 
+                    let text = document.createElement('span');
+                    text.textContent = "SOLICITUD DENEGADA";
+                    acciones.append(text);
+                }
+            }
+        })
+    .catch(err => alert(err));
+}
+
+function permitir(empleadoId, tipo, entradaId, analiticaId, button){
+    //Enviamos peticion
+    const url= `/permisos/solicitudes/permitir`;
+    const payload= {empleadoId: parseInt(empleadoId), tipoHistorial: tipo, entradaId: parseInt(entradaId), analiticaId: parseInt(analiticaId)};
+    const request = {
+        method: 'POST', 
+        headers: cabeceras,
+        body: JSON.stringify(payload),
+    };
+    fetch(url,request)
+    .then( response => response.json() )
+        .then( r => {
+            if(!r.Error){
+                if(r.Result == "OK"){
+                    acciones = button.closest("td");
+                    console.log("SOLICITUD ACEPTADA");
+                    //Eliminamos datos anteriores
+                    while (acciones.lastElementChild) { 
+                        acciones.removeChild(acciones.lastElementChild); 
+                    } 
+                    let text = document.createElement('span');
+                    text.textContent = "SOLICITUD ACEPTADA";
+                    acciones.append(text);
+                }
+            }
+        })
+    .catch(err => alert(err));
 }
 
 function init () {

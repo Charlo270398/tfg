@@ -229,12 +229,13 @@ type SolicitarHistorial_JSON struct {
 }
 
 type Solicitud_JSON struct {
-	EmpleadoId     int    `json:"empleadoId"`
-	NombreEmpleado string `json:"nombreEmpleado"`
-	HistorialId    int    `json:"historialId"`
-	TipoHistorial  string `json:"tipoHistorial"`
-	EntradaId      int    `json:"entradaId"`
-	AnaliticaId    int    `json:"analiticaId"`
+	EmpleadoId     int       `json:"empleadoId"`
+	NombreEmpleado string    `json:"nombreEmpleado"`
+	HistorialId    int       `json:"historialId"`
+	TipoHistorial  string    `json:"tipoHistorial"`
+	EntradaId      int       `json:"entradaId"`
+	AnaliticaId    int       `json:"analiticaId"`
+	UserToken      UserToken `json:"userToken"`
 }
 
 type EntradaHistorial_JSON struct {

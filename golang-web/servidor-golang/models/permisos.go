@@ -2,6 +2,7 @@ package models
 
 import (
 	"fmt"
+	"strconv"
 
 	util "../utils"
 )
@@ -153,4 +154,44 @@ func ListarSolicitudesPermiso(userId string) (solicitudes []util.Solicitud_JSON,
 		return solicitudes, err
 	}
 	return solicitudes, nil
+}
+
+func BorrarSolicitudHistorialTotal(paciente_id string, empleado_id int) (result bool, err error) {
+	_, err = db.Exec(`DELETE FROM solicitar_historial_total WHERE paciente_id = ` + paciente_id + " AND empleado_id= " + strconv.Itoa(empleado_id))
+	if err != nil {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return false, err
+	}
+	return true, nil
+}
+
+func BorrarSolicitudHistorialBasico(paciente_id string, empleado_id int) (result bool, err error) {
+	_, err = db.Exec(`DELETE FROM solicitar_historial WHERE paciente_id = ` + paciente_id + " AND empleado_id= " + strconv.Itoa(empleado_id))
+	if err != nil {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return false, err
+	}
+	return true, nil
+}
+
+func BorrarSolicitudEntrada(paciente_id string, empleado_id int, entrada_id int) (result bool, err error) {
+	_, err = db.Exec(`DELETE FROM solicitar_entradas_historial WHERE paciente_id = ` + paciente_id + " AND empleado_id= " + strconv.Itoa(empleado_id) + " AND entrada_id= " + strconv.Itoa(entrada_id))
+	if err != nil {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return false, err
+	}
+	return true, nil
+}
+
+func BorrarSolicitudAnalitica(paciente_id string, empleado_id int, analitica_id int) (result bool, err error) {
+	_, err = db.Exec(`DELETE FROM solicitar_analiticas WHERE paciente_id = ` + paciente_id + " AND empleado_id= " + strconv.Itoa(empleado_id) + " AND analitica_id= " + strconv.Itoa(analitica_id))
+	if err != nil {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return false, err
+	}
+	return true, nil
 }

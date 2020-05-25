@@ -210,6 +210,8 @@ func LoadRouter() {
 	router.HandleFunc("/permisos/historial/basico/solicitar", solicitarPermisoBasico).Methods("POST")
 	router.HandleFunc("/permisos/entrada/solicitar", solicitarPermisoEntrada).Methods("POST")
 	router.HandleFunc("/permisos/analitica/solicitar", solicitarPermisoAnalitica).Methods("POST")
+	router.HandleFunc("/permisos/solicitudes/denegar", denegarPermiso).Methods("POST")
+	router.HandleFunc("/permisos/solicitudes/permitir", permitirPermiso).Methods("POST")
 
 	//USER(PACIENTE)
 	router.HandleFunc("/user/patient", menuPatientHandler).Methods("GET")

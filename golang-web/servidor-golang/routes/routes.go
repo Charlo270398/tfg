@@ -60,6 +60,10 @@ func LoadRouter(port string) {
 	http.HandleFunc("/permisos/analitica/solicitar", solicitarPermisoAnalitica)
 	http.HandleFunc("/permisos/solicitudes/listar", listarSolicitudesPermiso)
 	http.HandleFunc("/permisos/solicitudes/comprobar", comprobarSolicitudesPermiso)
+	http.HandleFunc("/permisos/solicitudes/eliminar", eliminarSolicitudPermiso)
+	http.HandleFunc("/permisos/historial/permitir", permitirHistorial)
+	http.HandleFunc("/permisos/entrada/permitir", permitirEntrada)
+	http.HandleFunc("/permisos/analitica/permitir", permitirAnalitica)
 
 	//USER(PACIENTE)
 	http.HandleFunc("/user/patient/citas/add", PacienteInsertCita)

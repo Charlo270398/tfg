@@ -106,8 +106,21 @@ func InsertEntradaHistorialPacienteId(entrada util.EntradaHistorial_JSON) (inser
 
 func InsertEntradaCompartidaHistorial(entrada util.EntradaHistorial_JSON) (result bool, err error) {
 	//INSERT
-	_, err = db.Exec(`INSERT INTO usuarios_permisos_entradas_historial (entrada_id, empleado_id, clave) VALUES (?, ?, ?)`,
+	_, err = db.Exec(`INSERT IGNORE INTO usuarios_permisos_entradas_historial (entrada_id, empleado_id, clave) VALUES (?, ?, ?)`,
 		entrada.Id, entrada.UserToken.UserId, entrada.Clave)
+	if err == nil {
+		return true, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return false, err
+	}
+}
+
+func InsertEntradaCompartidaHistorialPermisos(entrada util.EntradaHistorial_JSON) (result bool, err error) {
+	//INSERT
+	_, err = db.Exec(`INSERT IGNORE INTO usuarios_permisos_entradas_historial (entrada_id, empleado_id, clave) VALUES (?, ?, ?)`,
+		entrada.Id, entrada.EmpleadoId, entrada.Clave)
 	if err == nil {
 		return true, nil
 	} else {
@@ -156,10 +169,14 @@ func GetHistorialCompartidoByMedicoIdPacienteId(medicoId string, pacienteId stri
 			historial.ApellidosPaciente = userData.Apellidos
 			historial.Entradas, _ = GetEntradasHistorialByHistorialId(historial.Id)
 			for index, entrada := range historial.Entradas {
-				medicoIdInt, _ := strconv.Atoi(medicoId)
-				historial.Entradas[index].Clave, _ = GetClaveCompartidaEntradaHistorialByEntradaIdEmpleadoId(entrada.Id, medicoIdInt)
+				empleadoIdInt, _ := strconv.Atoi(medicoId)
+				historial.Entradas[index].Clave, _ = GetClaveCompartidaEntradaHistorialByEntradaIdEmpleadoId(entrada.Id, empleadoIdInt)
 			}
 			historial.Analiticas, _ = GetAnaliticasHistorialByHistorialId(historial.Id)
+			for index, analitica := range historial.Analiticas {
+				empleadoIdInt, _ := strconv.Atoi(medicoId)
+				historial.Analiticas[index].Clave, _ = GetClaveCompartidaAnaliticaHistorialByEntradaIdEmpleadoId(analitica.Id, empleadoIdInt)
+			}
 		}
 	} else {
 		fmt.Println(err)
@@ -205,6 +222,22 @@ func GetClaveCompartidaEntradaHistorialByEntradaIdEmpleadoId(entradaId int, empl
 	entradaIdString := strconv.Itoa(entradaId)
 	empleadoIdString := strconv.Itoa(empleadoId)
 	row, err := db.Query(`SELECT clave FROM usuarios_permisos_entradas_historial WHERE entrada_id = ` + entradaIdString + " AND empleado_id = " + empleadoIdString) // check err
+	if err == nil {
+		defer row.Close()
+		row.Next()
+		row.Scan(&clave)
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return clave, err
+	}
+	return clave, nil
+}
+
+func GetClaveCompartidaAnaliticaHistorialByEntradaIdEmpleadoId(analiticaId int, empleadoId int) (clave string, err error) {
+	analiticaIdString := strconv.Itoa(analiticaId)
+	empleadoIdString := strconv.Itoa(empleadoId)
+	row, err := db.Query(`SELECT clave FROM usuarios_permisos_analiticas WHERE analitica_id = ` + analiticaIdString + " AND empleado_id = " + empleadoIdString) // check err
 	if err == nil {
 		defer row.Close()
 		row.Next()
@@ -295,6 +328,18 @@ func InsertAnaliticaHistorial(analitica util.AnaliticaHistorial_JSON) (inserted_
 		fmt.Println(err)
 		util.PrintErrorLog(err)
 		return -1, err
+	}
+}
+
+func InsertAnaliticaCompartidaHistorial(analitica util.AnaliticaHistorial_JSON) (inserted bool, err error) {
+	//INSERT
+	_, err = db.Exec(`INSERT IGNORE INTO usuarios_permisos_analiticas (analitica_id, empleado_id, clave) VALUES (?, ?, ?)`, analitica.Id, analitica.EmpleadoId, analitica.Clave)
+	if err == nil {
+		return true, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return false, err
 	}
 }
 
