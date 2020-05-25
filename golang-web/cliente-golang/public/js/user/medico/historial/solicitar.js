@@ -18,9 +18,13 @@ function busquedaDNI(event){
         document.querySelector("#alert").textContent = "El documento de identificación debe tener un formato válido (por ejemplo, 00000000X)";
         document.querySelector("#alert").classList.replace("alert-success", "alert-danger");
         document.querySelector("#alert").classList.remove('invisible');
-        document.querySelector("#historialTabla").classList.add('invisible');
         document.querySelector("#buttonsForm").classList.add('invisible');
         document.querySelector("#alertBusqueda").classList.add('invisible');
+        document.querySelector("#historialTabla").classList.add('invisible');
+        document.querySelector("#historialTablaTitulo").classList.add('invisible');
+        document.querySelector("#analiticasTabla").classList.add('invisible');
+        document.querySelector("#analiticasTablaTitulo").classList.add('invisible');
+        document.querySelector("#datosBasicos").classList.add('invisible');
         return;
     }else{
         restBuscarDNI(document.querySelector("#inputDNI").value);
@@ -34,7 +38,11 @@ function paramBusquedaDNI(identificacion){
         document.querySelector("#alert").textContent = "El documento de identificación debe tener un formato válido (por ejemplo, 00000000X)";
         document.querySelector("#alert").classList.replace("alert-success", "alert-danger");
         document.querySelector("#alert").classList.remove('invisible');
-        document.querySelector("#historialDiv").classList.add('invisible');
+        document.querySelector("#historialTabla").classList.add('invisible');
+        document.querySelector("#historialTablaTitulo").classList.add('invisible');
+        document.querySelector("#analiticasTabla").classList.add('invisible');
+        document.querySelector("#analiticasTablaTitulo").classList.add('invisible');
+        document.querySelector("#datosBasicos").classList.add('invisible');
         return;
     }else{
         restBuscarDNI(identificacion);
@@ -97,6 +105,10 @@ function restBuscarDNI(DNI){
                     document.querySelector("#alert").classList.replace("alert-success", "alert-danger");
                     document.querySelector("#alert").classList.remove('invisible');
                     document.querySelector("#historialTabla").classList.add('invisible');
+                    document.querySelector("#historialTablaTitulo").classList.add('invisible');
+                    document.querySelector("#analiticasTabla").classList.add('invisible');
+                    document.querySelector("#analiticasTablaTitulo").classList.add('invisible');
+                    document.querySelector("#datosBasicos").classList.add('invisible');
                     document.querySelector("#buttonsForm").classList.add('invisible');
                     document.querySelector("#alertBusqueda").classList.add('invisible');
                 }
@@ -236,11 +248,11 @@ function procesarHistorial(solicitud){
 }
 
 function consultarEntradaHistorial(event){
-    window.location.href = "/user/emergency/historial/entrada?entradaId=" + event.target.closest("tr").getAttribute("id") + "&identificacion="+IDENTIFICACION;
+    window.location.href = "/user/medico/historial/entrada?entradaId=" + event.target.closest("tr").getAttribute("id") + "&identificacion="+IDENTIFICACION;
 }
 
 function consultarAnaliticaHistorial(event){
-    window.location.href = "/user/emergency/historial/analitica?analiticaId=" + event.target.closest("tr").getAttribute("id") + "&identificacion="+IDENTIFICACION;
+    window.location.href = "/user/medico/historial/analitica?analiticaId=" + event.target.closest("tr").getAttribute("id") + "&identificacion="+IDENTIFICACION;
 }
 
 function addRowHistorial(entrada){

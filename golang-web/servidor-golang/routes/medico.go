@@ -264,3 +264,47 @@ func GetHistorialCompartido(w http.ResponseWriter, req *http.Request) {
 	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
 	return
 }
+
+func GetEntradaHistorialCompartido(w http.ResponseWriter, req *http.Request) {
+	var entrada util.EntradaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&entrada)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(entrada.UserToken.UserId, entrada.UserToken.Token, models.Rol_medico.Id)
+	if authorized == true {
+		entradaCompartida, _ := models.GetEntradaById(entrada.Id)
+		empleadoId, _ := strconv.Atoi(entrada.UserToken.UserId)
+		entradaCompartida.Clave, _ = models.GetClaveCompartidaEntradaHistorialByEntradaIdEmpleadoId(entrada.Id, empleadoId)
+		js, err := json.Marshal(entradaCompartida)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}
+
+func GetAnaliticaHistorialCompartido(w http.ResponseWriter, req *http.Request) {
+	var analitica util.AnaliticaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&analitica)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(analitica.UserToken.UserId, analitica.UserToken.Token, models.Rol_medico.Id)
+	if authorized == true {
+		analiticaCompartida, _ := models.GetAnaliticaById(analitica.Id)
+		empleadoId, _ := strconv.Atoi(analitica.UserToken.UserId)
+		analiticaCompartida.Clave, _ = models.GetClaveCompartidaAnaliticaHistorialByEntradaIdEmpleadoId(analitica.Id, empleadoId)
+		js, err := json.Marshal(analiticaCompartida)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}

@@ -490,3 +490,133 @@ func getListHistorialMedicoHandler(w http.ResponseWriter, req *http.Request) {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 	}
 }
+
+func getEntradaHistorialMedicoHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	//Certificado
+	client := GetTLSClient()
+
+	//Preparamos datos de la request
+	entradaId, _ := req.URL.Query()["entradaId"]
+	entradaIdInt, _ := strconv.Atoi(entradaId[0])
+	entradaJSON := util.EntradaHistorial_JSON{Id: entradaIdInt, UserToken: prepareUserToken(req)}
+	locJson, err := json.Marshal(entradaJSON)
+
+	//Request para obtener entrada si existe
+	response, err := client.Post(SERVER_URL+"/user/doctor/historial/entrada", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&entradaJSON)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		//DESCIFRAMOS DATOS CON CLAVE
+		//Recuperamos la CLAVE
+		userId, _ := session.Values["userId"].(string)
+		pairKeys := getUserPairKeys(userId)
+
+		//Desciframos la clave privada CLAVE cifrada con AES
+		userPrivateKeyHash, _ := session.Values["userPrivateKeyHash"].([]byte)
+		privateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(pairKeys.PrivateKey))
+		privateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(privateKeyString)))
+
+		//Desciframos la clave AES
+		claveAESentrada := util.RSADecryptOAEP(entradaJSON.Clave, *privateKey)
+		claveAESentradaByte := util.Base64Decode([]byte(claveAESentrada))
+
+		//Desciframos los datos del historial con AES
+		entradaJSON.JuicioDiagnostico, _ = util.AESdecrypt(claveAESentradaByte, entradaJSON.JuicioDiagnostico)
+		entradaJSON.MotivoConsulta, _ = util.AESdecrypt(claveAESentradaByte, entradaJSON.MotivoConsulta)
+		entradaJSON.Tipo, _ = util.AESdecrypt(claveAESentradaByte, entradaJSON.Tipo)
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var tmp = template.Must(
+		template.New("").ParseFiles("public/templates/user/medico/historial/entrada.html", "public/templates/layouts/base.html"),
+	)
+	if err := tmp.ExecuteTemplate(w, "base", &util.EntradaPage{Title: "Consultar entrada", Body: "body", Entrada: entradaJSON}); err != nil {
+		log.Printf("Error executing template: %v", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	}
+}
+
+func getAnaliticaHistorialMedicoHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	//Certificado
+	client := GetTLSClient()
+
+	//Preparamos datos de la request
+	analiticaId, _ := req.URL.Query()["analiticaId"]
+	analiticaIdInt, _ := strconv.Atoi(analiticaId[0])
+	analiticaJSON := util.AnaliticaHistorial_JSON{Id: analiticaIdInt, UserToken: prepareUserToken(req)}
+	locJson, err := json.Marshal(analiticaJSON)
+
+	//Request para obtener analitica si existe
+	response, err := client.Post(SERVER_URL+"/user/doctor/historial/analitica", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		err := json.NewDecoder(response.Body).Decode(&analiticaJSON)
+		if err != nil {
+			util.PrintErrorLog(err)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		//DESCIFRAMOS DATOS CON CLAVE
+		//Recuperamos la CLAVE
+		userId, _ := session.Values["userId"].(string)
+		pairKeys := getUserPairKeys(userId)
+
+		//Desciframos la clave privada CLAVE cifrada con AES
+		userPrivateKeyHash, _ := session.Values["userPrivateKeyHash"].([]byte)
+		privateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(pairKeys.PrivateKey))
+		privateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(privateKeyString)))
+
+		//Desciframos la clave AES
+		claveAESentrada := util.RSADecryptOAEP(analiticaJSON.Clave, *privateKey)
+		claveAESentradaByte := util.Base64Decode([]byte(claveAESentrada))
+
+		//Desciframos los datos de la analítica con AES
+		analiticaJSON.Leucocitos, _ = util.AESdecrypt(claveAESentradaByte, analiticaJSON.Leucocitos)
+		analiticaJSON.Hematies, _ = util.AESdecrypt(claveAESentradaByte, analiticaJSON.Hematies)
+		analiticaJSON.Hierro, _ = util.AESdecrypt(claveAESentradaByte, analiticaJSON.Hierro)
+		analiticaJSON.Plaquetas, _ = util.AESdecrypt(claveAESentradaByte, analiticaJSON.Plaquetas)
+		analiticaJSON.Glucosa, _ = util.AESdecrypt(claveAESentradaByte, analiticaJSON.Glucosa)
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	var tmp = template.Must(
+		template.New("").ParseFiles("public/templates/user/medico/historial/analitica.html", "public/templates/layouts/base.html"),
+	)
+	if err := tmp.ExecuteTemplate(w, "base", &util.AnaliticaPage{Title: "Consultar analitica", Body: "body", Analitica: analiticaJSON}); err != nil {
+		log.Printf("Error executing template: %v", err)
+		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	}
+}
