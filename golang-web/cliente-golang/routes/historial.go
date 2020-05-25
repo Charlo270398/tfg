@@ -18,6 +18,10 @@ func addEntradaHistorialFormMedicoHandler(w http.ResponseWriter, req *http.Reque
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token
@@ -41,6 +45,10 @@ func addAnaliticaHistorialFormMedicoHandler(w http.ResponseWriter, req *http.Req
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token
@@ -65,6 +73,10 @@ func addEntradaHistorialConsultaMedicoHandler(w http.ResponseWriter, req *http.R
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token

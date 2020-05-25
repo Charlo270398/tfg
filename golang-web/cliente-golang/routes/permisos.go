@@ -15,6 +15,10 @@ func solicitarPermisoTotal(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token
@@ -57,6 +61,10 @@ func solicitarPermisoBasico(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token
@@ -99,6 +107,10 @@ func solicitarPermisoEntrada(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token
@@ -140,6 +152,10 @@ func solicitarPermisoAnalitica(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token
@@ -183,6 +199,10 @@ func denegarPermiso(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token
@@ -223,6 +243,10 @@ func permitirPermiso(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token

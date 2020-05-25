@@ -15,6 +15,10 @@ func tagsListHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {

@@ -18,6 +18,10 @@ func menuEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -40,6 +44,10 @@ func GetHistorialEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -112,6 +120,10 @@ func GetEntradaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -176,6 +188,10 @@ func GetAnaliticaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -242,6 +258,10 @@ func AddEntradaEmergenciasFormHandler(w http.ResponseWriter, req *http.Request) 
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -264,6 +284,10 @@ func AddAnaliticaEmergenciasFormHandler(w http.ResponseWriter, req *http.Request
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -288,6 +312,10 @@ func AddEntradaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -358,6 +386,10 @@ func AddAnaliticaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {

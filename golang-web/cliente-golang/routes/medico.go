@@ -19,6 +19,10 @@ func menuMedicoHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token
@@ -62,6 +66,10 @@ func solicitarHistorialMedicoFormHandler(w http.ResponseWriter, req *http.Reques
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -83,6 +91,10 @@ func solicitarHistorialMedicoHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -156,6 +168,10 @@ func solicitarPermisoTotalHistorialMedicoHandler(w http.ResponseWriter, req *htt
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -230,6 +246,10 @@ func getMedicoDiasDisponiblesHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -266,6 +286,10 @@ func getMedicoHorasDiaDisponiblesHandler(w http.ResponseWriter, req *http.Reques
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -303,6 +327,10 @@ func medicoCitaListHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token
@@ -368,6 +396,10 @@ func getCitaFormMedicoHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token
@@ -433,6 +465,10 @@ func getListHistorialMedicoHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token
@@ -497,6 +533,10 @@ func getEntradaHistorialMedicoHandler(w http.ResponseWriter, req *http.Request) 
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -561,6 +601,10 @@ func getAnaliticaHistorialMedicoHandler(w http.ResponseWriter, req *http.Request
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {

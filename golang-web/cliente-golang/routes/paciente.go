@@ -18,6 +18,10 @@ func menuPatientHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -64,6 +68,10 @@ func patientAutorizationsHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -106,6 +114,10 @@ func editUserPatientHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -129,6 +141,10 @@ func historialPatientHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -201,6 +217,10 @@ func patientCitaListHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 
 	// Check user Token
@@ -246,6 +266,10 @@ func addPatientCitaFormHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -283,6 +307,10 @@ func historialEntradaPatientHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -347,6 +375,10 @@ func historialAnaliticaPatientHandler(w http.ResponseWriter, req *http.Request) 
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -413,6 +445,10 @@ func addCitaPacienteHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {

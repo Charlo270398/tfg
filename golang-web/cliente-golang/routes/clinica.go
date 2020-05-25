@@ -17,6 +17,10 @@ func addClinicaFormGadminHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -39,6 +43,10 @@ func addClinicaEspecialidadFormGadminHandler(w http.ResponseWriter, req *http.Re
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -61,6 +69,10 @@ func getClinicaListGadminHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -105,6 +117,10 @@ func getClinicaEspecialidadListHandler(w http.ResponseWriter, req *http.Request)
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -142,6 +158,10 @@ func getMedicosClinicaByEspecialidadListHandler(w http.ResponseWriter, req *http
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -182,6 +202,10 @@ func addClinicaGadminHandler(w http.ResponseWriter, req *http.Request) {
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
@@ -230,6 +254,10 @@ func addClinicaEspecialidadGadminHandler(w http.ResponseWriter, req *http.Reques
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
 		http.Redirect(w, req, "/login", http.StatusSeeOther)
 		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
 	}
 	// Check user Token
 	if !proveToken(req) {
