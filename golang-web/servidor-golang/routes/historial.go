@@ -98,3 +98,25 @@ func GetHistorialCompartidoPaciente(w http.ResponseWriter, req *http.Request) {
 	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
 	return
 }
+
+func GetEstadisticasAnaliticas(w http.ResponseWriter, req *http.Request) {
+	var userToken util.UserToken_JSON
+	json.NewDecoder(req.Body).Decode(&userToken)
+
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorizedMedico, _ := models.GetAuthorizationbyUserId(userToken.UserId, userToken.Token, models.Rol_medico.Id)
+	authorized := authorizedMedico
+	if authorized == true {
+		analiticas, _ := models.GetEstadisticasAnaliticas()
+		js, err := json.Marshal(analiticas)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}

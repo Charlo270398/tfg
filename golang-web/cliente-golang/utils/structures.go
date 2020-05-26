@@ -436,3 +436,9 @@ type PermisosPage struct {
 	Body        string
 	Solicitudes []Solicitud_JSON
 }
+
+type EstadisticasAnaliticaPage struct {
+	Title      string
+	Body       string
+	Analiticas []AnaliticaHistorial_JSON
+}

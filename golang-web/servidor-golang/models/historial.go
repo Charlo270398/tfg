@@ -404,3 +404,23 @@ func GetAnaliticaById(analiticaId int) (analitica util.AnaliticaHistorial_JSON, 
 	}
 	return analitica, nil
 }
+
+func GetEstadisticasAnaliticas() (analiticas []util.AnaliticaHistorial_JSON, err error) {
+	rows, err := db.Query(`SELECT id, leucocitos, hematies, plaquetas, glucosa, hierro FROM estadisticas_analiticas`) // check err
+	if err == nil {
+		var a util.AnaliticaHistorial_JSON
+		defer rows.Close()
+		for rows.Next() {
+			var identificadorAnalitica string
+			rows.Scan(&identificadorAnalitica, &a.Leucocitos, &a.Hematies, &a.Plaquetas, &a.Glucosa, &a.Hierro)
+			a.EmpleadoNombre, _ = GetNombreEmpleado(a.EmpleadoId)
+			a.Tags, _ = GetTagsIdEstadisticaAnalitica(identificadorAnalitica)
+			analiticas = append(analiticas, a)
+		}
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return analiticas, err
+	}
+	return analiticas, nil
+}

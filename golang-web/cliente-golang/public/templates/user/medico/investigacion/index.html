@@ -1,0 +1,16 @@
+{{define "scriptLinks"}}
+  <script defer src="/public/js/user/medico/investigacion/index.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
+{{end}}
+{{define "styles"}}
+  <link rel="stylesheet" type="text/css" href="/public/css/user/medico/investigacion/index.css">
+{{end}}
+{{define "body"}}
+<main>
+  <div id="alert" class="alert alert-primary invisible" role="alert"> 
+    En este momento tienes una cita. <a id="referenciaCita" href=''> Pincha aquí </a> para pasar consulta. 
+  </div>
+</main>
+<script>
+  var analiticas = {{.Analiticas}};
+</script>
+{{end}} 

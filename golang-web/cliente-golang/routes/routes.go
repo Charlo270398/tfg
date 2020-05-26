@@ -244,6 +244,7 @@ func LoadRouter() {
 	router.HandleFunc("/user/doctor/citas", getCitaFormMedicoHandler).Methods("GET")
 	router.HandleFunc("/user/doctor/citas/list", medicoCitaListHandler).Methods("GET")
 	router.HandleFunc("/user/doctor/citas/addEntrada", addEntradaHistorialConsultaMedicoHandler).Methods("POST")
+	router.HandleFunc("/user/doctor/research/analiticas", getInvestigacionAnaliticasMedicoFormHandler).Methods("GET")
 
 	//USER(ADMIN-CLINICA)
 	router.HandleFunc("/user/admin", menuAdminHandler).Methods("GET")

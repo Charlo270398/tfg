@@ -22,3 +22,20 @@ func GetTagsList() (tags []util.Tag_JSON, err error) {
 		return nil, err
 	}
 }
+
+func GetTagsIdEstadisticaAnalitica(analitica_id string) (tags_id []int, err error) {
+	row, err := db.Query(`SELECT tag_id FROM estadisticas_analiticas_tags WHERE analitica_id = '` + analitica_id + `'`) // check err
+	if err == nil {
+		defer row.Close()
+		for row.Next() {
+			var id int
+			row.Scan(&id)
+			tags_id = append(tags_id, id)
+		}
+		return tags_id, err
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return nil, err
+	}
+}
