@@ -263,6 +263,17 @@ func permitirPermiso(w http.ResponseWriter, req *http.Request) {
 	//Certificado
 	client := GetTLSClient()
 
+	//Recuperamos nuestra clave privada cifrada
+	userId, _ := session.Values["userId"].(string)
+	userPairkeys := getUserPairKeys(userId)
+	userPrivateKeyHash, _ := session.Values["userPrivateKeyHash"].([]byte)
+	//Desciframos nuestra clave privada cifrada con AES
+	userPrivateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(userPairkeys.PrivateKey))
+	userPrivateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(userPrivateKeyString)))
+	//Recuperamos la clave publica del empleado
+	empleadoPairkeys := getUserPairKeys(strconv.Itoa(solicitud.EmpleadoId))
+	empleadoPublicKey := *util.RSABytesToPublicKey(empleadoPairkeys.PublicKey)
+
 	if solicitud.TipoHistorial != "" {
 		//Dar permisos historial
 		var historial util.Historial_JSON
@@ -271,20 +282,10 @@ func permitirPermiso(w http.ResponseWriter, req *http.Request) {
 		response, _ := client.Post(SERVER_URL+"/user/patient/historial", "application/json", bytes.NewBuffer(locJson))
 		if response != nil {
 			json.NewDecoder(response.Body).Decode(&historial)
-			//Recuperamos nuestra clave privada cifrada
-			userId, _ := session.Values["userId"].(string)
-			userPairkeys := getUserPairKeys(userId)
-			userPrivateKeyHash, _ := session.Values["userPrivateKeyHash"].([]byte)
-			//Desciframos nuestra clave privada cifrada con AES
-			userPrivateKeyString, _ := util.AESdecrypt(userPrivateKeyHash, string(userPairkeys.PrivateKey))
-			userPrivateKey := util.RSABytesToPrivateKey(util.Base64Decode([]byte(userPrivateKeyString)))
 			//Desciframos la clave AES de los datos del usuario
 			userDataKey, _ := session.Values["userDataKey"].(string)
 			claveAESuserData := util.RSADecryptOAEP(userDataKey, *userPrivateKey)
 			claveAESuserDataByte := util.Base64Decode([]byte(claveAESuserData))
-			//Recuperamos la clave publica del empleado
-			empleadoPairkeys := getUserPairKeys(strconv.Itoa(solicitud.EmpleadoId))
-			empleadoPublicKey := *util.RSABytesToPublicKey(empleadoPairkeys.PublicKey)
 			//Ciframos los datos del historial con AES y terminamos de rellenar el historial
 			var historialCompartido util.Historial_JSON
 			historialCompartido.Id = historial.Id
@@ -338,10 +339,56 @@ func permitirPermiso(w http.ResponseWriter, req *http.Request) {
 		//Dar permisos entradas/analiticas
 		if solicitud.EntradaId != 0 {
 			//Obtenemos la entrada
-
+			entrada := util.EntradaHistorial_JSON{Id: solicitud.EntradaId, UserToken: prepareUserToken(req)}
+			locJson, _ := json.Marshal(entrada)
+			//Request para obtener historial si existe
+			response, _ := client.Post(SERVER_URL+"/user/patient/historial/entrada", "application/json", bytes.NewBuffer(locJson))
+			if response != nil {
+				err := json.NewDecoder(response.Body).Decode(&entrada)
+				if err != nil {
+					util.PrintErrorLog(err)
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+				var entradaCompartir util.EntradaHistorial_JSON
+				//Desciframos la clave AES de los datos cifrados
+				claveAESentrada := util.RSADecryptOAEP(entrada.Clave, *userPrivateKey)
+				claveAESentradaByte := util.Base64Decode([]byte(claveAESentrada))
+				//Asignamos los datos para la request
+				entradaCompartir.UserToken = prepareUserToken(req)
+				entradaCompartir.EmpleadoId = solicitud.EmpleadoId
+				entradaCompartir.Id = entrada.Id
+				entradaCompartir.Clave = util.RSAEncryptOAEP(string(util.Base64Encode(claveAESentradaByte)), empleadoPublicKey)
+				//Mandamos la petición
+				locJson, _ = json.Marshal(entradaCompartir)
+				response, _ = client.Post(SERVER_URL+"/permisos/entrada/permitir", "application/json", bytes.NewBuffer(locJson))
+			}
 		} else {
 			//Obtenemos la analítica
-
+			analitica := util.AnaliticaHistorial_JSON{Id: solicitud.AnaliticaId, UserToken: prepareUserToken(req)}
+			locJson, _ := json.Marshal(analitica)
+			//Request para obtener analitica si existe
+			response, _ := client.Post(SERVER_URL+"/user/patient/historial/analitica", "application/json", bytes.NewBuffer(locJson))
+			if response != nil {
+				err := json.NewDecoder(response.Body).Decode(&analitica)
+				if err != nil {
+					util.PrintErrorLog(err)
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+				var analiticaCompartir util.AnaliticaHistorial_JSON
+				//Desciframos la clave AES de los datos cifrados
+				claveAESanalitica := util.RSADecryptOAEP(analitica.Clave, *userPrivateKey)
+				claveAESanaliticaByte := util.Base64Decode([]byte(claveAESanalitica))
+				//Asignamos los datos para la request
+				analiticaCompartir.UserToken = prepareUserToken(req)
+				analiticaCompartir.EmpleadoId = solicitud.EmpleadoId
+				analiticaCompartir.Id = analitica.Id
+				analiticaCompartir.Clave = util.RSAEncryptOAEP(string(util.Base64Encode(claveAESanaliticaByte)), empleadoPublicKey)
+				//Mandamos la petición
+				locJson, _ = json.Marshal(analiticaCompartir)
+				response, _ = client.Post(SERVER_URL+"/permisos/analitica/permitir", "application/json", bytes.NewBuffer(locJson))
+			}
 		}
 	}
 

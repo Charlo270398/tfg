@@ -44,11 +44,21 @@ function addRow(solicitud){
     else{
         if(solicitud.entradaId != 0){
             tr.setAttribute("id", solicitud.entradaId);
+            tipo.textContent = "Acceso a entrada";
+            let link = document.createElement('a');
+            link.href = "/user/patient/historial/entrada?entradaId=" +  solicitud.entradaId;
+            link.textContent = "Entrada con ID " + solicitud.entradaId;
+            idEntrada.append(link);
             autorizarButton.addEventListener("click", autorizarSolicitudEntrada, false);
             denegarButton.addEventListener("click", denegarSolicitudEntrada, false);
         }
         else if(solicitud.analiticaId != 0){
             tr.setAttribute("id", solicitud.analiticaId);
+            tipo.textContent = "Acceso a analítica";
+            let link = document.createElement('a');
+            link.href = "/user/patient/historial/analitica?analiticaId=" +  solicitud.analiticaId;
+            link.textContent = "Analítica con ID " + solicitud.analiticaId;
+            idEntrada.append(link);
             autorizarButton.addEventListener("click", autorizarSolicitudAnalitica, false);
             denegarButton.addEventListener("click", denegarSolicitudAnalitica, false);
         }
@@ -68,11 +78,11 @@ function autorizarSolicitudHistorial(event){
 }
 
 function autorizarSolicitudEntrada(event){
-    console.log(event.target.closest("tr").getAttribute("id"));
+    permitir(event.target.closest("tr").getAttribute("empleadoId"), null, event.target.closest("tr").getAttribute("id"), null, event.target);
 }
 
 function autorizarSolicitudAnalitica(event){
-    console.log(event.target.closest("tr").getAttribute("id"));
+    permitir(event.target.closest("tr").getAttribute("empleadoId"), null, null, event.target.closest("tr").getAttribute("id"), event.target);
 }
 
 function denegarSolicitudHistorial(event){
@@ -80,11 +90,11 @@ function denegarSolicitudHistorial(event){
 }
 
 function denegarSolicitudEntrada(event){
-    console.log(event.target.closest("tr").getAttribute("id"));
+    denegar(event.target.closest("tr").getAttribute("empleadoId"),null, event.target.closest("tr").getAttribute("id"), null, event.target);
 }
 
 function denegarSolicitudAnalitica(event){
-    console.log(event.target.closest("tr").getAttribute("id"));
+    denegar(event.target.closest("tr").getAttribute("empleadoId"),null, null, event.target.closest("tr").getAttribute("id"), event.target);
 }
 
 function denegar(empleadoId, tipo, entradaId, analiticaId, button){

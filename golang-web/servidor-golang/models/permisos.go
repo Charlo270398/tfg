@@ -33,10 +33,25 @@ func SolicitarPermisoBasicoHistorial(historial util.Historial_JSON) (result bool
 	}
 }
 
-func SolicitarPermisoEntrada(historial util.Historial_JSON) (result bool, err error) {
-	loadHistorial, _ := GetHistorialById(historial.Id)
+func SolicitarPermisoEntrada(entrada util.EntradaHistorial_JSON) (result bool, err error) {
+	loadEntrada, _ := GetEntradaById(entrada.Id)
+	loadHistorial, _ := GetHistorialById(loadEntrada.HistorialId)
 	//INSERT
-	_, err = db.Exec(`INSERT IGNORE INTO solicitar_historial (paciente_id, empleado_id) VALUES (?, ?)`, loadHistorial.PacienteId, historial.UserToken.UserId)
+	_, err = db.Exec(`INSERT IGNORE INTO solicitar_entradas_historial (paciente_id, empleado_id, entrada_id) VALUES (?, ?, ?)`, loadHistorial.PacienteId, entrada.UserToken.UserId, entrada.Id)
+	if err == nil {
+		return true, nil
+	} else {
+		fmt.Println(err)
+		util.PrintErrorLog(err)
+		return false, err
+	}
+}
+
+func SolicitarPermisoAnalitica(analitica util.AnaliticaHistorial_JSON) (result bool, err error) {
+	loadAnalitica, _ := GetAnaliticaById(analitica.Id)
+	loadHistorial, _ := GetHistorialById(loadAnalitica.HistorialId)
+	//INSERT
+	_, err = db.Exec(`INSERT IGNORE INTO solicitar_analiticas (paciente_id, empleado_id, analitica_id) VALUES (?, ?, ?)`, loadHistorial.PacienteId, analitica.UserToken.UserId, analitica.Id)
 	if err == nil {
 		return true, nil
 	} else {

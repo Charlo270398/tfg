@@ -188,7 +188,7 @@ function solicitarAccesoBasico(event){
                 }
             }
         })
-        .catch(err => alert(err));
+    .catch(err => alert(err));
 
     //Eliminamos boton
     while (document.querySelector("#buttonsForm").lastElementChild) { 
@@ -200,8 +200,25 @@ function solicitarAccesoBasico(event){
 }
 
 function solicitarAccesoEntrada(event){
+    entradaId = event.target.closest("tr").getAttribute("id");
     //Enviamos peticion
-    console.log(event.target.closest("tr").getAttribute("id"));
+    const url= `/permisos/entrada/solicitar`;
+    const payload= {id: parseInt(entradaId)};
+    const request = {
+        method: 'POST', 
+        headers: cabeceras,
+        body: JSON.stringify(payload),
+    };
+    fetch(url,request)
+    .then( response => response.json() )
+        .then( r => {
+            if(!r.Error){
+                if(r.result == "OK"){
+                    console.log("PETICION REALIZADA CORRECTAMENTE");
+                }
+            }
+        })
+    .catch(err => alert(err));
     //Eliminamos boton
     let solicitado = document.createElement('span');
     solicitado.textContent = "Permiso solicitado";
@@ -210,7 +227,30 @@ function solicitarAccesoEntrada(event){
 }
 
 function solicitarAccesoAnalítica(){
-    
+    analiticaId = event.target.closest("tr").getAttribute("id");
+    //Enviamos peticion
+    const url= `/permisos/analitica/solicitar`;
+    const payload= {id: parseInt(analiticaId)};
+    const request = {
+        method: 'POST', 
+        headers: cabeceras,
+        body: JSON.stringify(payload),
+    };
+    fetch(url,request)
+    .then( response => response.json() )
+        .then( r => {
+            if(!r.Error){
+                if(r.result == "OK"){
+                    console.log("PETICION REALIZADA CORRECTAMENTE");
+                }
+            }
+        })
+    .catch(err => alert(err));
+    //Eliminamos boton
+    let solicitado = document.createElement('span');
+    solicitado.textContent = "Permiso solicitado";
+    event.target.parentNode.append(solicitado);
+    event.target.remove();
 }
 
 function procesarHistorial(solicitud){

@@ -393,7 +393,7 @@ func historialAnaliticaPatientHandler(w http.ResponseWriter, req *http.Request) 
 	analiticaIdInt, _ := strconv.Atoi(analiticaId[0])
 	analiticaJSON := util.AnaliticaHistorial_JSON{Id: analiticaIdInt, UserToken: prepareUserToken(req)}
 	locJson, err := json.Marshal(analiticaJSON)
-	//Request para obtener historial si existe
+	//Request para obtener analitica si existe
 	response, err := client.Post(SERVER_URL+"/user/patient/historial/analitica", "application/json", bytes.NewBuffer(locJson))
 	if response != nil {
 		err := json.NewDecoder(response.Body).Decode(&analiticaJSON)

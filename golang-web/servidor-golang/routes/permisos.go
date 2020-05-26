@@ -83,18 +83,16 @@ func solicitarPermisoBasico(w http.ResponseWriter, req *http.Request) {
 }
 
 func solicitarPermisoEntrada(w http.ResponseWriter, req *http.Request) {
-	var historial util.Historial_JSON
-	json.NewDecoder(req.Body).Decode(&historial)
+	var entrada util.EntradaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&entrada)
 
 	//Comprobamos que el usuario esta autorizado y el token es correcto
-	authorizedPaciente, _ := models.GetAuthorizationbyUserId(historial.UserToken.UserId, historial.UserToken.Token, models.Rol_paciente.Id)
-	authorizedEnfermero, _ := models.GetAuthorizationbyUserId(historial.UserToken.UserId, historial.UserToken.Token, models.Rol_enfermero.Id)
-	authorizedMedico, _ := models.GetAuthorizationbyUserId(historial.UserToken.UserId, historial.UserToken.Token, models.Rol_medico.Id)
-	authorizedEmergencias, _ := models.GetAuthorizationbyUserId(historial.UserToken.UserId, historial.UserToken.Token, models.Rol_emergencias.Id)
-	authorized := authorizedPaciente || authorizedEnfermero || authorizedMedico || authorizedEmergencias
+	authorizedEnfermero, _ := models.GetAuthorizationbyUserId(entrada.UserToken.UserId, entrada.UserToken.Token, models.Rol_enfermero.Id)
+	authorizedMedico, _ := models.GetAuthorizationbyUserId(entrada.UserToken.UserId, entrada.UserToken.Token, models.Rol_medico.Id)
+	authorized := authorizedEnfermero || authorizedMedico
 	if authorized == true {
 		//Agregamos petición
-		result, _ := models.SolicitarPermisoTotalHistorial(historial)
+		result, _ := models.SolicitarPermisoEntrada(entrada)
 		if result == true {
 			js, err := json.Marshal(util.JSON_Return{Result: "OK"})
 			if err != nil {
@@ -120,18 +118,16 @@ func solicitarPermisoEntrada(w http.ResponseWriter, req *http.Request) {
 }
 
 func solicitarPermisoAnalitica(w http.ResponseWriter, req *http.Request) {
-	var historial util.Historial_JSON
-	json.NewDecoder(req.Body).Decode(&historial)
+	var analitica util.AnaliticaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&analitica)
 
 	//Comprobamos que el usuario esta autorizado y el token es correcto
-	authorizedPaciente, _ := models.GetAuthorizationbyUserId(historial.UserToken.UserId, historial.UserToken.Token, models.Rol_paciente.Id)
-	authorizedEnfermero, _ := models.GetAuthorizationbyUserId(historial.UserToken.UserId, historial.UserToken.Token, models.Rol_enfermero.Id)
-	authorizedMedico, _ := models.GetAuthorizationbyUserId(historial.UserToken.UserId, historial.UserToken.Token, models.Rol_medico.Id)
-	authorizedEmergencias, _ := models.GetAuthorizationbyUserId(historial.UserToken.UserId, historial.UserToken.Token, models.Rol_emergencias.Id)
-	authorized := authorizedPaciente || authorizedEnfermero || authorizedMedico || authorizedEmergencias
+	authorizedEnfermero, _ := models.GetAuthorizationbyUserId(analitica.UserToken.UserId, analitica.UserToken.Token, models.Rol_enfermero.Id)
+	authorizedMedico, _ := models.GetAuthorizationbyUserId(analitica.UserToken.UserId, analitica.UserToken.Token, models.Rol_medico.Id)
+	authorized := authorizedEnfermero || authorizedMedico
 	if authorized == true {
 		//Agregamos petición
-		result, _ := models.SolicitarPermisoTotalHistorial(historial)
+		result, _ := models.SolicitarPermisoAnalitica(analitica)
 		if result == true {
 			js, err := json.Marshal(util.JSON_Return{Result: "OK"})
 			if err != nil {
