@@ -1,4 +1,7 @@
 {{define "scriptLinks"}}
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script defer src="/public/js/components/checkbox_tags_estadisticas.js"></script><!--INCLUIMOS EL COMPONENTE WEB PARA LISTA DE ROLES-->
   <script defer src="/public/js/user/medico/investigacion/index.js"></script><!--INCLUIMOS EL COMPONENTE WEB-->
 {{end}}
 {{define "styles"}}
@@ -8,6 +11,30 @@
 <main>
   <div id="alert" class="alert alert-primary invisible" role="alert"> 
     En este momento tienes una cita. <a id="referenciaCita" href=''> Pincha aquí </a> para pasar consulta. 
+  </div>
+  <div id="grafica">
+    <h2>Gráfica</h2>
+  </div>
+  <div id='layout'>
+    <div id='container'>
+      <svg id="svg"></svg>
+    </div>
+  </div>
+  <br>
+  <div id="elementos" class="form-group">
+    <label><strong>Elemento</strong></label>
+    <select class="browser-default custom-select" id="elementoSelector" searchable="">
+      <option value="-1" disabled selected>Selecciona un elemento</option>
+      <option value="1" >Leucocitos</option>
+      <option value="2" >Hematies</option>
+      <option value="3" >Plaquetas</option>
+      <option value="4" >Glucosa</option>
+      <option value="5" >Hierro</option>
+    </select>
+  </div>
+  <br>
+  <div id="tags" class="form-group">
+    <checkbox-tags-estadisticas> </checkbox-tags-estadisticas>
   </div>
 </main>
 <script>
