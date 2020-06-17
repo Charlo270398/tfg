@@ -9,6 +9,8 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"strings"
+	"unicode"
 
 	util "../utils"
 	"github.com/gorilla/sessions"
@@ -131,6 +133,33 @@ func registerUserHandler(w http.ResponseWriter, req *http.Request) {
 		// If the structure of the body is wrong, return an HTTP error
 		util.PrintErrorLog(err)
 		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	//Comprobamos si la contraseña cumple los requisitos de seguridad
+	rLen := false
+	rDigit := false
+	rSpecial := false
+
+	//Longitud >= que 8
+	rLen = len(creds.Password) >= 8
+
+	//Al menos un dígito
+	for _, c := range creds.Password {
+		if unicode.IsDigit(c) {
+			rDigit = true
+			break
+		}
+	}
+
+	//Un caracter especial
+	rSpecial = strings.ContainsAny(creds.Password, "!#$%&()*+,-./:;<=>?@[]^_`{|}~")
+
+	if !(rDigit && rLen && rSpecial) {
+		util.PrintLog("La contraseña aportada no cumple los requisitos de seguridad")
+		js, _ := json.Marshal(util.JSON_Return{Error: "La contraseña aportada no cumple los requisitos de seguridad"})
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
 		return
 	}
 
