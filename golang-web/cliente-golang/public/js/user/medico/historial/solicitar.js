@@ -254,6 +254,21 @@ function solicitarAccesoAnalítica(){
 }
 
 function procesarHistorial(solicitud){
+    //Boton añadir entrada
+    let addEntradaButton = document.createElement('button');
+    addEntradaButton.classList = "btn btn-primary";
+    addEntradaButton.type = "button";
+    addEntradaButton.textContent = "Añadir entrada";
+    addEntradaButton.addEventListener("click", addEntrada, false);
+    document.querySelector("#buttonsForm").append(addEntradaButton);
+    //Boton añadir analítica
+    let addAnaliticaButton = document.createElement('button');
+    addAnaliticaButton.classList = "btn btn-primary";
+    addAnaliticaButton.type = "button";
+    addAnaliticaButton.textContent = "Añadir analítica";
+    addAnaliticaButton.addEventListener("click", addAnalitica, false);
+    document.querySelector("#buttonsForm").append(addAnaliticaButton);
+    //Boton acceso total
     let accesoTotalButton = document.createElement('button');
     accesoTotalButton.classList = "btn btn-primary";
     accesoTotalButton.type = "button";

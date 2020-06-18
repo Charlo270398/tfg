@@ -308,3 +308,134 @@ func GetAnaliticaHistorialCompartido(w http.ResponseWriter, req *http.Request) {
 	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
 	return
 }
+
+func AddEntradaMedicoHandler(w http.ResponseWriter, req *http.Request) {
+	var entradaHistorial util.EntradaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&entradaHistorial)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(entradaHistorial.UserToken.UserId, entradaHistorial.UserToken.Token, models.Rol_medico.Id)
+	if authorized == true {
+		var returnJSON util.JSON_Return
+		//Insertamos la entrada
+		result, err := models.InsertEntradaHistorial(entradaHistorial)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		if result != -1 {
+			returnJSON.Result = strconv.Itoa(result)
+		} else {
+			returnJSON.Error = "Error insertando la entrada"
+		}
+
+		js, err := json.Marshal(returnJSON)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}
+
+func AddAnaliticaMedicoHandler(w http.ResponseWriter, req *http.Request) {
+	var analiticaHistorial util.AnaliticaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&analiticaHistorial)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(analiticaHistorial.UserToken.UserId, analiticaHistorial.UserToken.Token, models.Rol_medico.Id)
+	if authorized == true {
+		var returnJSON util.JSON_Return
+		//Insertamos la analítica
+		result, err := models.InsertAnaliticaHistorial(analiticaHistorial)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		if result != -1 {
+			returnJSON.Result = strconv.Itoa(result)
+		} else {
+			returnJSON.Error = "Error insertando la analítica"
+		}
+
+		js, err := json.Marshal(returnJSON)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}
+
+func AddEstadisticaAnaliticaMedicoHandler(w http.ResponseWriter, req *http.Request) {
+	var analiticaHistorial util.AnaliticaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&analiticaHistorial)
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	//MEDICO,ENFERMERO Y EMERGENCIAS
+	authorized, _ := models.GetAuthorizationbyUserId(analiticaHistorial.UserToken.UserId, analiticaHistorial.UserToken.Token, models.Rol_medico.Id)
+	if authorized == true {
+		var returnJSON util.JSON_Return
+		//Insertamos la analítica
+		result, err := models.InsertEstadisticaAnaliticaHistorial(analiticaHistorial)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		if result == true {
+
+		} else {
+			returnJSON.Error = "Error insertando la analítica"
+		}
+
+		js, err := json.Marshal(returnJSON)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+		return
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}
+
+func AddAnaliticaCompartida(w http.ResponseWriter, req *http.Request) {
+	var analitica util.AnaliticaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&analitica)
+
+	//Comprobamos que el usuario esta autorizado y el token es correcto
+	authorized, _ := models.GetAuthorizationbyUserId(analitica.UserToken.UserId, analitica.UserToken.Token, models.Rol_medico.Id)
+	if authorized == true {
+		//Agregamos petición
+		result := false
+		result, _ = models.InsertAnaliticaCompartidaHistorial(analitica)
+		if result == true {
+			js, err := json.Marshal(util.JSON_Return{Result: "OK"})
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			w.Header().Set("Content-Type", "application/json")
+			w.Write(js)
+			return
+		} else {
+			js, err := json.Marshal(util.JSON_Return{Result: ""})
+			if err != nil {
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			w.Header().Set("Content-Type", "application/json")
+			w.Write(js)
+			return
+		}
+	}
+	http.Error(w, "No estas autorizado", http.StatusInternalServerError)
+	return
+}

@@ -94,7 +94,7 @@ func AddEntradaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 		if result != -1 {
-
+			returnJSON.Result = strconv.Itoa(result)
 		} else {
 			returnJSON.Error = "Error insertando la entrada"
 		}
@@ -127,7 +127,7 @@ func AddAnaliticaEmergenciasHandler(w http.ResponseWriter, req *http.Request) {
 			return
 		}
 		if result != -1 {
-
+			returnJSON.Result = strconv.Itoa(result)
 		} else {
 			returnJSON.Error = "Error insertando la analítica"
 		}

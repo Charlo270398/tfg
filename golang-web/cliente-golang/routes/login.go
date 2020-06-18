@@ -38,7 +38,7 @@ func registerIndexHandler(w http.ResponseWriter, req *http.Request) {
 	var tmp = template.Must(
 		template.New("").ParseFiles("public/templates/login/register.html", "public/templates/layouts/base.html"),
 	)
-	if err := tmp.ExecuteTemplate(w, "base", &Page{Title: "Register", Body: "body"}); err != nil {
+	if err := tmp.ExecuteTemplate(w, "base", &Page{Title: "Registro", Body: "body"}); err != nil {
 		log.Printf("Error executing template: %v", err)
 		util.PrintErrorLog(err)
 		http.Error(w, "Internal server error", http.StatusInternalServerError)

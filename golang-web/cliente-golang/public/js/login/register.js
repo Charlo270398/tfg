@@ -43,7 +43,7 @@ function register(nombre, apellido1, apellido2, email, identificacion, password,
 function init () {
     deleteBreadcrumb();
     addLinkBreadcrumb('Home', '/home');
-    addLinkBreadcrumb('Register', '/register');
+    addLinkBreadcrumb('Registro', '/register');
     document.querySelector("#submit").addEventListener('click',submit,false);
 }
 

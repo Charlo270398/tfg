@@ -58,7 +58,7 @@ function addRow(entrada){
     tr.append(especialista);
     tr.append(fecha);
     tr.append(acciones);
-    tr.setAttribute("id", historial.id);
+    tr.setAttribute("id", entrada.id);
     //Añadimos fila a la tabla
     document.querySelector(`#historialTabla`).querySelector('tbody').append(tr);
 }

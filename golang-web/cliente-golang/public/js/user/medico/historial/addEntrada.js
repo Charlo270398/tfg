@@ -1,9 +1,8 @@
 var HISTORIAL_ID = -1;
 
-function submit(event){
-    if(document.querySelector("#motivoConsulta").value != "" && document.querySelector("#juicioDiagnostico").value != ""){
-        console.log("AA");
-        //restAddEntrada(document.querySelector("#motivoConsulta").value, document.querySelector("#juicioDiagnostico").value);
+function submit(){
+    if(document.querySelector("#motivoConsulta").value != "" && document.querySelector("#juicioDiagnostico").value != "" && document.querySelector("#tipoSelector").value != ""){
+        restAddEntrada(document.querySelector("#motivoConsulta").value, document.querySelector("#juicioDiagnostico").value, document.querySelector("#tipoSelector").value);
     }else{
         document.querySelector("#alert").textContent = "Existen campos vacíos";
         document.querySelector("#alert").classList.replace("alert-success", "alert-danger");
@@ -11,9 +10,9 @@ function submit(event){
     }
 }
 
-function restAddEntrada(motivoConsulta, juicioDiagnostico){
-    const url= `/user/doctor/citas/addEntrada`;
-    const payload= {citaId: parseInt(cita.id), pacienteId: parseInt(cita.pacienteId), motivoConsulta: motivoConsulta, juicioDiagnostico: juicioDiagnostico};
+function restAddEntrada(motivoConsulta, juicioDiagnostico, tipo){
+    const url= `/user/doctor/historial/addEntrada`;
+    const payload= {historialId: parseInt(HISTORIAL_ID), motivoConsulta: motivoConsulta, juicioDiagnostico: juicioDiagnostico, tipo: tipo};
     const request = {
         method: 'POST', 
         headers: cabeceras,
@@ -24,11 +23,10 @@ function restAddEntrada(motivoConsulta, juicioDiagnostico){
         .then( r => {
             if(!r.Error){
                 //Cerrar cita
-                console.log(r);
                 if(r.Result == "OK"){
                     document.querySelector("#alert").textContent = "Entrada insertada correctamente";
                     document.querySelector("#alert").classList.remove('invisible');
-                    document.querySelector("#formConsulta").classList.add('invisible');
+                    document.querySelector("#submitButton").classList.add('invisible');
                 }
             }
             else{
@@ -56,6 +54,7 @@ function init () {
     if(paramHistorialId){
         HISTORIAL_ID = parseInt(paramHistorialId);
     }
+    document.querySelector("#submitButton").addEventListener("click", submit, false);
 }
 
 document.addEventListener('DOMContentLoaded',init,false);

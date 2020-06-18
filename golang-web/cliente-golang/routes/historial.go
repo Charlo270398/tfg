@@ -181,3 +181,213 @@ func addEntradaHistorialConsultaMedicoHandler(w http.ResponseWriter, req *http.R
 		return
 	}
 }
+
+func addEntradaHistorialMedicoHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	//Preparamos datos request
+	var entrada util.EntradaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&entrada)
+	//Generamos una clave AES aleatoria de 256 bits para cifrar los datos sensibles
+	AESkeyDatos := util.AEScreateKey()
+
+	//Ciframos los datos sensibles con la clave
+	entrada.JuicioDiagnostico, _ = util.AESencrypt(AESkeyDatos, entrada.JuicioDiagnostico)
+	entrada.MotivoConsulta, _ = util.AESencrypt(AESkeyDatos, entrada.MotivoConsulta)
+	entrada.Tipo, _ = util.AESencrypt(AESkeyDatos, entrada.Tipo)
+
+	//Pasamos la clave a base 64
+	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))
+
+	//CIFRAMOS LA CLAVE AES CON LA CLAVE PUBLICA DEL PACIENTE
+	pacienteIdString := strconv.Itoa(entrada.HistorialId)
+	pacientePublicKey := getUserPublicKeyByHistorialId(pacienteIdString)
+
+	//Ciframos la clave AES usada con nuestra clave pública
+	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(pacientePublicKey.PublicKey))
+
+	//CIFRAMOS LOS DATOS CON LA CLAVE MAESTRA
+	//Recuperamos CLAVE PUBLICA MAESTRA
+	masterPairKeys := getPublicMasterKey()
+	claveMaestraAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(masterPairKeys.PublicKey))
+
+	//Preparamos los datos para enviar
+	entrada.UserToken = prepareUserToken(req)
+	entrada.Clave = claveAEScifrada
+	entrada.ClaveMaestra = claveMaestraAEScifrada
+	locJson, err := json.Marshal(entrada)
+
+	//Certificado
+	client := GetTLSClient()
+
+	//Request al servidor para añadir entrada paciente
+	response, err := client.Post(SERVER_URL+"/user/doctor/historial/addEntrada", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		var result util.JSON_Return
+		err := json.NewDecoder(response.Body).Decode(&result)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		} else {
+			//CIFRADO PARA MEDICO
+			//Recuperamos la clave publica del medico
+			userId, _ := session.Values["userId"].(string)
+			medicoPairkeys := getUserPairKeys(userId)
+			//Ciframos la clave AES usada con nuestra clave pública
+			claveAEScifrada = util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(medicoPairkeys.PublicKey))
+			//Preparamos los datos para enviar
+			entradaHistorialCompartida := entrada
+			entradaHistorialCompartida.Id, _ = strconv.Atoi(result.Result)
+			entradaHistorialCompartida.Clave = claveAEScifrada
+			locJson, err = json.Marshal(entradaHistorialCompartida)
+			//Request al servidor para añadir entrada compartida
+			response, err = client.Post(SERVER_URL+"/user/doctor/citas/addEntradaCompartida", "application/json", bytes.NewBuffer(locJson))
+			if response != nil {
+				err := json.NewDecoder(response.Body).Decode(&result)
+				if err != nil {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+			} else {
+				util.PrintErrorLog(err)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+			result = util.JSON_Return{Result: "OK"}
+		}
+		js, err := json.Marshal(result)
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(js)
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func addAnaliticaHistorialMedicoHandler(w http.ResponseWriter, req *http.Request) {
+	session, _ := store.Get(req, "userSession")
+	// Check if user is authenticated
+	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
+		http.Redirect(w, req, "/login", http.StatusSeeOther)
+		return
+	} else {
+		//Refrescar sesión
+		session.Options.MaxAge = 60 * 30
+		session.Save(req, w)
+	}
+	// Check user Token
+	if !proveToken(req) {
+		http.Redirect(w, req, "/forbidden", http.StatusSeeOther)
+		return
+	}
+
+	//Preparamos datos request
+	var analitica util.AnaliticaHistorial_JSON
+	var analiticaEstadistica util.AnaliticaHistorial_JSON
+	json.NewDecoder(req.Body).Decode(&analitica)
+	analiticaEstadistica = analitica
+	analiticaEstadistica.HistorialId = -1
+
+	//Generamos una clave AES aleatoria de 256 bits para cifrar los datos sensibles
+	AESkeyDatos := util.AEScreateKey()
+
+	//Ciframos los datos sensibles con la clave
+	analitica.Hematies, _ = util.AESencrypt(AESkeyDatos, analitica.Hematies)
+	analitica.Glucosa, _ = util.AESencrypt(AESkeyDatos, analitica.Glucosa)
+	analitica.Hierro, _ = util.AESencrypt(AESkeyDatos, analitica.Hierro)
+	analitica.Leucocitos, _ = util.AESencrypt(AESkeyDatos, analitica.Leucocitos)
+	analitica.Plaquetas, _ = util.AESencrypt(AESkeyDatos, analitica.Plaquetas)
+
+	//Pasamos la clave a base 64
+	AESkeyBase64String := string(util.Base64Encode(AESkeyDatos))
+
+	//CIFRAMOS LA CLAVE AES CON LA CLAVE PUBLICA DEL PACIENTE
+	pacienteIdString := strconv.Itoa(analitica.HistorialId)
+	pacientePublicKey := getUserPublicKeyByHistorialId(pacienteIdString)
+
+	//Ciframos la clave AES usada con nuestra clave pública
+	claveAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(pacientePublicKey.PublicKey))
+
+	//CIFRAMOS LOS DATOS CON LA CLAVE MAESTRA
+	//Recuperamos CLAVE PUBLICA MAESTRA
+	masterPairKeys := getPublicMasterKey()
+	claveMaestraAEScifrada := util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(masterPairKeys.PublicKey))
+
+	//Preparamos los datos para enviar
+	analiticaEstadistica.UserToken = prepareUserToken(req)
+	analitica.UserToken = prepareUserToken(req)
+	analitica.Clave = claveAEScifrada
+	analitica.ClaveMaestra = claveMaestraAEScifrada
+	locJson, err := json.Marshal(analitica)
+
+	//Certificado
+	client := GetTLSClient()
+
+	//Request al servidor para añadir analitica paciente
+	response, err := client.Post(SERVER_URL+"/user/doctor/historial/addAnalitica", "application/json", bytes.NewBuffer(locJson))
+	if response != nil {
+		var result util.JSON_Return
+		err := json.NewDecoder(response.Body).Decode(&result)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		} else {
+			//CIFRADO PARA MEDICO
+			//Recuperamos la clave publica del medico
+			userId, _ := session.Values["userId"].(string)
+			medicoPairkeys := getUserPairKeys(userId)
+			//Ciframos la clave AES usada con nuestra clave pública
+			claveAEScifrada = util.RSAEncryptOAEP(AESkeyBase64String, *util.RSABytesToPublicKey(medicoPairkeys.PublicKey))
+			//Preparamos los datos para enviar
+			analiticaCompartida := analitica
+			analiticaCompartida.Id, _ = strconv.Atoi(result.Result)
+			analiticaCompartida.Clave = claveAEScifrada
+			analiticaCompartida.EmpleadoId, _ = strconv.Atoi(analitica.UserToken.UserId)
+			locJson, err := json.Marshal(analiticaCompartida)
+
+			//Request al servidor para compartir analitica
+			response, err = client.Post(SERVER_URL+"/user/doctor/historial/addAnaliticaCompartida", "application/json", bytes.NewBuffer(locJson))
+			if response != nil {
+				//Request al servidor para añadir estadistica analitica
+				response, err = client.Post(SERVER_URL+"/user/doctor/historial/addEstadisticaAnalitica", "application/json", bytes.NewBuffer(locJson))
+				if response != nil {
+					result = util.JSON_Return{Result: "OK"}
+					js, err := json.Marshal(result)
+					if err != nil {
+						http.Error(w, err.Error(), http.StatusInternalServerError)
+						return
+					}
+					w.Header().Set("Content-Type", "application/json")
+					w.Write(js)
+				} else {
+					util.PrintErrorLog(err)
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+			} else {
+				util.PrintErrorLog(err)
+				http.Error(w, err.Error(), http.StatusInternalServerError)
+				return
+			}
+		}
+	} else {
+		util.PrintErrorLog(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
